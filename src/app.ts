@@ -9,6 +9,6 @@ const port = process.env.PORT || 80;
 
 app.use(routes);
 
-app.listen(port, () => console.log(`Quickstart app listening at http://localhost:${port}`));
+app.listen(port, () => console.log(`App listening at http://localhost:${port}`));
 
 export default app;

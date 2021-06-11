@@ -112,7 +112,8 @@ class MondayService {
       const itemColumns = await this.getItemColumns(itemId);
       const remapIds = (element: any) => {
         const MAPPINGS = {
-          client_name_1: "crm_1"
+          client_name_1: "crm_1",
+          connect_boards0: "connect_boards"
         };
         return {
           ...element,
@@ -133,7 +134,8 @@ class MondayService {
           .filter(notStatusColumn)
           .reduce(flattenIdAndValues, {}),
         ...additionalColumnValues,
-        status_1: { label: asset } 
+        status_1: { label: asset },
+        status_17: { label: asset },
       }
 
       const query = `mutation($boardId: Int!, $groupId: String, $asset: String, $columnValues: JSON) {

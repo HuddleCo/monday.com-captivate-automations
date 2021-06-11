@@ -2,10 +2,12 @@ import initMondayClient from 'monday-sdk-js';
 
 class MondayService {
   token: string;
+  cachedGetItemColumns: object;
   queryCounter: number;
   
   constructor(token: string) {
     this.token = token;
+    this.cachedGetItemColumns = {};
     this.queryCounter = 1;
   }
 
@@ -53,7 +55,7 @@ class MondayService {
         }
       }`;
       const variables = { itemId };
-      const response = this.cachedCreateItemFromItem[itemId] ||= await mondayClient.api(query, { variables });
+      const response = this.cachedGetItemColumns[itemId] ||= await mondayClient.api(query, { variables });
 
       console.log("-------------")
       console.log(`Query ${this.queryCounter++}:`)

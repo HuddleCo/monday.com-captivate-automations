@@ -22,11 +22,13 @@ class MondayService {
       const variables = { itemId };
       const response = await mondayClient.api(query, { variables });
 
+      console.log("-------------")
       console.log(`Query ${this.queryCounter++}:`)
       console.log(query)
       console.log("Variables:")
       console.log(variables)
       console.dir(response, { depth: null })
+      console.log("-------------")
 
       if (response.errors) throw response.errors
 
@@ -53,11 +55,13 @@ class MondayService {
       const variables = { itemId };
       const response = this.cachedCreateItemFromItem[itemId] ||= await mondayClient.api(query, { variables });
 
+      console.log("-------------")
       console.log(`Query ${this.queryCounter++}:`)
       console.log(query)
       console.log("Variables:")
       console.log(variables)
       console.dir(response, { depth: null })
+      console.log("-------------")
 
       if (response.errors) throw response.errors
 
@@ -81,11 +85,13 @@ class MondayService {
       const variables = { boardId, groupName };
       const response = await mondayClient.api(query, { variables });
       
+      console.log("-------------")
       console.log(`Query ${this.queryCounter++}:`)
       console.log(query)
       console.log("Variables:")
       console.log(variables)
       console.dir(response, { depth: null })
+      console.log("-------------")
 
       if (response.errors) throw response.errors
 
@@ -136,11 +142,13 @@ class MondayService {
       const variables = { boardId, groupId, asset, columnValues: JSON.stringify(columnValues) };
       const response = await mondayClient.api(query, { variables });
       
+      console.log("-------------")
       console.log(`Query ${this.queryCounter++}:`)
       console.log(query)
       console.log("Variables:")
       console.log(variables)
       console.dir(response, { depth: null })
+      console.log("-------------")
 
       if (response.errors) throw response.errors
 

@@ -1,7 +1,6 @@
 import MondayService from '../services/monday-service';
-
 // const ASSETS = ["Instagram Stories"];
-const ASSETS = ["Instagram Stories", "Instagram Reels", "Facebook/LinkedIn Videos", "Graphics", "Youtube Chapters", "Youtube (Full)"];
+const ASSETS = ["Instagram Stories", "Instagram Reels", "LinkedIn/Facebook Videos", "Graphics", "Youtube Chapters", "Youtube (Full)"];
 
 export async function executeAction(req, res) {
   const { shortLivedToken } = req.session;

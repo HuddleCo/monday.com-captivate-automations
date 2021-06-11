@@ -2,11 +2,11 @@ import initMondayClient from 'monday-sdk-js';
 
 class MondayService {
   token: string;
-  cachedCreateItemFromItem: object;
+  queryCounter: number;
   
   constructor(token: string) {
     this.token = token;
-    this.cachedCreateItemFromItem = {};
+    this.queryCounter = 1;
   }
 
   async getItemName(itemId: number): Promise<string> {
@@ -22,7 +22,7 @@ class MondayService {
       const variables = { itemId };
       const response = await mondayClient.api(query, { variables });
 
-      console.log("Query:")
+      console.log(`Query ${this.queryCounter++}:`)
       console.log(query)
       console.log("Variables:")
       console.log(variables)
@@ -53,7 +53,7 @@ class MondayService {
       const variables = { itemId };
       const response = this.cachedCreateItemFromItem[itemId] ||= await mondayClient.api(query, { variables });
 
-      console.log("Query:")
+      console.log(`Query ${this.queryCounter++}:`)
       console.log(query)
       console.log("Variables:")
       console.log(variables)
@@ -81,7 +81,7 @@ class MondayService {
       const variables = { boardId, groupName };
       const response = await mondayClient.api(query, { variables });
       
-      console.log("Query:")
+      console.log(`Query ${this.queryCounter++}:`)
       console.log(query)
       console.log("Variables:")
       console.log(variables)
@@ -136,7 +136,7 @@ class MondayService {
       const variables = { boardId, groupId, asset, columnValues: JSON.stringify(columnValues) };
       const response = await mondayClient.api(query, { variables });
       
-      console.log("Query:")
+      console.log(`Query ${this.queryCounter++}:`)
       console.log(query)
       console.log("Variables:")
       console.log(variables)

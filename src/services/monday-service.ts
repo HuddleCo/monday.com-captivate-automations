@@ -93,9 +93,15 @@ class MondayService {
         }
       );
 
-      [this.cachedGetItem[itemId]] = data.items;
+      const item = data.items[0];
+      item.board.columns = item.board.columns.map((column) => ({
+        ...column,
+        settings: JSON.parse(column.settings_str),
+      }));
 
-      return data.items[0];
+      this.cachedGetItem[itemId] = item;
+
+      return item;
     } catch (err) {
       console.error(err);
       throw err;

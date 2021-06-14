@@ -14,3 +14,33 @@ export type GroupType = {
 };
 
 export type ParsedColumnValuesType = { [id: string]: string };
+
+export type Response = {
+  errors?: string;
+  data: unknown;
+};
+
+export type CreateItemType = {
+  create_item: {
+    id: number;
+  };
+};
+
+export type CreateGroupType = {
+  create_group: {
+    id: number;
+  };
+};
+
+export type GetItemsType = {
+  items: Array<ItemType>;
+};
+
+export type OptionsType = {
+  boardId?: number;
+  groupId?: number;
+  content?: string;
+  columnValues?: string;
+  groupName?: string;
+  itemId?: number;
+};

@@ -1,35 +1,21 @@
-import MondayService from '../services/monday-service';
-// const ASSETS = ["Instagram Stories"];
-const ASSETS = ["Instagram Stories", "Instagram Reels", "LinkedIn/Facebook Videos", "Graphics", "Youtube Chapters", "Youtube (Full)"];
+import type { Request, Response, RequestHandler } from "express";
 
-export async function executeAction(req, res) {
-  const { shortLivedToken } = req.session;
-  const { payload } = req.body;
-  
-  const service = new MondayService(shortLivedToken);
+import MondayService from "../services/monday-service";
+import { unmarshal } from "../middlewares/authentication";
 
-  try {
-    const { inboundFieldValues } = payload;
-    const { boardId, itemId, targetBoardId } = inboundFieldValues;
-    
-    const itemName = await service.getItemName(itemId);
-    if (!itemName.length) {
-      return res.status(200).send({ message: "The item name can not be blank" });
-    }
-   
-    const groupId = await service.createGroup(targetBoardId, itemName);
-    if (!groupId.length) {
-      return res.status(200).send({ message: "Failed to create a group" });
-    }
-  
-    const itemIds = await Promise.all(ASSETS.map((asset) => service.createItemFromItem(targetBoardId, groupId, asset, itemId)))
-    if (itemIds.some((itemId) => !itemId.length)) {
-      return res.status(200).send({ message: "Failed to create all items" });
-    }
-    
-    return res.status(200).send({ message: `Created group "${itemName}":${groupId} with items ${itemIds}` });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).send({ message: 'internal server error' });
-  }
-}
+export const executeAction: RequestHandler = (req: Request, res: Response) => {
+  const { shortLivedToken } = unmarshal(req);
+  const { itemId, targetBoardId } = req.body.payload.inboundFieldValues;
+
+  return !shortLivedToken
+    ? res.status(500).send({ message: "shortLivedToken is not provided" })
+    : new MondayService(shortLivedToken)
+        .createContentFromEpisodeToBoard(itemId, targetBoardId)
+        .then(
+          (message) => res.status(200).send({ message }),
+          (err) => {
+            console.error(err);
+            return res.status(500).send({ message: "internal server error" });
+          }
+        );
+};

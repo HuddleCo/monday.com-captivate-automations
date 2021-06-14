@@ -19,6 +19,17 @@ const MAPPINGS: Record<string, string> = {
 
 const EXCLUSIONS = ["status"];
 
+const CRM_COLUMNS = [
+  "dup__of_instragram_stories6",
+  "dup__of_facebook_inkedin_videos",
+  "dup__of_instragram_stories7",
+  "dup__of_instagram_reels",
+  "dup__of_dup__of_instagram_reels",
+  "dup__of_youtube_chapters4",
+];
+
+const NOT_REQURED_LABELS = ["", "0"];
+
 const columnValuesForCreatingEpsiode = (
   episode: ItemType
 ): ParsedColumnValuesType => ({
@@ -36,6 +47,24 @@ const columnValuesForCreatingEpsiode = (
       {}
     ),
 });
+
+const getContentFor = (item: ItemType): Array<string> => {
+  const contentColumnTitles = item.board.columns
+    .filter(({ settings }) => {
+      if (!settings) return false;
+      if (!settings.displayed_column) return false;
+
+      return Object.keys(settings.displayed_column)
+        .filter((columnName) => settings.displayed_column[columnName])
+        .some((columnName) => CRM_COLUMNS.includes(columnName));
+    })
+    .map(({ title }) => title);
+
+  return item.column_values
+    .filter(({ title }) => contentColumnTitles.includes(title))
+    .filter(({ text }) => !NOT_REQURED_LABELS.includes(text))
+    .map(({ title }) => title);
+};
 
 class MondayService {
   private mondayClient;
@@ -58,7 +87,11 @@ class MondayService {
   ): Promise<string> {
     const episode = await this.getItem(episodeId);
     const group = await this.createGroup(targetBoardId, episode.name);
-    await this.createItemFromItem(targetBoardId, group, "Graphics", episode);
+    await Promise.all(
+      getContentFor(episode).map((content) =>
+        this.createItemFromItem(targetBoardId, group, content, episode)
+      )
+    );
 
     return `Created content for ${episode.name}`;
   }

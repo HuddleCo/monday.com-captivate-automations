@@ -1,5 +1,21 @@
 export type ItemType = {
   name: string;
+  board: {
+    columns: Array<{
+      title: string;
+      type: string;
+      id: string;
+      settings_str: string;
+      settings: {
+        relation_column: {
+          [id: string]: boolean;
+        };
+        displayed_column: {
+          [id: string]: boolean;
+        };
+      };
+    }>;
+  };
   column_values: Array<ColumnValuesType>;
 };
 
@@ -7,6 +23,8 @@ export type ColumnValuesType = {
   id: string;
   value: string;
   type: string;
+  text: string;
+  title: string;
 };
 
 export type GroupType = {
@@ -43,4 +61,11 @@ export type OptionsType = {
   columnValues?: string;
   groupName?: string;
   itemId?: number;
+};
+
+export type BoardRelationType = {
+  linkedPulseIds: Array<{
+    linkedPulseId: number;
+  }>;
+  changed_at: Date;
 };

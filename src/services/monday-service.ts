@@ -1,34 +1,34 @@
 import initMondayClient from 'monday-sdk-js';
 
+type ItemType = {
+  name: string,
+  column_values: Array<ColumnValuesType>
+};
+
 type ColumnValuesType = {
   id: number,
   value: string,
   type: string
 };
 
-type ItemType = {
-  name: string,
-  column_values: Array<ColumnValuesType>
-}
-
 class MondayService {
-  token: string;
-  cachedGetItem: {[id: string]: ItemType};
-  queryCounter: number;
+  private token: string;
+  private cachedGetItem: {[id: string]: ItemType};
+  private queryCounter: number;
+  private mondayClient: any;
   
   constructor(token: string) {
     this.token = token;
     this.cachedGetItem = {};
     this.queryCounter = 1;
+    this.mondayClient = initMondayClient();
+    this.mondayClient.setToken(this.token);
   }
 
   async getItem(itemId: number): Promise<ItemType> {
     if(this.cachedGetItem[itemId]) return this.cachedGetItem[itemId];
 
     try {
-      const mondayClient = initMondayClient();
-      mondayClient.setToken(this.token);
-
       const query = `query($itemId: [Int]) {
         items (ids: $itemId) {
           name
@@ -39,7 +39,7 @@ class MondayService {
         }
       }`;
       const variables = { itemId };
-      const response = await mondayClient.api(query, { variables });
+      const response = await this.mondayClient.api(query, { variables });
 
       console.log("-------------")
       console.log(`Query ${this.queryCounter++}:`)
@@ -64,16 +64,13 @@ class MondayService {
 
   async createGroup(boardId: number, groupName: string): Promise<string> {
     try {
-      const mondayClient = initMondayClient();
-      mondayClient.setToken(this.token);
-
       const query = `mutation($boardId: Int!, $groupName: String!) {
         create_group (board_id: $boardId, group_name: $groupName) {
           id
         }
       }`;
       const variables = { boardId, groupName };
-      const response = await mondayClient.api(query, { variables });
+      const response = await this.mondayClient.api(query, { variables });
       
       console.log("-------------")
       console.log(`Query ${this.queryCounter++}:`)
@@ -94,9 +91,6 @@ class MondayService {
 
   async createItemFromItem(boardId: number, groupId: string, asset: string, itemId: number, additionalColumnValues = {}): Promise<string> {
     try {
-      const mondayClient = initMondayClient();
-      mondayClient.setToken(this.token);
-
       const itemColumns = (await this.getItem(itemId)).column_values;
       const remapIds = (element: any) => {
         const MAPPINGS = {
@@ -134,7 +128,7 @@ class MondayService {
         }
       }`;
       const variables = { boardId, groupId, asset, columnValues: JSON.stringify(columnValues) };
-      const response = await mondayClient.api(query, { variables });
+      const response = await this.mondayClient.api(query, { variables });
       
       console.log("-------------")
       console.log(`Query ${this.queryCounter++}:`)

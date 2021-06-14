@@ -1,32 +1,63 @@
-import initMondayClient from 'monday-sdk-js';
+import initMondayClient from "monday-sdk-js";
 
-type ItemType = {
-  name: string,
-  column_values: Array<ColumnValuesType>
+import type {
+  ItemType,
+  GroupType,
+  ColumnValuesType,
+  ParsedColumnValuesType,
+} from "../types";
+
+const MAPPINGS: Record<string, string> = {
+  client_name_1: "crm_1",
+  connect_boards0: "connect_boards",
 };
 
-type ColumnValuesType = {
-  id: number,
-  value: string,
-  type: string
-};
+const EXCLUSIONS = ["status"];
+
+const columnValuesForCreatingEpsiode = (
+  episode: ItemType
+): ParsedColumnValuesType => ({
+  ...episode.column_values
+    .map((element: ColumnValuesType) => ({
+      ...element,
+      id: MAPPINGS[element.id] || element.id,
+    }))
+    .filter(({ id }) => !EXCLUSIONS.includes(id))
+    .reduce(
+      (accumulator, { id, value }) => ({
+        ...accumulator,
+        [id]: JSON.parse(value),
+      }),
+      {}
+    ),
+});
 
 class MondayService {
-  private token: string;
-  private cachedGetItem: {[id: string]: ItemType};
+  private mondayClient;
+
+  private cachedGetItem: Record<string, ItemType>;
+
   private queryCounter: number;
-  private mondayClient: any;
-  
-  constructor(token: string) {
-    this.token = token;
+
+  constructor(apiToken: string) {
+    this.mondayClient = initMondayClient({ apiToken });
     this.cachedGetItem = {};
     this.queryCounter = 1;
-    this.mondayClient = initMondayClient();
-    this.mondayClient.setToken(this.token);
   }
 
-  async getItem(itemId: number): Promise<ItemType> {
-    if(this.cachedGetItem[itemId]) return this.cachedGetItem[itemId];
+  async createContentFromEpisodeToBoard(
+    episodeId: number,
+    targetBoardId: number
+  ): Promise<string> {
+    const episode = await this.getItem(episodeId);
+    const group = await this.createGroup(targetBoardId, episode.name);
+    await this.createItemFromItem(targetBoardId, group, "Graphics", episode);
+
+    return `Created content for ${episode.name}`;
+  }
+
+  private async getItem(itemId: number): Promise<ItemType> {
+    if (this.cachedGetItem[itemId]) return this.cachedGetItem[itemId];
 
     try {
       const query = `query($itemId: [Int]) {
@@ -38,87 +69,83 @@ class MondayService {
           }
         }
       }`;
+      type Response = {
+        errors?: string;
+        data: {
+          items: Array<ItemType>;
+        };
+      };
       const variables = { itemId };
-      const response = await this.mondayClient.api(query, { variables });
+      const response: Response = await this.mondayClient.api(query, {
+        variables,
+      });
 
-      console.log("-------------")
-      console.log(`Query ${this.queryCounter++}:`)
-      console.log(query)
-      console.log("Variables:")
-      console.log(variables)
-      console.dir(response, { depth: null })
-      console.log("-------------")
+      console.log("-------------");
+      console.log(`Query ${(this.queryCounter += 1)}:`);
+      console.log(query);
+      console.log("Variables:");
+      console.log(variables);
+      console.dir(response, { depth: null });
+      console.log("-------------");
 
-      if (response.errors) throw response.errors
+      if (response.errors) throw new Error(response.errors);
 
-      return this.cachedGetItem[itemId] = response.data.items[0];
+      [this.cachedGetItem[itemId]] = response.data.items;
+
+      return response.data.items[0];
     } catch (err) {
       console.error(err);
       throw err;
     }
   }
 
-  async getItemName(itemId: number): Promise<string> { 
-    return (await this.getItem(itemId)).name;
-  }
-
-  async createGroup(boardId: number, groupName: string): Promise<string> {
-    try {
-      const query = `mutation($boardId: Int!, $groupName: String!) {
-        create_group (board_id: $boardId, group_name: $groupName) {
-          id
-        }
-      }`;
-      const variables = { boardId, groupName };
-      const response = await this.mondayClient.api(query, { variables });
-      
-      console.log("-------------")
-      console.log(`Query ${this.queryCounter++}:`)
-      console.log(query)
-      console.log("Variables:")
-      console.log(variables)
-      console.dir(response, { depth: null })
-      console.log("-------------")
-
-      if (response.errors) throw response.errors
-
-      return response.data.create_group.id;
-    } catch (err) {
-      console.log(err);
-    }
-    return "";
-  }
-
-  async createItemFromItem(boardId: number, groupId: string, asset: string, itemId: number, additionalColumnValues = {}): Promise<string> {
-    try {
-      const itemColumns = (await this.getItem(itemId)).column_values;
-      const remapIds = (element: any) => {
-        const MAPPINGS = {
-          client_name_1: "crm_1",
-          connect_boards0: "connect_boards"
-        };
-        return {
-          ...element,
-          id: MAPPINGS[element.id] || element.id
-        }
-      };
-      const notStatusColumn = ({id}) => {
-        const EXCLUSIONS = ['status']
-        return !EXCLUSIONS.includes(id);
+  private async createGroup(
+    boardId: number,
+    groupName: string
+  ): Promise<GroupType> {
+    const query = `mutation($boardId: Int!, $groupName: String!) {
+      create_group (board_id: $boardId, group_name: $groupName) {
+        id
       }
-      const flattenIdAndValues = (accumulator: object, { id, value }) => {
-        return {...accumulator, [id]: JSON.parse(value) };
+    }`;
+    const variables = { boardId, groupName };
+    type Response = {
+      errors?: string;
+      data: {
+        create_group: {
+          id: number;
+        };
       };
+    };
+    const response: Response = await this.mondayClient.api(query, {
+      variables,
+    });
 
+    console.log("-------------");
+    console.log(`Query ${(this.queryCounter += 1)}:`);
+    console.log(query);
+    console.log("Variables:");
+    console.log(variables);
+    console.dir(response, { depth: null });
+    console.log("-------------");
+
+    if (response.errors) throw new Error(response.errors);
+
+    return { id: response.data.create_group.id };
+  }
+
+  private async createItemFromItem(
+    boardId: number,
+    group: GroupType,
+    asset: string,
+    episode: ItemType
+  ): Promise<number> {
+    try {
       const columnValues = {
-        ...itemColumns
-          .map(remapIds)
-          .filter(notStatusColumn)
-          .reduce(flattenIdAndValues, {}),
-        ...additionalColumnValues,
+        ...columnValuesForCreatingEpsiode(episode),
         status_1: { label: asset },
         status_17: { label: asset },
-      }
+      };
 
       // const connectedItemColumns = await this.getItem(columnValues.connect_boards.linkedPulseIds[0].linkedPulseId).column_values;
 
@@ -127,24 +154,40 @@ class MondayService {
           id
         }
       }`;
-      const variables = { boardId, groupId, asset, columnValues: JSON.stringify(columnValues) };
-      const response = await this.mondayClient.api(query, { variables });
-      
-      console.log("-------------")
-      console.log(`Query ${this.queryCounter++}:`)
-      console.log(query)
-      console.log("Variables:")
-      console.log(variables)
-      console.dir(response, { depth: null })
-      console.log("-------------")
+      const variables = {
+        boardId,
+        groupId: group.id,
+        asset,
+        columnValues: JSON.stringify(columnValues),
+      };
 
-      if (response.errors) throw response.errors
+      type Response = {
+        errors?: string;
+        data: {
+          create_item: {
+            id: number;
+          };
+        };
+      };
+      const response: Response = await this.mondayClient.api(query, {
+        variables,
+      });
+
+      console.log("-------------");
+      console.log(`Query ${(this.queryCounter += 1)}:`);
+      console.log(query);
+      console.log("Variables:");
+      console.log(variables);
+      console.dir(response, { depth: null });
+      console.log("-------------");
+
+      if (response.errors) throw new Error(response.errors);
 
       return response.data.create_item.id;
     } catch (err) {
       console.log(err);
+      throw err;
     }
-    return "";
   }
 }
 

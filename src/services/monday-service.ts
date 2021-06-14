@@ -73,7 +73,18 @@ class MondayService {
             name
             column_values {
               id
+              title
               value
+              type
+              text
+            }
+            board {
+              columns {
+                id
+                title
+                type
+                settings_str
+              }
             }
           }
         }`,

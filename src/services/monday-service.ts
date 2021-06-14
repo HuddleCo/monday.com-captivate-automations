@@ -127,7 +127,7 @@ class MondayService {
 
       const data = await this.performQuery<CreateItemType>(
         `mutation($boardId: Int!, $groupId: String, $content: String, $columnValues: JSON) {
-          create_item (board_id: $boardId, group_id: $groupId, item_name: $content, column_values: $columnValues) {
+          create_item (board_id: $boardId, group_id: $groupId, item_name: $content, column_values: $columnValues, create_labels_if_missing: true) {
             id
           }
         }`,

@@ -5,6 +5,11 @@ import type {
   GroupType,
   ColumnValuesType,
   ParsedColumnValuesType,
+  Response,
+  GetItemsType,
+  CreateItemType,
+  CreateGroupType,
+  OptionsType,
 } from "../types";
 
 const MAPPINGS: Record<string, string> = {
@@ -35,14 +40,16 @@ const columnValuesForCreatingEpsiode = (
 class MondayService {
   private mondayClient;
 
-  private cachedGetItem: Record<string, ItemType>;
+  private cachedGetItem: Record<number, ItemType>;
 
   private queryCounter: number;
 
   constructor(apiToken: string) {
-    this.mondayClient = initMondayClient({ apiToken });
+    this.mondayClient = initMondayClient();
+    this.mondayClient.setToken(apiToken);
+
     this.cachedGetItem = {};
-    this.queryCounter = 1;
+    this.queryCounter = 0;
   }
 
   async createContentFromEpisodeToBoard(
@@ -60,39 +67,24 @@ class MondayService {
     if (this.cachedGetItem[itemId]) return this.cachedGetItem[itemId];
 
     try {
-      const query = `query($itemId: [Int]) {
-        items (ids: $itemId) {
-          name
-          column_values {
-            id
-            value
+      const data = await this.performQuery<GetItemsType>(
+        `query($itemId: [Int]) {
+          items (ids: $itemId) {
+            name
+            column_values {
+              id
+              value
+            }
           }
+        }`,
+        {
+          itemId,
         }
-      }`;
-      type Response = {
-        errors?: string;
-        data: {
-          items: Array<ItemType>;
-        };
-      };
-      const variables = { itemId };
-      const response: Response = await this.mondayClient.api(query, {
-        variables,
-      });
+      );
 
-      console.log("-------------");
-      console.log(`Query ${(this.queryCounter += 1)}:`);
-      console.log(query);
-      console.log("Variables:");
-      console.log(variables);
-      console.dir(response, { depth: null });
-      console.log("-------------");
+      [this.cachedGetItem[itemId]] = data.items;
 
-      if (response.errors) throw new Error(response.errors);
-
-      [this.cachedGetItem[itemId]] = response.data.items;
-
-      return response.data.items[0];
+      return data.items[0];
     } catch (err) {
       console.error(err);
       throw err;
@@ -103,20 +95,61 @@ class MondayService {
     boardId: number,
     groupName: string
   ): Promise<GroupType> {
-    const query = `mutation($boardId: Int!, $groupName: String!) {
-      create_group (board_id: $boardId, group_name: $groupName) {
-        id
+    const data = await this.performQuery<CreateGroupType>(
+      `mutation($boardId: Int!, $groupName: String!) {
+        create_group (board_id: $boardId, group_name: $groupName) {
+          id
+        }
+      }`,
+      {
+        boardId,
+        groupName,
       }
-    }`;
-    const variables = { boardId, groupName };
-    type Response = {
-      errors?: string;
-      data: {
-        create_group: {
-          id: number;
-        };
+    );
+
+    return { id: data.create_group.id };
+  }
+
+  private async createItemFromItem(
+    boardId: number,
+    group: GroupType,
+    content: string,
+    episode: ItemType
+  ): Promise<number> {
+    try {
+      const columnValues = {
+        ...columnValuesForCreatingEpsiode(episode),
+        status_1: { label: content },
+        status_17: { label: content },
       };
-    };
+
+      // const connectedItemColumns = await this.getItem(columnValues.connect_boards.linkedPulseIds[0].linkedPulseId).column_values;
+
+      const data = await this.performQuery<CreateItemType>(
+        `mutation($boardId: Int!, $groupId: String, $content: String, $columnValues: JSON) {
+          create_item (board_id: $boardId, group_id: $groupId, item_name: $content, column_values: $columnValues) {
+            id
+          }
+        }`,
+        {
+          boardId,
+          groupId: group.id,
+          content,
+          columnValues: JSON.stringify(columnValues),
+        }
+      );
+
+      return data.create_item.id;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
+
+  private async performQuery<T>(
+    query: string,
+    variables: OptionsType
+  ): Promise<T> {
     const response: Response = await this.mondayClient.api(query, {
       variables,
     });
@@ -131,63 +164,9 @@ class MondayService {
 
     if (response.errors) throw new Error(response.errors);
 
-    return { id: response.data.create_group.id };
-  }
+    const data = response.data as T;
 
-  private async createItemFromItem(
-    boardId: number,
-    group: GroupType,
-    asset: string,
-    episode: ItemType
-  ): Promise<number> {
-    try {
-      const columnValues = {
-        ...columnValuesForCreatingEpsiode(episode),
-        status_1: { label: asset },
-        status_17: { label: asset },
-      };
-
-      // const connectedItemColumns = await this.getItem(columnValues.connect_boards.linkedPulseIds[0].linkedPulseId).column_values;
-
-      const query = `mutation($boardId: Int!, $groupId: String, $asset: String, $columnValues: JSON) {
-        create_item (board_id: $boardId, group_id: $groupId, item_name: $asset, column_values: $columnValues) {
-          id
-        }
-      }`;
-      const variables = {
-        boardId,
-        groupId: group.id,
-        asset,
-        columnValues: JSON.stringify(columnValues),
-      };
-
-      type Response = {
-        errors?: string;
-        data: {
-          create_item: {
-            id: number;
-          };
-        };
-      };
-      const response: Response = await this.mondayClient.api(query, {
-        variables,
-      });
-
-      console.log("-------------");
-      console.log(`Query ${(this.queryCounter += 1)}:`);
-      console.log(query);
-      console.log("Variables:");
-      console.log(variables);
-      console.dir(response, { depth: null });
-      console.log("-------------");
-
-      if (response.errors) throw new Error(response.errors);
-
-      return response.data.create_item.id;
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
+    return data;
   }
 }
 

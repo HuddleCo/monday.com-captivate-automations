@@ -11,7 +11,8 @@ type Session = {
   shortLivedToken: string | undefined;
 };
 
-export const unmarshal = (authorization: string | undefined): Session => {
+export const unmarshal = (request: Request): Session => {
+  const { authorization } = request.headers;
   if (typeof authorization !== "string") throw new NoCredentialsError();
 
   if (typeof process.env.MONDAY_SIGNING_SECRET !== "string") {
@@ -30,7 +31,7 @@ export const authenticationMiddleware = (
   next: NextFunction
 ): void => {
   try {
-    unmarshal(req.headers.authorization);
+    unmarshal(req);
 
     next();
   } catch (err) {

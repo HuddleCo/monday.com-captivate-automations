@@ -1,11 +1,8 @@
 import initMondayClient from "monday-sdk-js";
-
-import type { ItemType } from "../types";
+import { OptionsType, Response } from "../types";
 
 class EditorToUploaderService {
   private mondayClient;
-
-  private cachedGetItem: Record<number, ItemType>;
 
   private queryCounter: number;
 
@@ -13,7 +10,6 @@ class EditorToUploaderService {
     this.mondayClient = initMondayClient();
     this.mondayClient.setToken(apiToken);
 
-    this.cachedGetItem = {};
     this.queryCounter = 0;
   }
 

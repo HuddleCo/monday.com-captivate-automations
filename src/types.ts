@@ -57,7 +57,7 @@ export type GetItemsType = {
 export type OptionsType = {
   boardId?: number;
   groupId?: number;
-  content?: string;
+  itemName?: string;
   columnValues?: string;
   groupName?: string;
   itemId?: number;

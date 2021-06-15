@@ -10,6 +10,7 @@ import type {
   OptionsType,
 } from "../types";
 import { columnValuesForCreatingEpsiode } from "./columnValuesForCreatingEpsiode";
+import { MAPPINGS } from "./constants";
 
 import { getContentFor } from "./getContentFor";
 
@@ -120,16 +121,21 @@ class MondayService {
         status_17: { label: content },
       };
 
+      const clientName =
+        episode.column_values
+          .filter(({ id }) => Object.keys(MAPPINGS).includes(id))
+          .find(({ text }) => text.length)?.text || "Client";
+
       const data = await this.performQuery<CreateItemType>(
-        `mutation($boardId: Int!, $groupId: String, $content: String, $columnValues: JSON) {
-          create_item (board_id: $boardId, group_id: $groupId, item_name: $content, column_values: $columnValues, create_labels_if_missing: true) {
+        `mutation($boardId: Int!, $groupId: String, $itemName: String, $columnValues: JSON) {
+          create_item (board_id: $boardId, group_id: $groupId, item_name: $itemName, column_values: $columnValues, create_labels_if_missing: true) {
             id
           }
         }`,
         {
           boardId,
           groupId: group.id,
-          content,
+          itemName: `${content} - ${clientName}`,
           columnValues: JSON.stringify(columnValues),
         }
       );

@@ -10,7 +10,7 @@ export const executeAction: RequestHandler = (req: Request, res: Response) => {
   return !shortLivedToken
     ? res.status(500).send({ message: "shortLivedToken is not provided" })
     : new MondayService(shortLivedToken)
-        .createContentFromEpisodeToBoard(itemId, targetBoardId)
+        .createContentFromEpisodeToBoard(shortLivedToken, itemId, targetBoardId)
         .then(
           (message) => res.status(200).send({ message }),
           (err) => {

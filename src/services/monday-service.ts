@@ -9,9 +9,8 @@ import type {
   CreateGroupType,
   OptionsType,
 } from "../types";
+import { clientNameFor } from "./clientNameFor";
 import { columnValuesForCreatingEpsiode } from "./columnValuesForCreatingEpsiode";
-import { MAPPINGS } from "./constants";
-
 import { getContentFor } from "./getContentFor";
 
 class MondayService {
@@ -34,7 +33,7 @@ class MondayService {
     targetBoardId: number
   ): Promise<string> {
     const episode = await this.getItem(episodeId);
-    const group = await this.createGroup(targetBoardId, episode.name);
+    const group = await this.createGroup(targetBoardId, episode);
     await Promise.all(
       getContentFor(episode).map((content) =>
         this.createItemFromItem(targetBoardId, group, content, episode)
@@ -91,7 +90,7 @@ class MondayService {
 
   private async createGroup(
     boardId: number,
-    groupName: string
+    episode: ItemType
   ): Promise<GroupType> {
     const data = await this.performQuery<CreateGroupType>(
       `mutation($boardId: Int!, $groupName: String!) {
@@ -101,7 +100,7 @@ class MondayService {
       }`,
       {
         boardId,
-        groupName,
+        groupName: `${clientNameFor(episode)} - ${episode.name}`,
       }
     );
 
@@ -121,11 +120,6 @@ class MondayService {
         status_17: { label: content },
       };
 
-      const clientName =
-        episode.column_values
-          .filter(({ id }) => Object.keys(MAPPINGS).includes(id))
-          .find(({ text }) => text.length)?.text || "Client";
-
       const data = await this.performQuery<CreateItemType>(
         `mutation($boardId: Int!, $groupId: String, $itemName: String, $columnValues: JSON) {
           create_item (board_id: $boardId, group_id: $groupId, item_name: $itemName, column_values: $columnValues, create_labels_if_missing: true) {
@@ -135,7 +129,7 @@ class MondayService {
         {
           boardId,
           groupId: group.id,
-          itemName: `${content} - ${clientName}`,
+          itemName: `${content} - ${clientNameFor(episode)}`,
           columnValues: JSON.stringify(columnValues),
         }
       );

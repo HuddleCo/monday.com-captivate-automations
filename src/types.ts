@@ -1,6 +1,8 @@
 export type ItemType = {
   name: string;
+  column_values: Array<ColumnValuesType>;
   board: {
+    id: number;
     columns: Array<{
       title: string;
       type: string;
@@ -16,7 +18,9 @@ export type ItemType = {
       };
     }>;
   };
-  column_values: Array<ColumnValuesType>;
+  group: {
+    id: string;
+  };
 };
 
 export type ColumnValuesType = {
@@ -28,7 +32,7 @@ export type ColumnValuesType = {
 };
 
 export type GroupType = {
-  id: number;
+  id: string;
 };
 
 export type ParsedColumnValuesType = { [id: string]: string };
@@ -46,7 +50,7 @@ export type CreateItemType = {
 
 export type CreateGroupType = {
   create_group: {
-    id: number;
+    id: string;
   };
 };
 
@@ -54,9 +58,17 @@ export type GetItemsType = {
   items: Array<ItemType>;
 };
 
+export type GetItemsInGroupContainingItemType = {
+  boards: Array<{
+    groups: Array<{
+      items: Array<ItemType>;
+    }>;
+  }>;
+};
+
 export type OptionsType = {
   boardId?: number;
-  groupId?: number;
+  groupId?: string;
   itemName?: string;
   columnValues?: string;
   groupName?: string;

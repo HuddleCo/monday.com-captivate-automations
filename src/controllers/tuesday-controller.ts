@@ -6,11 +6,12 @@ import { unmarshal } from "../middlewares/authentication";
 export const executeAction: RequestHandler = (req: Request, res: Response) => {
   const { shortLivedToken } = unmarshal(req);
   const {
-    boardId,
-    columnValue: {
+    itemId,
+    statusColumnValue: {
       label: { text },
     },
-    itemId,
+    statusColumnId,
+    boardId,
   } = req.body.payload.inboundFieldValues;
 
   console.dir(req.body.payload.inboundFieldValues, { depth: null });
@@ -18,8 +19,17 @@ export const executeAction: RequestHandler = (req: Request, res: Response) => {
   if (!shortLivedToken)
     return res.status(500).send({ message: "shortLivedToken is not provided" });
 
-  connection(shortLivedToken, boardId, text, itemId).then(
-    (message) => res.status(200).send({ message }),
+  return connection(
+    shortLivedToken,
+    itemId,
+    statusColumnId,
+    text,
+    boardId
+  ).then(
+    (message) => {
+      console.log(message);
+      return res.status(200).send({ message });
+    },
     (err) => {
       console.error(err);
       return res.status(500).send({ message: "internal server error" });

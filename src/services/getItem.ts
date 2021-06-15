@@ -22,12 +22,16 @@ export const getItem = async (
             text
           }
           board {
+            id
             columns {
               id
               title
               type
               settings_str
             }
+          }
+          group {
+            id
           }
         }
       }`,

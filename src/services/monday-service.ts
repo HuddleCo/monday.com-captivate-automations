@@ -1,38 +1,27 @@
-import initMondayClient from "monday-sdk-js";
-
 import type {
   ItemType,
   GroupType,
-  Response,
-  GetItemsType,
   CreateItemType,
   CreateGroupType,
-  OptionsType,
 } from "../types";
+import { getItem } from "./getItem";
 import { clientNameFor } from "./clientNameFor";
 import { columnValuesForCreatingEpsiode } from "./columnValuesForCreatingEpsiode";
 import { getContentFor } from "./getContentFor";
+import { performQuery } from "./queryCounter";
 
 class MondayService {
-  private mondayClient;
+  private token: string;
 
-  private cachedGetItem: Record<number, ItemType>;
-
-  private queryCounter: number;
-
-  constructor(apiToken: string) {
-    this.mondayClient = initMondayClient();
-    this.mondayClient.setToken(apiToken);
-
-    this.cachedGetItem = {};
-    this.queryCounter = 0;
+  constructor(token: string) {
+    this.token = token;
   }
 
   async createContentFromEpisodeToBoard(
     episodeId: number,
     targetBoardId: number
   ): Promise<string> {
-    const episode = await this.getItem(episodeId);
+    const episode = await getItem(this.token, episodeId);
     const group = await this.createGroup(targetBoardId, episode);
     await Promise.all(
       getContentFor(episode).map((content) =>
@@ -43,56 +32,12 @@ class MondayService {
     return `Created content for ${episode.name}`;
   }
 
-  private async getItem(itemId: number): Promise<ItemType> {
-    if (this.cachedGetItem[itemId]) return this.cachedGetItem[itemId];
-
-    try {
-      const data = await this.performQuery<GetItemsType>(
-        `query($itemId: [Int]) {
-          items (ids: $itemId) {
-            name
-            column_values {
-              id
-              title
-              value
-              type
-              text
-            }
-            board {
-              columns {
-                id
-                title
-                type
-                settings_str
-              }
-            }
-          }
-        }`,
-        {
-          itemId,
-        }
-      );
-
-      const item = data.items[0];
-      item.board.columns = item.board.columns.map((column) => ({
-        ...column,
-        settings: JSON.parse(column.settings_str),
-      }));
-
-      this.cachedGetItem[itemId] = item;
-
-      return item;
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
-  }
-
   private async createGroup(
     boardId: number,
     episode: ItemType
   ): Promise<GroupType> {
-    const data = await this.performQuery<CreateGroupType>(
+    const data = await performQuery<CreateGroupType>(
+      this.token,
       `mutation($boardId: Int!, $groupName: String!) {
         create_group (board_id: $boardId, group_name: $groupName) {
           id
@@ -120,7 +65,8 @@ class MondayService {
         status_17: { label: content },
       };
 
-      const data = await this.performQuery<CreateItemType>(
+      const data = await performQuery<CreateItemType>(
+        this.token,
         `mutation($boardId: Int!, $groupId: String, $itemName: String, $columnValues: JSON) {
           create_item (board_id: $boardId, group_id: $groupId, item_name: $itemName, column_values: $columnValues, create_labels_if_missing: true) {
             id
@@ -139,29 +85,6 @@ class MondayService {
       console.log(err);
       throw err;
     }
-  }
-
-  private async performQuery<T>(
-    query: string,
-    variables: OptionsType
-  ): Promise<T> {
-    const response: Response = await this.mondayClient.api(query, {
-      variables,
-    });
-
-    console.log("-------------");
-    console.log(`Query ${(this.queryCounter += 1)}:`);
-    console.log(query);
-    console.log("Variables:");
-    console.log(variables);
-    console.dir(response, { depth: null });
-    console.log("-------------");
-
-    if (response.errors) throw new Error(response.errors);
-
-    const data = response.data as T;
-
-    return data;
   }
 }
 

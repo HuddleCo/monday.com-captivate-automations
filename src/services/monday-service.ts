@@ -4,10 +4,12 @@ import { createGroup } from "./createGroup";
 import { createItemFromItem } from "./createItemFromItem";
 
 export default async (
-  token: string,
+  token: string | undefined,
   episodeId: number,
   targetBoardId: number
 ): Promise<string> => {
+  if (!token) throw new Error("shortLivedToken is not provided");
+
   const episode = await getItem(token, episodeId);
   const group = await createGroup(token, targetBoardId, episode);
   await Promise.all(

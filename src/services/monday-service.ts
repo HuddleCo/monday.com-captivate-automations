@@ -3,68 +3,15 @@ import initMondayClient from "monday-sdk-js";
 import type {
   ItemType,
   GroupType,
-  ColumnValuesType,
-  ParsedColumnValuesType,
   Response,
   GetItemsType,
   CreateItemType,
   CreateGroupType,
   OptionsType,
 } from "../types";
+import { columnValuesForCreatingEpsiode } from "./columnValuesForCreatingEpsiode";
 
-const MAPPINGS: Record<string, string> = {
-  client_name_1: "crm_1",
-  connect_boards0: "connect_boards",
-};
-
-const EXCLUSIONS = ["status"];
-
-const CRM_COLUMNS = [
-  "dup__of_instragram_stories6",
-  "dup__of_facebook_inkedin_videos",
-  "dup__of_instragram_stories7",
-  "dup__of_instagram_reels",
-  "dup__of_dup__of_instagram_reels",
-  "dup__of_youtube_chapters4",
-];
-
-const NOT_REQURED_LABELS = ["", "0"];
-
-const columnValuesForCreatingEpsiode = (
-  episode: ItemType
-): ParsedColumnValuesType => ({
-  ...episode.column_values
-    .map((element: ColumnValuesType) => ({
-      ...element,
-      id: MAPPINGS[element.id] || element.id,
-    }))
-    .filter(({ id }) => !EXCLUSIONS.includes(id))
-    .reduce(
-      (accumulator, { id, value }) => ({
-        ...accumulator,
-        [id]: JSON.parse(value),
-      }),
-      {}
-    ),
-});
-
-const getContentFor = (item: ItemType): Array<string> => {
-  const contentColumnTitles = item.board.columns
-    .filter(({ settings }) => {
-      if (!settings) return false;
-      if (!settings.displayed_column) return false;
-
-      return Object.keys(settings.displayed_column)
-        .filter((columnName) => settings.displayed_column[columnName])
-        .some((columnName) => CRM_COLUMNS.includes(columnName));
-    })
-    .map(({ title }) => title);
-
-  return item.column_values
-    .filter(({ title }) => contentColumnTitles.includes(title))
-    .filter(({ text }) => !NOT_REQURED_LABELS.includes(text))
-    .map(({ title }) => title);
-};
+import { getContentFor } from "./getContentFor";
 
 class MondayService {
   private mondayClient;

@@ -1,14 +1,10 @@
-import type {
-  ItemType,
-  GroupType,
-  CreateItemType,
-  CreateGroupType,
-} from "../types";
+import type { ItemType, GroupType, CreateItemType } from "../types";
 import { getItem } from "./getItem";
 import { clientNameFor } from "./clientNameFor";
 import { columnValuesForCreatingEpsiode } from "./columnValuesForCreatingEpsiode";
 import { getContentFor } from "./getContentFor";
 import { performQuery } from "./queryCounter";
+import { createGroup } from "./createGroup";
 
 class MondayService {
   private token: string;
@@ -22,7 +18,7 @@ class MondayService {
     targetBoardId: number
   ): Promise<string> {
     const episode = await getItem(this.token, episodeId);
-    const group = await this.createGroup(targetBoardId, episode);
+    const group = await createGroup(this.token, targetBoardId, episode);
     await Promise.all(
       getContentFor(episode).map((content) =>
         this.createItemFromItem(targetBoardId, group, content, episode)
@@ -30,26 +26,6 @@ class MondayService {
     );
 
     return `Created content for ${episode.name}`;
-  }
-
-  private async createGroup(
-    boardId: number,
-    episode: ItemType
-  ): Promise<GroupType> {
-    const data = await performQuery<CreateGroupType>(
-      this.token,
-      `mutation($boardId: Int!, $groupName: String!) {
-        create_group (board_id: $boardId, group_name: $groupName) {
-          id
-        }
-      }`,
-      {
-        boardId,
-        groupName: `${clientNameFor(episode)} - ${episode.name}`,
-      }
-    );
-
-    return { id: data.create_group.id };
   }
 
   private async createItemFromItem(

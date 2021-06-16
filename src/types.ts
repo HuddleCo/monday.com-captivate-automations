@@ -7,24 +7,26 @@ export type ItemType = {
     text: string;
     title: string;
   }>;
-  board: {
-    id: number;
-    columns: Array<{
-      title: string;
-      type: string;
-      id: string;
-      settings_str: string;
-      settings: {
-        relation_column: {
-          [id: string]: boolean;
-        };
-        displayed_column: {
-          [id: string]: boolean;
-        };
-      };
-    }>;
-  };
+  board: BoardType;
   group: GroupType;
+};
+
+export type BoardType = {
+  id: number;
+  columns: Array<{
+    title: string;
+    type: string;
+    id: string;
+    settings_str: string;
+    settings: {
+      relation_column: {
+        [id: string]: boolean;
+      };
+      displayed_column: {
+        [id: string]: boolean;
+      };
+    };
+  }>;
 };
 
 export type GroupType = {

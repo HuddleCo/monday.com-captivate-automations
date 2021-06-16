@@ -17,5 +17,7 @@ export const mergeLinks = (items: Array<ItemType>): string =>
         ) as LinkColumnType
       ).url.trim(),
     }))
+    .filter(({ contentType }) => contentType.length)
+    .filter(({ contentLink }) => contentLink.length)
     .map(({ contentType, contentLink }) => `${contentType}:\n${contentLink}`)
     .join("\n\n");

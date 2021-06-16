@@ -1,4 +1,4 @@
-import { allItemsComplete as allItemsMatch } from "../services/allItemsComplete";
+import { allItemsMatch } from "../services/all-items-match";
 import { getItem } from "../monday-api/queries/getItem";
 import { getItemsInGroupContainingItem } from "../monday-api/queries/getItemsInGroupContainingItem";
 import MondayClient from "../monday-api";

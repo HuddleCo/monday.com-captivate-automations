@@ -1,6 +1,6 @@
 import { ItemType } from "../types";
 
-export const allItemsComplete = (
+export const allItemsMatch = (
   items: Array<ItemType>,
   columnId: string,
   status: string

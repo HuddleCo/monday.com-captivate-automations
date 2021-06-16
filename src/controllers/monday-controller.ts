@@ -1,6 +1,6 @@
 import type { Request, Response, RequestHandler } from "express";
 
-import connection from "../services/monday-service";
+import connection from "../connectors/monday-service";
 import { unmarshal } from "../middlewares/authentication";
 
 export const executeAction: RequestHandler = (req: Request, res: Response) =>

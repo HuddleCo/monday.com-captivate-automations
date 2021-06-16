@@ -1,6 +1,6 @@
 import type { Request, Response, RequestHandler } from "express";
 
-import connection from "../services/editor-to-uploader-service";
+import connection from "../connectors/editor-to-uploader-service";
 import { unmarshal } from "../middlewares/authentication";
 
 export const executeAction: RequestHandler = (req: Request, res: Response) =>

@@ -1,7 +1,7 @@
-import { getItem } from "./getItem";
-import { getContentFor } from "./getContentFor";
-import { createGroup } from "./createGroup";
-import { createItemFromItem } from "./createItemFromItem";
+import { getItem } from "../services/getItem";
+import { getContentFor } from "../services/getContentFor";
+import { createGroup } from "../services/createGroup";
+import { createItemFromItem } from "../services/createItemFromItem";
 
 export default async (
   token: string | undefined,

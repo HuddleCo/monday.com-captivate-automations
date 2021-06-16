@@ -7,7 +7,7 @@ export default async (
   itemId: number,
   statusColumnId: string,
   status: string,
-  _boardId: string
+  boardId: number
 ): Promise<string> => {
   const item = await getItem(token, itemId);
   const items = await getItemsInGroupContainingItem(token, item);

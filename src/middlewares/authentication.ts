@@ -6,10 +6,15 @@ import MissingMondaySigningSecretError from "../errors/missing-monday-signing-se
 import MissingShortLivedTokenError from "../errors/missing-short-lived-token-error";
 
 type OpenId = {
-  // accountId: string; /* Unused property */
-  // userId: string; /* Unused property */
+  // accountId: string /* Unused property */;
+  // userId: string /* Unused property */;
   // backToUrl: string | undefined; /* Unused property */
   shortLivedToken: string | undefined;
+};
+
+const isOpenId = (maybeSession: Partial<OpenId>): maybeSession is OpenId => {
+  const session = maybeSession as OpenId;
+  return typeof session.shortLivedToken === "string";
 };
 
 export const unmarshal = (request: Request): OpenId => {
@@ -22,19 +27,14 @@ export const unmarshal = (request: Request): OpenId => {
     throw new MissingMondaySigningSecretError();
   }
 
-  const maybeSession = jwt.verify(
+  const payload = jwt.verify(
     authorization,
     process.env.MONDAY_SIGNING_SECRET
-  );
+  ) as Partial<OpenId>;
 
-  if (typeof maybeSession === "string")
-    throw new Error("session can not be a string");
+  if (!isOpenId(payload)) throw new Error("Payload is not of type OpenId");
 
-  const session = maybeSession as Record<string, unknown>;
-
-  if (!session.shortLivedToken) throw new MissingShortLivedTokenError();
-
-  return session as OpenId;
+  return payload;
 };
 
 export const authenticationMiddleware = (

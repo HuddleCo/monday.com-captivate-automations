@@ -16,7 +16,7 @@ export const createItem = async (
   item: ItemType
 ): Promise<CreateItemType> =>
   client.api<CreateItemType>(
-    `mutation($boardId: Int!, $groupId: String, $itemName: String, $columnValues: JSON) {
+    `mutation createItem($boardId: Int!, $groupId: String, $itemName: String, $columnValues: JSON) {
         create_item (board_id: $boardId, group_id: $groupId, item_name: $itemName, column_values: $columnValues, create_labels_if_missing: true) {
           id
         }

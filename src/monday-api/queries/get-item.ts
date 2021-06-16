@@ -13,7 +13,7 @@ export const getItem = async (
   if (cachedGetItem[itemId]) return cachedGetItem[itemId];
 
   const data = await client.api<GetItemsType>(
-    `query($itemId: [Int]) {
+    `query getItem($itemId: [Int]) {
         items (ids: $itemId) {
           name
           column_values {

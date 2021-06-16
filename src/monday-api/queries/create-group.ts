@@ -13,7 +13,7 @@ export const createGroup = async (
 ): Promise<GroupType> =>
   (
     await client.api<CreateGroupType>(
-      `mutation($boardId: Int!, $groupName: String!) {
+      `mutation createGroup($boardId: Int!, $groupName: String!) {
         create_group (board_id: $boardId, group_name: $groupName) {
           id
         }

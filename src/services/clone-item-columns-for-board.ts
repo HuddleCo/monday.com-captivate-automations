@@ -1,7 +1,6 @@
 import {
   ACCEPTED_COLUMN_TYPES,
   BOARD_RELATION_COLUMN_TYPE,
-  EXCLUSIONS,
   STATUS_COLUMN_TITLE,
 } from "../constants";
 import type {
@@ -51,7 +50,6 @@ export const cloneItemColumnsForBoard = (
 ): ColumnType =>
   item.column_values
     .filter(({ type }) => ACCEPTED_COLUMN_TYPES.includes(type))
-    .filter(({ id }) => !EXCLUSIONS.includes(id))
     .filter(({ title }) => title !== STATUS_COLUMN_TITLE)
     .map((columnValue) => {
       const column = board.columns.find(

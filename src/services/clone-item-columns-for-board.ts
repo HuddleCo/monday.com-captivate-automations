@@ -50,11 +50,11 @@ export const cloneItemColumnsForBoard = (
 ): ColumnType =>
   item.column_values
     .filter(({ type }) => ACCEPTED_COLUMN_TYPES.includes(type))
-    .filter(({ title }) => title !== STATUS_COLUMN_TITLE)
+    .filter(({ title }) => title.trim() !== STATUS_COLUMN_TITLE)
     .map((columnValue) => {
       const column = board.columns.find(
         ({ title, type }) =>
-          title === columnValue.title && type === columnValue.type
+          title.trim() === columnValue.title.trim() && type === columnValue.type
       );
 
       return column ? { [column.id]: columnValuesConverter(columnValue) } : {};

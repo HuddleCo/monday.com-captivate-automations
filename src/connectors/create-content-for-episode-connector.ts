@@ -13,7 +13,8 @@ import {
 import type { BoardType } from "../types";
 
 const columnId = (board: BoardType, columnTitle: string): string =>
-  board.columns.find(({ title }) => title === columnTitle)?.id || "Title";
+  board.columns.find(({ title }) => title.trim() === columnTitle)?.id ||
+  "Title";
 
 export default async (
   client: MondayClient,

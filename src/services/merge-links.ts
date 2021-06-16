@@ -8,12 +8,14 @@ export const mergeLinks = (items: Array<ItemType>): string =>
   items
     .map(({ column_values }) => ({
       contentType:
-        column_values.find(({ title }) => title === ASSET_TYPE_COLUMN_TITLE)
-          ?.text || "Content",
+        column_values.find(
+          ({ title }) => title.trim() === ASSET_TYPE_COLUMN_TITLE
+        )?.text || "Content",
       contentLink: (
         JSON.parse(
-          column_values.find(({ title }) => title === CONTENT_LINK_COLUMN_TITLE)
-            ?.value || '{"url":""}'
+          column_values.find(
+            ({ title }) => title.trim() === CONTENT_LINK_COLUMN_TITLE
+          )?.value || '{"url":""}'
         ) as LinkColumnType
       ).url.trim(),
     }))

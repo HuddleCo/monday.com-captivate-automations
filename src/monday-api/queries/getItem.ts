@@ -1,15 +1,18 @@
-import { ItemType, GetItemsType } from "../types";
-import { executeQuery } from "./execute-query";
+import { ItemType } from "../../types";
+import MondayClient from "..";
+
+type GetItemsType = {
+  items: Array<ItemType>;
+};
 
 const cachedGetItem: Record<number, ItemType> = {};
 export const getItem = async (
-  token: string,
+  client: MondayClient,
   itemId: number
 ): Promise<ItemType> => {
   if (cachedGetItem[itemId]) return cachedGetItem[itemId];
 
-  const data = await executeQuery<GetItemsType>(
-    token,
+  const data = await client.api<GetItemsType>(
     `query($itemId: [Int]) {
         items (ids: $itemId) {
           name

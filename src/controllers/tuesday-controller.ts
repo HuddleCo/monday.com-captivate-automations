@@ -1,11 +1,12 @@
 import type { Request, Response, RequestHandler } from "express";
 
-import connection from "../connectors/editor-to-uploader-service";
+import connection from "../connectors/editor-to-uploader-connector";
 import { unmarshal } from "../middlewares/authentication";
+import MondayApi from "../monday-api";
 
-export const executeAction: RequestHandler = (req: Request, res: Response) =>
+export const post: RequestHandler = (req: Request, res: Response) =>
   connection(
-    unmarshal(req).shortLivedToken,
+    new MondayApi(unmarshal(req).shortLivedToken),
     req.body.payload.inboundFieldValues.itemId,
     req.body.payload.inboundFieldValues.statusColumnId,
     req.body.payload.inboundFieldValues.statusColumnValue.label.text,

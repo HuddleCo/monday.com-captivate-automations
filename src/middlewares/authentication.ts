@@ -44,7 +44,6 @@ export const authenticationMiddleware = (
 ): Promise<void> =>
   Promise.resolve(req)
     .then(unmarshal)
-    .then(() => next())
     .catch((err) => {
       if (err instanceof NoCredentialsError) {
         res
@@ -52,13 +51,14 @@ export const authenticationMiddleware = (
           .send({ error: "not authenticated, no credentials in request" });
       } else if (err instanceof MissingMondaySigningSecretError) {
         res.status(500).send({
-          error: "Missing MONDAY_SIGNING_SECRET (should be in .env file)",
+          error: "Missing MONDAY_SIGNING_SECRET",
         });
       } else if (err instanceof MissingShortLivedTokenError) {
-        res.status(500).send({ message: "shortLivedToken is not provided" });
+        res.status(500).send({ error: "shortLivedToken is not provided" });
       } else {
         res.status(401).send({
           error: "authentication error, could not verify credentials",
         });
       }
-    });
+    })
+    .then(() => next());

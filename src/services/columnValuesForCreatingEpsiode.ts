@@ -1,9 +1,11 @@
-import type { ItemType, ParsedColumnValuesType } from "../types";
+import type { ItemType } from "../types";
 import { MAPPINGS, EXCLUSIONS, TYPE_EXCLUSIONS } from "./constants";
+
+type ColumnValuesType = { [id: string]: string };
 
 export const columnValuesForCreatingEpsiode = (
   item: ItemType
-): ParsedColumnValuesType =>
+): ColumnValuesType =>
   item.column_values
     .map((element) => ({
       ...element,

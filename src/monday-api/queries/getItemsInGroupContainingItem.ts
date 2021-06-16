@@ -1,13 +1,20 @@
-import { ItemType, GetItemsInGroupContainingItemType } from "../types";
-import { executeQuery } from "./execute-query";
+import { ItemType } from "../../types";
+import MondayClient from "..";
+
+type GetItemsInGroupContainingItemType = {
+  boards: Array<{
+    groups: Array<{
+      items: Array<ItemType>;
+    }>;
+  }>;
+};
 
 export const getItemsInGroupContainingItem = async (
-  token: string,
+  client: MondayClient,
   item: ItemType
 ): Promise<Array<ItemType>> =>
   (
-    await executeQuery<GetItemsInGroupContainingItemType>(
-      token,
+    await client.api<GetItemsInGroupContainingItemType>(
       `query($boardId: Int, $groupId: String) {
         boards (ids: [$boardId]) {
           groups (ids: [$groupId]) {

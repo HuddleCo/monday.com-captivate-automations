@@ -1,13 +1,20 @@
-import { ItemType, GetItemsInGroupContainingItemType } from "../types";
-import { performQuery } from "./queryCounter";
+import { ItemType } from "../../types";
+import MondayClient from "..";
+
+type GetItemsInGroupContainingItemType = {
+  boards: Array<{
+    groups: Array<{
+      items: Array<ItemType>;
+    }>;
+  }>;
+};
 
 export const getItemsInGroupContainingItem = async (
-  token: string,
+  client: MondayClient,
   item: ItemType
-): Promise<Array<ItemType>> => {
-  try {
-    const data = await performQuery<GetItemsInGroupContainingItemType>(
-      token,
+): Promise<Array<ItemType>> =>
+  (
+    await client.api<GetItemsInGroupContainingItemType>(
       `query($boardId: Int, $groupId: String) {
         boards (ids: [$boardId]) {
           groups (ids: [$groupId]) {
@@ -28,11 +35,5 @@ export const getItemsInGroupContainingItem = async (
         boardId: Number(item.board.id),
         groupId: item.group.id,
       }
-    );
-
-    return data.boards[0].groups[0].items;
-  } catch (err) {
-    console.error(err);
-    throw err;
-  }
-};
+    )
+  ).boards[0].groups[0].items;

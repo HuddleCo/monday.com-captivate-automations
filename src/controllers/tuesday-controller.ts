@@ -1,38 +1,17 @@
 import type { Request, Response, RequestHandler } from "express";
 
-import connection from "../services/editor-to-uploader-service";
+import connection from "../connectors/editor-to-uploader-connector";
 import { unmarshal } from "../middlewares/authentication";
+import MondayApi from "../monday-api";
 
-export const executeAction: RequestHandler = (req: Request, res: Response) => {
-  const { shortLivedToken } = unmarshal(req);
-  const {
-    itemId,
-    statusColumnValue: {
-      label: { text },
-    },
-    statusColumnId,
-    boardId,
-  } = req.body.payload.inboundFieldValues;
-
-  console.dir(req.body.payload.inboundFieldValues, { depth: null });
-
-  if (!shortLivedToken)
-    return res.status(500).send({ message: "shortLivedToken is not provided" });
-
-  return connection(
-    shortLivedToken,
-    itemId,
-    statusColumnId,
-    text,
-    boardId
+export const post: RequestHandler = (req: Request, res: Response) =>
+  connection(
+    new MondayApi(unmarshal(req).shortLivedToken),
+    req.body.payload.inboundFieldValues.itemId,
+    req.body.payload.inboundFieldValues.statusColumnId,
+    req.body.payload.inboundFieldValues.statusColumnValue.label.text,
+    req.body.payload.inboundFieldValues.boardId
   ).then(
-    (message) => {
-      console.log(message);
-      return res.status(200).send({ message });
-    },
-    (err) => {
-      console.error(err);
-      return res.status(500).send({ message: "internal server error" });
-    }
+    (message) => res.status(200).send({ message }),
+    (err) => res.status(500).send({ message: `Error: ${err.message}` })
   );
-};

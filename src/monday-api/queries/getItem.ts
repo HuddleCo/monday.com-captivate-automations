@@ -1,17 +1,19 @@
-import { ItemType, GetItemsType } from "../types";
-import { performQuery } from "./queryCounter";
+import { ItemType } from "../../types";
+import MondayClient from "..";
+
+type GetItemsType = {
+  items: Array<ItemType>;
+};
 
 const cachedGetItem: Record<number, ItemType> = {};
 export const getItem = async (
-  token: string,
+  client: MondayClient,
   itemId: number
 ): Promise<ItemType> => {
   if (cachedGetItem[itemId]) return cachedGetItem[itemId];
 
-  try {
-    const data = await performQuery<GetItemsType>(
-      token,
-      `query($itemId: [Int]) {
+  const data = await client.api<GetItemsType>(
+    `query($itemId: [Int]) {
         items (ids: $itemId) {
           name
           column_values {
@@ -35,22 +37,18 @@ export const getItem = async (
           }
         }
       }`,
-      {
-        itemId,
-      }
-    );
+    {
+      itemId,
+    }
+  );
 
-    const item = data.items[0];
-    item.board.columns = item.board.columns.map((column) => ({
-      ...column,
-      settings: JSON.parse(column.settings_str),
-    }));
+  const item = data.items[0];
+  item.board.columns = item.board.columns.map((column) => ({
+    ...column,
+    settings: JSON.parse(column.settings_str),
+  }));
 
-    cachedGetItem[itemId] = item;
+  cachedGetItem[itemId] = item;
 
-    return item;
-  } catch (err) {
-    console.error(err);
-    throw err;
-  }
+  return item;
 };

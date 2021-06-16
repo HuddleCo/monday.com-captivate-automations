@@ -3,50 +3,62 @@ import { NextFunction, Request, Response } from "express";
 
 import NoCredentialsError from "../errors/no-credentials-error";
 import MissingMondaySigningSecretError from "../errors/missing-monday-signing-secret-error";
+import MissingShortLivedTokenError from "../errors/missing-short-lived-token-error";
 
-type Session = {
-  accountId: string;
-  userId: string;
-  backToUrl: string | undefined;
-  shortLivedToken: string | undefined;
+type OpenId = {
+  // accountId: string /* Unused property */;
+  // userId: string /* Unused property */;
+  // backToUrl: string | undefined; /* Unused property */
+  shortLivedToken: string;
 };
 
-export const unmarshal = (request: Request): Session => {
+const isOpenId = (maybeOpenId: Partial<OpenId>): maybeOpenId is OpenId => {
+  const openId = maybeOpenId as OpenId;
+  return typeof openId.shortLivedToken === "string";
+};
+
+export const unmarshal = (request: Request): OpenId => {
   const { authorization } = request.headers;
-  if (typeof authorization !== "string") throw new NoCredentialsError();
+  if (typeof authorization !== "string") {
+    throw new NoCredentialsError();
+  }
 
   if (typeof process.env.MONDAY_SIGNING_SECRET !== "string") {
     throw new MissingMondaySigningSecretError();
   }
 
-  return jwt.verify(
+  const payload = jwt.verify(
     authorization,
     process.env.MONDAY_SIGNING_SECRET
-  ) as Session;
+  ) as Partial<OpenId>;
+
+  if (!isOpenId(payload)) throw new MissingShortLivedTokenError();
+
+  return payload;
 };
 
 export const authenticationMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
-  try {
-    unmarshal(req);
-
-    next();
-  } catch (err) {
-    if (err instanceof NoCredentialsError) {
-      res
-        .status(401)
-        .json({ error: "not authenticated, no credentials in request" });
-    } else if (err instanceof MissingMondaySigningSecretError) {
-      res.status(500).json({
-        error: "Missing MONDAY_SIGNING_SECRET (should be in .env file)",
-      });
-    } else {
-      res
-        .status(401)
-        .json({ error: "authentication error, could not verify credentials" });
-    }
-  }
-};
+): Promise<void> =>
+  Promise.resolve(req)
+    .then(unmarshal)
+    .catch((err) => {
+      if (err instanceof NoCredentialsError) {
+        res
+          .status(401)
+          .send({ error: "not authenticated, no credentials in request" });
+      } else if (err instanceof MissingMondaySigningSecretError) {
+        res.status(500).send({
+          error: "Missing MONDAY_SIGNING_SECRET",
+        });
+      } else if (err instanceof MissingShortLivedTokenError) {
+        res.status(500).send({ error: "shortLivedToken is not provided" });
+      } else {
+        res.status(401).send({
+          error: "authentication error, could not verify credentials",
+        });
+      }
+    })
+    .then(() => next());

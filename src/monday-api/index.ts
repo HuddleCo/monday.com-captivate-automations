@@ -1,4 +1,5 @@
 import initMondayClient from "monday-sdk-js";
+import { sprintf } from "sprintf-js";
 
 type OptionsType = {
   boardId?: number;
@@ -9,10 +10,10 @@ type OptionsType = {
   itemId?: number;
 };
 
+let queryCounter = 0;
+
 export default class MondayApi {
   private client;
-
-  private queryCounter = 0;
 
   constructor(token: string) {
     this.client = initMondayClient();
@@ -22,15 +23,14 @@ export default class MondayApi {
   public async api<T>(query: string, variables: OptionsType): Promise<T> {
     const response = await this.client.api(query, { variables });
 
-    if (process.env.ENVIRONMENT === "development") {
-      console.log("-------------");
-      console.log(`Query ${(this.queryCounter += 1)}:`);
-      console.log(query);
-      console.log("Variables:");
-      console.log(variables);
-      console.dir(response, { depth: null });
-      console.log("-------------");
-    }
+    console.log(sprintf("~~~~ %03d: Start~~~~", (queryCounter += 1)));
+    console.log("Query:");
+    console.log(query);
+    console.log("Variables:");
+    console.dir(variables, { depth: null });
+    console.log("Response:");
+    console.dir(response, { depth: null });
+    console.log(sprintf("~~~~ %03d: End~~~~", queryCounter));
 
     if (response.errors) throw new Error(response.errors);
 

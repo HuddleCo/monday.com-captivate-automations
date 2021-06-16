@@ -25,3 +25,7 @@ export const ACCEPTED_COLUMN_TYPES = [
   "link",
   "board-relation",
 ];
+
+export const BOARD_RELATION_COLUMN_TYPE = "board-relation";
+
+export const STATUS_COLUMN_TITLE = "Status";

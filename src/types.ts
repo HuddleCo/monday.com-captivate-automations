@@ -1,14 +1,16 @@
 export type ItemType = {
   name: string;
-  column_values: Array<{
-    id: string;
-    value: string;
-    type: string;
-    text: string;
-    title: string;
-  }>;
+  column_values: Array<ColumnValuesType>;
   board: BoardType;
   group: GroupType;
+};
+
+export type ColumnValuesType = {
+  id: string;
+  value: string;
+  type: string;
+  text: string;
+  title: string;
 };
 
 export type BoardType = {

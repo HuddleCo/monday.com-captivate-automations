@@ -1,11 +1,15 @@
-import { utimes } from "fs";
 import {
   ACCEPTED_COLUMN_TYPES,
   BOARD_RELATION_COLUMN_TYPE,
   EXCLUSIONS,
   STATUS_COLUMN_TITLE,
 } from "../constants";
-import type { BoardType, ColumnValuesType, ItemType } from "../types";
+import type {
+  BoardType,
+  ColumnValuesType,
+  ItemType,
+  LinkColumnType,
+} from "../types";
 
 type DateColumnType = {
   date: number;
@@ -20,12 +24,6 @@ type LinkedColumnType = {
 
 type StatusColumnType = {
   index: number;
-};
-
-type LinkColumnType = {
-  url: string;
-  text: string;
-  changed_at: string;
 };
 
 type ColumnType = {
@@ -47,26 +45,11 @@ const columnValuesConverter = ({ type, value }: ColumnValuesType) =>
       }
     : JSON.parse(value);
 
-const mergeContentLinks = (items: Array<ItemType>): string =>
-  items
-    .map(({ column_values }) => ({
-      contentType:
-        column_values.find(({ title }) => title === "Asset Type")?.text ||
-        "Content",
-      contentLink: (
-        JSON.parse(
-          column_values.find(({ title }) => title === "Content Link")?.value ||
-            '{"url":""}'
-        ) as LinkColumnType
-      ).url.trim(),
-    }))
-    .map(({ contentType, contentLink }) => `${contentType}:\n${contentLink}`)
-    .join("\n\n");
-
-export const smash = (items: Array<ItemType>, board: BoardType): ColumnType => {
-  if (!items.length) return {};
-
-  return items[0].column_values
+export const cloneItemColumnsForBoard = (
+  item: ItemType,
+  board: BoardType
+): ColumnType =>
+  item.column_values
     .filter(({ type }) => ACCEPTED_COLUMN_TYPES.includes(type))
     .filter(({ id }) => !EXCLUSIONS.includes(id))
     .filter(({ title }) => title !== STATUS_COLUMN_TITLE)
@@ -78,7 +61,4 @@ export const smash = (items: Array<ItemType>, board: BoardType): ColumnType => {
 
       return column ? { [column.id]: columnValuesConverter(columnValue) } : {};
     })
-    .reduce((acc, cur) => ({ ...acc, ...cur }), {
-      content_links: { text: mergeContentLinks(items) },
-    });
-};
+    .reduce((acc, cur) => ({ ...acc, ...cur }), {});

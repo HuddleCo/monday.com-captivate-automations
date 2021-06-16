@@ -34,3 +34,9 @@ export type BoardType = {
 export type GroupType = {
   id: string;
 };
+
+export type LinkColumnType = {
+  url: string;
+  text: string;
+  changed_at: string;
+};

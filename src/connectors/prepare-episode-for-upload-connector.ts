@@ -5,7 +5,16 @@ import MondayClient from "../monday-api";
 import { createItem } from "../monday-api/queries/create-item";
 import { episodeName } from "../services/episode-name";
 import { getBoard } from "../monday-api/queries/get-board";
-import { smash } from "../services/smash";
+import { cloneItemColumnsForBoard } from "../services/clone-item-columns-for-board";
+import { CONTENT_LINKS_COLUMN_ID } from "../constants";
+import { mergeLinks } from "../services/merge-links";
+import { BoardType, ItemType } from "../types";
+
+const columnValues = (contents: ItemType[], board: BoardType): string =>
+  JSON.stringify({
+    ...cloneItemColumnsForBoard(contents[0], board),
+    [CONTENT_LINKS_COLUMN_ID]: { text: mergeLinks(contents) },
+  });
 
 export default async (
   client: MondayClient,
@@ -26,7 +35,7 @@ export default async (
     boardId,
     "",
     episodeName(content),
-    JSON.stringify(smash(contents, board))
+    columnValues(contents, board)
   );
 
   return `All contents are ${status}. Autobots roll-out!`;

@@ -13,5 +13,8 @@ export const post: RequestHandler = (req: Request, res: Response) =>
     req.body.payload.inboundFieldValues.boardId
   ).then(
     (message) => res.status(200).send({ message }),
-    (err) => res.status(500).send({ message: `Error: ${err.message}` })
+    (err) => {
+      console.error(err);
+      res.status(500).send({ message: `Error: ${err.message}` });
+    }
   );

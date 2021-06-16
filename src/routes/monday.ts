@@ -1,14 +1,21 @@
 import { Router } from "express";
 
-import * as transformationController from "../controllers/monday-controller";
 import { authenticationMiddleware } from "../middlewares/authentication";
+import * as copywriterController from "../controllers/copywriter-controller";
+import * as editorController from "../controllers/editor-controller";
 
 const router = Router();
 
+router.use("/monday", authenticationMiddleware);
+
+// This route is depricated. Remove in version 2.0.0
 router.post(
   "/monday/execute_action",
   authenticationMiddleware,
-  transformationController.executeAction
+  copywriterController.post
 );
+
+router.post("/monday/copywriter", copywriterController.post);
+router.post("/monday/editor", editorController.post);
 
 export default router;

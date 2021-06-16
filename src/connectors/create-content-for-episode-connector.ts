@@ -1,8 +1,10 @@
-import { getItem } from "../monday-api/queries/get-item";
-import { getContentForEpisode } from "../services/get-content-for-episode";
-import { createGroup } from "../monday-api/queries/create-group";
-import { createItemFromItem } from "../monday-api/queries/create-item-from-item";
 import MondayClient from "../monday-api";
+import { getItem } from "../monday-api/queries/get-item";
+import { episodeContents } from "../services/episode-contents";
+import { createGroup } from "../monday-api/queries/create-group";
+import { clientNameForEpisode } from "../services/client-name-for-episode";
+import { columnValuesForCreatingEpsiode } from "../services/column-values-for-creating-epsiode";
+import { createItem } from "../monday-api/queries/create-item";
 
 export default async (
   client: MondayClient,
@@ -11,9 +13,20 @@ export default async (
 ): Promise<string> => {
   const episode = await getItem(client, episodeId);
   const group = await createGroup(client, targetBoardId, episode);
+
   await Promise.all(
-    getContentForEpisode(episode).map((content) =>
-      createItemFromItem(client, targetBoardId, group, content, episode)
+    episodeContents(episode).map((content) =>
+      createItem(
+        client,
+        targetBoardId,
+        group.id,
+        `${content} - ${clientNameForEpisode(episode)}`,
+        JSON.stringify({
+          ...columnValuesForCreatingEpsiode(episode),
+          status_1: { label: content },
+          status_17: { label: content },
+        })
+      )
     )
   );
 

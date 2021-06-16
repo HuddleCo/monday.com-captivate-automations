@@ -33,3 +33,4 @@ export const STATUS_COLUMN_TITLE = "Status";
 export const ASSET_TYPE_COLUMN_TITLE = "Asset Type";
 export const CONTENT_LINK_COLUMN_TITLE = "Content Link";
 export const CONTENT_LINKS_COLUMN_ID = "content_links";
+export const EPISODE_NAME_COLUMN_TITLE = "Episode Name";

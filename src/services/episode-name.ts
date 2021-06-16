@@ -1,6 +1,6 @@
+import { EPISODE_NAME_COLUMN_TITLE } from "../constants";
 import { ItemType } from "../types";
 
-const TITLE = "Episode Name";
-
 export const episodeName = (episode: ItemType): string =>
-  episode.column_values.find(({ title }) => title === TITLE)?.text || "Episode";
+  episode.column_values.find(({ title }) => title === EPISODE_NAME_COLUMN_TITLE)
+    ?.text || "Episode";

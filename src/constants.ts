@@ -14,3 +14,14 @@ export const CRM_COLUMNS = [
 export const NOT_REQURED_LABELS = ["", "0"];
 
 export const TYPE_EXCLUSIONS = ["formula", "lookup", "pulse-log"];
+
+export const ACCEPTED_COLUMN_TYPES = [
+  "color",
+  "multiple-person",
+  "text",
+  "date",
+  "email",
+  "long_text",
+  "link",
+  "board-relation",
+];

@@ -14,13 +14,10 @@ export const BOARD_SUBQUERY = `
     settings_str
   }`;
 
-const cachedGetBoard: Record<number, BoardType> = {};
 export const getBoard = async (
   client: MondayClient,
   boardId: number
 ): Promise<BoardType> => {
-  if (cachedGetBoard[boardId]) return cachedGetBoard[boardId];
-
   const data = await client.api<GetBoardType>(
     `query getBoard($boardId: [Int]) {
       boards(ids: $boardId) {
@@ -37,8 +34,6 @@ export const getBoard = async (
     ...column,
     settings: JSON.parse(column.settings_str),
   }));
-
-  cachedGetBoard[boardId] = board;
 
   return board;
 };

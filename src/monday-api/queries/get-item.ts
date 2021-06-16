@@ -6,13 +6,10 @@ type GetItemsType = {
   items: Array<ItemType>;
 };
 
-const cachedGetItem: Record<number, ItemType> = {};
 export const getItem = async (
   client: MondayClient,
   itemId: number
 ): Promise<ItemType> => {
-  if (cachedGetItem[itemId]) return cachedGetItem[itemId];
-
   const data = await client.api<GetItemsType>(
     `query getItem($itemId: [Int]) {
         items (ids: $itemId) {
@@ -43,8 +40,6 @@ export const getItem = async (
     ...column,
     settings: JSON.parse(column.settings_str),
   }));
-
-  cachedGetItem[itemId] = item;
 
   return item;
 };

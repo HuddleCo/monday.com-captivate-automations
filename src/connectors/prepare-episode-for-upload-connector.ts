@@ -1,8 +1,8 @@
 import { allItemsMatch } from "../services/all-items-match";
-import { getItem } from "../monday-api/queries/getItem";
-import { getItemsInGroupContainingItem } from "../monday-api/queries/getItemsInGroupContainingItem";
+import { getItem } from "../monday-api/queries/get-item";
+import { getItemsInGroupContainingItem } from "../monday-api/queries/get-items-in-group-containing-item";
 import MondayClient from "../monday-api";
-import { createItem } from "../monday-api/queries/createItem";
+import { createItem } from "../monday-api/queries/create-item";
 
 export default async (
   client: MondayClient,

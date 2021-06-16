@@ -1,7 +1,7 @@
 import { ItemType } from "../types";
-import { CRM_COLUMNS, NOT_REQURED_LABELS } from "./constants";
+import { CRM_COLUMNS, NOT_REQURED_LABELS } from "../constants";
 
-export const getContentFor = (item: ItemType): Array<string> => {
+export const getContentForEpisode = (item: ItemType): Array<string> => {
   const contentColumnTitles = item.board.columns
     .filter(({ settings }) => {
       if (!settings) return false;

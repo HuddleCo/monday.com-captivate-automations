@@ -1,5 +1,5 @@
 import { ItemType, GroupType } from "../../types";
-import { clientNameFor } from "../../services/clientNameFor";
+import { clientNameForEpisode } from "../../services/client-name-for-episode";
 import MondayClient from "..";
 
 type CreateGroupType = {
@@ -20,7 +20,7 @@ export const createGroup = async (
       }`,
       {
         boardId,
-        groupName: `${clientNameFor(episode)} - ${episode.name}`,
+        groupName: `${clientNameForEpisode(episode)} - ${episode.name}`,
       }
     )
   ).create_group;

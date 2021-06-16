@@ -1,5 +1,5 @@
 import type { ItemType } from "../types";
-import { MAPPINGS, EXCLUSIONS, TYPE_EXCLUSIONS } from "./constants";
+import { MAPPINGS, EXCLUSIONS, TYPE_EXCLUSIONS } from "../constants";
 
 type ColumnValuesType = { [id: string]: string };
 

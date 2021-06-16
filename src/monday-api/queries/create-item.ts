@@ -1,4 +1,4 @@
-import { jsonColumnValues } from "../../services/jsonColumnValues";
+import { jsonColumnValues } from "../../services/json-column-values";
 import MondayClient from "..";
 import type { ItemType } from "../../types";
 

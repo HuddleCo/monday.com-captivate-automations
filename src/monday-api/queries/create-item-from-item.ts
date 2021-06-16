@@ -1,6 +1,6 @@
 import type { ItemType, GroupType } from "../../types";
-import { clientNameFor } from "../../services/clientNameFor";
-import { columnValuesForCreatingEpsiode } from "../../services/columnValuesForCreatingEpsiode";
+import { clientNameForEpisode } from "../../services/client-name-for-episode";
+import { columnValuesForCreatingEpsiode } from "../../services/column-values-for-creating-epsiode";
 import MondayClient from "..";
 
 type CreateItemType = {
@@ -26,7 +26,7 @@ export const createItemFromItem = async (
       {
         boardId,
         groupId: group.id,
-        itemName: `${content} - ${clientNameFor(episode)}`,
+        itemName: `${content} - ${clientNameForEpisode(episode)}`,
         columnValues: JSON.stringify({
           ...columnValuesForCreatingEpsiode(episode),
           status_1: { label: content },

@@ -26,7 +26,7 @@ export default async (
     boardId,
     "",
     episodeName(content),
-    JSON.stringify(smash(content, board))
+    JSON.stringify(smash(contents, board))
   );
 
   return `All contents are ${status}. Autobots roll-out!`;

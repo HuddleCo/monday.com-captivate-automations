@@ -1,4 +1,4 @@
-import { ItemType, GroupType, CreateItemType } from "../types";
+import type { ItemType, GroupType, CreateItemType } from "../types";
 import { clientNameFor } from "./clientNameFor";
 import { columnValuesForCreatingEpsiode } from "./columnValuesForCreatingEpsiode";
 import { executeQuery } from "./execute-query";

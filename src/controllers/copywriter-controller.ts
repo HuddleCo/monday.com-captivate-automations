@@ -1,6 +1,6 @@
 import type { Request, Response, RequestHandler } from "express";
 
-import connector from "../connectors/copywriter-to-editor-connector";
+import connector from "../connectors/create-content-for-episode-connector";
 import { unmarshal } from "../middlewares/authentication";
 import MondayClient from "../monday-api";
 

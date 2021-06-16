@@ -1,6 +1,6 @@
 import type { Request, Response, RequestHandler } from "express";
 
-import connection from "../connectors/editor-to-uploader-connector";
+import connection from "../connectors/prepare-episode-for-upload-connector";
 import { unmarshal } from "../middlewares/authentication";
 import MondayApi from "../monday-api";
 

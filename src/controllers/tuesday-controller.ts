@@ -14,11 +14,6 @@ export const executeAction: RequestHandler = (req: Request, res: Response) => {
     boardId,
   } = req.body.payload.inboundFieldValues;
 
-  console.dir(req.body.payload.inboundFieldValues, { depth: null });
-
-  if (!shortLivedToken)
-    return res.status(500).send({ message: "shortLivedToken is not provided" });
-
   return connection(
     shortLivedToken,
     itemId,
@@ -28,11 +23,11 @@ export const executeAction: RequestHandler = (req: Request, res: Response) => {
   ).then(
     (message) => {
       console.log(message);
-      return res.status(200).send({ message });
+      res.status(200).send({ message });
     },
     (err) => {
       console.error(err);
-      return res.status(500).send({ message: "internal server error" });
+      res.status(500).send({ message: `Error: ${err.message}` });
     }
   );
 };

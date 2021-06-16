@@ -1,3 +1,4 @@
+import { utimes } from "fs";
 import {
   ACCEPTED_COLUMN_TYPES,
   BOARD_RELATION_COLUMN_TYPE,
@@ -21,12 +22,19 @@ type StatusColumnType = {
   index: number;
 };
 
+type LinkColumnType = {
+  url: string;
+  text: string;
+  changed_at: string;
+};
+
 type ColumnType = {
   [id: string]:
     | null
     | string
     | DateColumnType
     | LinkedColumnType
+    | LinkColumnType
     | StatusColumnType;
 };
 
@@ -39,8 +47,26 @@ const columnValuesConverter = ({ type, value }: ColumnValuesType) =>
       }
     : JSON.parse(value);
 
-export const smash = (item: ItemType, board: BoardType): ColumnType =>
-  item.column_values
+const mergeContentLinks = (items: Array<ItemType>): string =>
+  items
+    .map(({ column_values }) => ({
+      contentType:
+        column_values.find(({ title }) => title === "Asset Type")?.text ||
+        "Content",
+      contentLink: (
+        JSON.parse(
+          column_values.find(({ title }) => title === "Content Link")?.value ||
+            '{"url":""}'
+        ) as LinkColumnType
+      ).url.trim(),
+    }))
+    .map(({ contentType, contentLink }) => `${contentType}:\n${contentLink}`)
+    .join("\n\n");
+
+export const smash = (items: Array<ItemType>, board: BoardType): ColumnType => {
+  if (!items.length) return {};
+
+  return items[0].column_values
     .filter(({ type }) => ACCEPTED_COLUMN_TYPES.includes(type))
     .filter(({ id }) => !EXCLUSIONS.includes(id))
     .filter(({ title }) => title !== STATUS_COLUMN_TITLE)
@@ -52,5 +78,7 @@ export const smash = (item: ItemType, board: BoardType): ColumnType =>
 
       return column ? { [column.id]: columnValuesConverter(columnValue) } : {};
     })
-    .filter((columnValue) => Object.values(columnValue)[0])
-    .reduce((acc, cur) => ({ ...acc, ...cur }), {});
+    .reduce((acc, cur) => ({ ...acc, ...cur }), {
+      content_links: { text: mergeContentLinks(items) },
+    });
+};

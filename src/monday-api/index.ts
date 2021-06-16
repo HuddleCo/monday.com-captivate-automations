@@ -16,7 +16,7 @@ export default class MondayApi {
 
   constructor(token: string) {
     this.client = initMondayClient();
-    this.client.setToken(process.env.TOKEN_OVERRIDE || token);
+    this.client.setToken(token);
   }
 
   public async api<T>(query: string, variables: OptionsType): Promise<T> {

@@ -18,14 +18,14 @@ const isOpenId = (maybeOpenId: Partial<OpenId>): maybeOpenId is OpenId => {
 };
 
 export const unmarshal = (request: Request): OpenId => {
-  const { authorization } = request.headers;
-  if (typeof authorization !== "string") {
-    throw new NoCredentialsError();
-  }
+  if (process.env.TOKEN_OVERRIDE)
+    return { shortLivedToken: process.env.TOKEN_OVERRIDE };
 
-  if (typeof process.env.MONDAY_SIGNING_SECRET !== "string") {
+  const { authorization } = request.headers;
+  if (typeof authorization !== "string") throw new NoCredentialsError();
+
+  if (typeof process.env.MONDAY_SIGNING_SECRET !== "string")
     throw new MissingMondaySigningSecretError();
-  }
 
   const payload = jwt.verify(
     authorization,

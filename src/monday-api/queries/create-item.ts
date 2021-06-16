@@ -1,6 +1,4 @@
-import { jsonColumnValues } from "../../services/json-column-values";
 import MondayClient from "..";
-import type { ItemType } from "../../types";
 
 type CreateItemType = {
   create_item: {
@@ -13,7 +11,7 @@ export const createItem = async (
   boardId: number,
   groupId: string,
   itemName: string,
-  item: ItemType
+  columnValues?: string
 ): Promise<CreateItemType> =>
   client.api<CreateItemType>(
     `mutation createItem($boardId: Int!, $groupId: String, $itemName: String, $columnValues: JSON) {
@@ -25,6 +23,6 @@ export const createItem = async (
       boardId,
       groupId,
       itemName,
-      columnValues: jsonColumnValues(item),
+      columnValues: columnValues || "{}",
     }
   );

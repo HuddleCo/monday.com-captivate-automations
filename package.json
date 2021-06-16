@@ -1,6 +1,6 @@
 {
   "name": "monday-integration-quickstart-app-typescript",
-  "version": "1.3.0",
+  "version": "1.3.2",
   "license": "UNLICENSED",
   "scripts": {
     "dev": "yarn stop && concurrently \"yarn dev-server\" \"yarn expose\"",

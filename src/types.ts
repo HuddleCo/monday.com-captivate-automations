@@ -1,4 +1,5 @@
 export type ItemType = {
+  id: number;
   name: string;
   column_values: Array<ColumnValuesType>;
   board: BoardType;

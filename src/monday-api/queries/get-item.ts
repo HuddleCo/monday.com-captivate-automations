@@ -38,6 +38,7 @@ export const getItem = async (
   );
 
   const item = data.items[0];
+  item.id = itemId;
   item.board.columns = item.board.columns.map((column) => ({
     ...column,
     settings: JSON.parse(column.settings_str),

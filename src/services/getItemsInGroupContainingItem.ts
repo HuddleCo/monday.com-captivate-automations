@@ -1,12 +1,12 @@
 import { ItemType, GetItemsInGroupContainingItemType } from "../types";
-import { performQuery } from "./queryCounter";
+import { executeQuery } from "./execute-query";
 
 export const getItemsInGroupContainingItem = async (
   token: string,
   item: ItemType
 ): Promise<Array<ItemType>> =>
   (
-    await performQuery<GetItemsInGroupContainingItemType>(
+    await executeQuery<GetItemsInGroupContainingItemType>(
       token,
       `query($boardId: Int, $groupId: String) {
         boards (ids: [$boardId]) {

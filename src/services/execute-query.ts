@@ -3,7 +3,7 @@ import { OptionsType, Response } from "../types";
 
 let queryCounter = 0;
 
-export const performQuery = async <T>(
+export const executeQuery = async <T>(
   token: string,
   query: string,
   variables: OptionsType

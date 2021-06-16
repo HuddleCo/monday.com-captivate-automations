@@ -1,5 +1,5 @@
 import { ItemType, GetItemsType } from "../types";
-import { performQuery } from "./queryCounter";
+import { executeQuery } from "./execute-query";
 
 const cachedGetItem: Record<number, ItemType> = {};
 export const getItem = async (
@@ -8,7 +8,7 @@ export const getItem = async (
 ): Promise<ItemType> => {
   if (cachedGetItem[itemId]) return cachedGetItem[itemId];
 
-  const data = await performQuery<GetItemsType>(
+  const data = await executeQuery<GetItemsType>(
     token,
     `query($itemId: [Int]) {
         items (ids: $itemId) {

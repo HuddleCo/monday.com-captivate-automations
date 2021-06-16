@@ -10,31 +10,26 @@ export const createItemFromItem = async (
   content: string,
   episode: ItemType
 ): Promise<number> => {
-  try {
-    const columnValues = {
-      ...columnValuesForCreatingEpsiode(episode),
-      status_1: { label: content },
-      status_17: { label: content },
-    };
+  const columnValues = {
+    ...columnValuesForCreatingEpsiode(episode),
+    status_1: { label: content },
+    status_17: { label: content },
+  };
 
-    const data = await performQuery<CreateItemType>(
-      token,
-      `mutation($boardId: Int!, $groupId: String, $itemName: String, $columnValues: JSON) {
+  const data = await performQuery<CreateItemType>(
+    token,
+    `mutation($boardId: Int!, $groupId: String, $itemName: String, $columnValues: JSON) {
         create_item (board_id: $boardId, group_id: $groupId, item_name: $itemName, column_values: $columnValues, create_labels_if_missing: true) {
           id
         }
       }`,
-      {
-        boardId,
-        groupId: group.id,
-        itemName: `${content} - ${clientNameFor(episode)}`,
-        columnValues: JSON.stringify(columnValues),
-      }
-    );
+    {
+      boardId,
+      groupId: group.id,
+      itemName: `${content} - ${clientNameFor(episode)}`,
+      columnValues: JSON.stringify(columnValues),
+    }
+  );
 
-    return data.create_item.id;
-  } catch (err) {
-    console.log(err);
-    throw err;
-  }
+  return data.create_item.id;
 };

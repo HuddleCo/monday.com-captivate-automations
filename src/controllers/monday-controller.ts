@@ -10,8 +10,5 @@ export const executeAction: RequestHandler = (req: Request, res: Response) =>
     req.body.payload.inboundFieldValues.targetBoardId
   ).then(
     (message) => res.status(200).send({ message }),
-    (err) => {
-      console.error(err);
-      return res.status(500).send({ message: err.message });
-    }
+    (err) => res.status(500).send({ message: err.message })
   );

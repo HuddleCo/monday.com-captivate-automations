@@ -20,4 +20,8 @@ router.get("/health", (req, res) => {
   res.end();
 });
 
+router.get("/error", () => {
+  throw new Error("Sentry Error!");
+});
+
 export default router;

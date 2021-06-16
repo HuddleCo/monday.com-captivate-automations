@@ -12,3 +12,5 @@ export const CRM_COLUMNS = [
   "dup__of_youtube_chapters4",
 ];
 export const NOT_REQURED_LABELS = ["", "0"];
+
+export const TYPE_EXCLUSIONS = ["formula", "lookup", "pulse-log"];

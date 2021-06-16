@@ -1,13 +1,11 @@
-import { ItemType, ColumnValuesType, ParsedColumnValuesType } from "../types";
-import { MAPPINGS, EXCLUSIONS } from "./constants";
-
-const TYPE_EXCLUSIONS = ["formula", "lookup", "pulse-log"];
+import type { ItemType, ParsedColumnValuesType } from "../types";
+import { MAPPINGS, EXCLUSIONS, TYPE_EXCLUSIONS } from "./constants";
 
 export const columnValuesForCreatingEpsiode = (
-  episode: ItemType
-): ParsedColumnValuesType => ({
-  ...episode.column_values
-    .map((element: ColumnValuesType) => ({
+  item: ItemType
+): ParsedColumnValuesType =>
+  item.column_values
+    .map((element) => ({
       ...element,
       id: MAPPINGS[element.id] || element.id,
     }))
@@ -19,5 +17,4 @@ export const columnValuesForCreatingEpsiode = (
         [id]: JSON.parse(value),
       }),
       {}
-    ),
-});
+    );

@@ -1,8 +1,3 @@
-export const MAPPINGS: Record<string, string> = {
-  client_name_1: "crm_1",
-  connect_boards0: "connect_boards",
-};
-export const EXCLUSIONS = ["status"];
 export const CRM_COLUMNS = [
   "dup__of_instragram_stories6",
   "dup__of_facebook_inkedin_videos",
@@ -13,7 +8,7 @@ export const CRM_COLUMNS = [
 ];
 export const NOT_REQURED_LABELS = ["", "0"];
 
-export const TYPE_EXCLUSIONS = ["formula", "lookup", "pulse-log"];
+export const BOARD_RELATION_COLUMN_TYPE = "board-relation";
 
 export const ACCEPTED_COLUMN_TYPES = [
   "color",
@@ -23,10 +18,8 @@ export const ACCEPTED_COLUMN_TYPES = [
   "email",
   "long_text",
   "link",
-  "board-relation",
+  BOARD_RELATION_COLUMN_TYPE,
 ];
-
-export const BOARD_RELATION_COLUMN_TYPE = "board-relation";
 
 export const STATUS_COLUMN_TITLE = "Status";
 export const CLIENT_NAME_COLUMN_TITLE = "Client Name";

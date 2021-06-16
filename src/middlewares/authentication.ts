@@ -44,7 +44,7 @@ export const authenticationMiddleware = (
 ): Promise<void> =>
   Promise.resolve(req)
     .then(unmarshal)
-    .then(next)
+    .then(() => next())
     .catch((err) => {
       if (err instanceof NoCredentialsError) {
         res

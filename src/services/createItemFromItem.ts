@@ -1,7 +1,7 @@
 import { ItemType, GroupType, CreateItemType } from "../types";
 import { clientNameFor } from "./clientNameFor";
 import { columnValuesForCreatingEpsiode } from "./columnValuesForCreatingEpsiode";
-import { executeQuery as executeQuery } from "./execute-query";
+import { executeQuery } from "./execute-query";
 
 export const createItemFromItem = async (
   token: string,

@@ -18,13 +18,15 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "monday-sdk-js": "^0.1.2"
+    "monday-sdk-js": "^0.1.2",
+    "sprintf-js": "^1.1.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.9",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/monday-sdk-js": "^0.1.1",
     "@types/node": "^15.0.0",
+    "@types/sprintf-js": "^1.1.2",
     "@typescript-eslint/eslint-plugin": "^4.11.1",
     "@typescript-eslint/parser": "^4.11.1",
     "chai": "^4.1.2",

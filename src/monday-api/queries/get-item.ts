@@ -1,5 +1,6 @@
 import { ItemType } from "../../types";
 import MondayClient from "..";
+import { BOARD_SUBQUERY } from "./get-board";
 
 type GetItemsType = {
   items: Array<ItemType>;
@@ -24,13 +25,7 @@ export const getItem = async (
             text
           }
           board {
-            id
-            columns {
-              id
-              title
-              type
-              settings_str
-            }
+            ${BOARD_SUBQUERY}
           }
           group {
             id

@@ -10,7 +10,8 @@
     "expose": "ngrok http 8302",
     "stop": "kill-port 8302 && kill-port 4049 && kill-port 4040",
     "lint": "eslint 'src/**/*.ts' --ext .ts --config .eslintrc.json",
-    "build": "tsc --build tsconfig.json --verbose"
+    "build": "tsc --build tsconfig.json --verbose",
+    "production": "node ./dist/app.js"
   },
   "dependencies": {
     "@types/express": "^4.17.9",

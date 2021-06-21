@@ -29,7 +29,7 @@ export default async (
     episodeContents(episode).map((content) =>
       createItem(
         client,
-        targetBoardId,
+        board.id,
         group.id,
         `${content} - ${clientNameForEpisode(episode)}`,
         JSON.stringify({

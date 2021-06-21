@@ -1,31 +1,11 @@
-import type { BoardType, GroupType, ItemType } from "../types";
 import { columnIsSameForAllItems } from "../services/column-is-same-for-all-items";
 import { getItem } from "../monday-api/queries/get-item";
 import { getItemsInGroupContainingItem } from "../monday-api/queries/get-items-in-group-containing-item";
 import MondayClient from "../monday-api";
-import { createItem } from "../monday-api/queries/create-item";
 import { getBoard } from "../monday-api/queries/get-board";
-import { cloneItemColumnsForBoard } from "../services/clone-item-columns-for-board";
 import { createGroup } from "../monday-api/queries/create-group";
 import { archiveGroup } from "../monday-api/queries/archive-group";
-
-const createItemsInGroupOnBoard = async (
-  client: MondayClient,
-  board: BoardType,
-  group: GroupType,
-  items: ItemType[]
-) =>
-  Promise.all(
-    items.map((item) =>
-      createItem(
-        client,
-        board.id,
-        group.id,
-        item.name,
-        JSON.stringify(cloneItemColumnsForBoard(item, board))
-      )
-    )
-  );
+import { createItemsInGroupOnBoard } from "../services/createItemsInGroupOnBoard";
 
 export default async (
   client: MondayClient,

@@ -37,10 +37,11 @@ export default async (
   const content = await getItem(client, itemId);
   const contents = await getItemsInGroupContainingItem(client, content);
   const board = await getBoard(client, boardId);
-  const group = await createGroup(client, board.id, content.group.title);
 
   if (!allItemsMatch(contents, statusColumnId, status))
     return `Some contents are not ${status}. Abort`;
+
+  const group = await createGroup(client, board.id, content.group.title);
 
   await createItemsInGroupOnBoard(client, board, group, contents);
   const archivedGroup = await archiveGroup(

@@ -1,5 +1,5 @@
 import type { BoardType, GroupType, ItemType } from "../types";
-import { allItemsMatch } from "../services/all-items-match";
+import { columnIsSameForAllItems } from "../services/column-is-same-for-all-items";
 import { getItem } from "../monday-api/queries/get-item";
 import { getItemsInGroupContainingItem } from "../monday-api/queries/get-items-in-group-containing-item";
 import MondayClient from "../monday-api";
@@ -38,8 +38,7 @@ export default async (
   const contents = await getItemsInGroupContainingItem(client, content);
   const board = await getBoard(client, boardId);
 
-  if (!allItemsMatch(contents, statusColumnId, status))
-    return `Some contents are not ${status}. Abort`;
+  if (!columnIsSameForAllItems(contents, statusColumnId, status))
 
   const group = await createGroup(client, board.id, content.group.title);
 

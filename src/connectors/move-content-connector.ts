@@ -34,20 +34,21 @@ export default async (
   status: string,
   boardId: number
 ): Promise<string> => {
-  const content = await getItem(client, itemId);
-  const contents = await getItemsInGroupContainingItem(client, content);
+  const item = await getItem(client, itemId);
+  const items = await getItemsInGroupContainingItem(client, item);
   const board = await getBoard(client, boardId);
 
-  if (!columnIsSameForAllItems(contents, statusColumnId, status))
+  if (!columnIsSameForAllItems(items, statusColumnId, status))
+    return `Some items are not ${status}. Abort`;
 
-  const group = await createGroup(client, board.id, content.group.title);
+  const group = await createGroup(client, board.id, item.group.title);
 
-  await createItemsInGroupOnBoard(client, board, group, contents);
+  await createItemsInGroupOnBoard(client, board, group, items);
   const archivedGroup = await archiveGroup(
     client,
-    content.board.id,
-    content.group.id
+    item.board.id,
+    item.group.id
   );
 
-  return `All content with ${status} have been copied to group: ${group.title}(#${group.id}) in board: ${board.name}(#${board.id}). The ${archivedGroup.title}(#${archivedGroup.id}) has been archived`;
+  return `All items with ${status} have been copied to group: ${group.title}(#${group.id}) in board: ${board.name}(#${board.id}). The ${archivedGroup.title}(#${archivedGroup.id}) has been archived`;
 };

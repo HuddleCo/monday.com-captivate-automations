@@ -34,6 +34,7 @@ export const getBoard = async (
     ...column,
     settings: JSON.parse(column.settings_str),
   }));
+  board.id = Number(board.id);
 
   return board;
 };

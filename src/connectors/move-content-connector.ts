@@ -7,6 +7,7 @@ import { createItem } from "../monday-api/queries/create-item";
 import { getBoard } from "../monday-api/queries/get-board";
 import { cloneItemColumnsForBoard } from "../services/clone-item-columns-for-board";
 import { createGroup } from "../monday-api/queries/create-group";
+import { archiveGroup } from "../monday-api/queries/archive-group";
 
 const createItemsInGroupOnBoard = async (
   client: MondayClient,
@@ -42,13 +43,11 @@ export default async (
     return `Some contents are not ${status}. Abort`;
 
   await createItemsInGroupOnBoard(client, board, group, contents);
-        board.id,
-        group.id,
-        item.name,
-        columnValues(item, board)
-      )
-    )
+  const archivedGroup = await archiveGroup(
+    client,
+    content.board.id,
+    content.group.id
   );
 
-  return `All contents are ${status}. Autobots roll-out!`;
+  return `All content with ${status} have been copied to group: ${group.title}(#${group.id}) in board: ${board.name}(#${board.id}). The ${archivedGroup.title}(#${archivedGroup.id}) has been archived`;
 };

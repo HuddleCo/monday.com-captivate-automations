@@ -22,8 +22,8 @@ export default async (
   targetBoardId: number
 ): Promise<string> => {
   const episode = await getItem(client, episodeId);
-  const group = await createGroupAtBottom(client, targetBoardId, episode);
   const board = await getBoard(client, targetBoardId);
+  const group = await createGroupAtBottom(client, board.id, episode);
 
   await Promise.all(
     episodeContents(episode).map((content) =>

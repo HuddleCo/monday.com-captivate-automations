@@ -26,11 +26,12 @@ export default async (
   if (!columnIsSameForAllItems(items, statusColumnId, status))
     return `Some items are not ${status}. Abort`;
 
-  const archivedGroup = await archiveGroup(
-    client,
-    item.board.id,
-    item.group.id
-  );
+  let archivedGroup;
+  try {
+    archivedGroup = await archiveGroup(client, item.board.id, item.group.id);
+  } catch (err) {
+    return "Tried to archive group but it was not found. This is ok because the group may have already been processed";
+  }
 
   const group = await createGroup(client, board.id, item.group.title);
 

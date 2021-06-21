@@ -7,6 +7,7 @@ type OptionsType = {
   itemName?: string;
   columnValues?: string;
   groupName?: string;
+  groupTitle?: string;
   itemId?: number;
 };
 

@@ -22,7 +22,11 @@ export default async (
   targetBoardId: number
 ): Promise<string> => {
   const episode = await getItem(client, episodeId);
-  const group = await createGroup(client, targetBoardId, episode);
+  const group = await createGroup(
+    client,
+    targetBoardId,
+    `${clientNameForEpisode(episode)} - ${episode.name}`
+  );
   const board = await getBoard(client, targetBoardId);
 
   await Promise.all(

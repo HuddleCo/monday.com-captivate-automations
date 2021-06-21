@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import { authenticationMiddleware } from "../middlewares/authentication";
 import * as copywriterController from "../controllers/copywriter-controller";
-import * as editorController from "../controllers/editor-controller";
+import * as moveGroupController from "../controllers/move-group-controller";
 
 const router = Router();
 
@@ -16,6 +16,6 @@ router.post(
 );
 
 router.post("/monday/copywriter", copywriterController.post);
-router.post("/monday/editor", editorController.post);
+router.post("/monday/move_group", moveGroupController.post);
 
 export default router;

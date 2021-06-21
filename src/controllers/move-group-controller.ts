@@ -1,11 +1,11 @@
 import type { Request, Response, RequestHandler } from "express";
 
-import connection from "../connectors/prepare-episode-for-upload-connector";
+import connector from "../connectors/move-content-connector";
 import { unmarshal } from "../middlewares/authentication";
 import MondayApi from "../monday-api";
 
 export const post: RequestHandler = (req: Request, res: Response) =>
-  connection(
+  connector(
     new MondayApi(unmarshal(req).shortLivedToken),
     req.body.payload.inboundFieldValues.itemId,
     req.body.payload.inboundFieldValues.statusColumnId,
@@ -15,6 +15,6 @@ export const post: RequestHandler = (req: Request, res: Response) =>
     (message) => res.status(200).send({ message }),
     (err) => {
       console.error(err);
-      res.status(500).send({ message: `Error: ${err.message}` });
+      res.status(500).send({ message: err.message });
     }
   );

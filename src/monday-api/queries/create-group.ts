@@ -1,5 +1,4 @@
-import { ItemType, GroupType } from "../../types";
-import { clientNameForEpisode } from "../../services/client-name-for-episode";
+import type { GroupType } from "../../types";
 import MondayClient from "..";
 
 type CreateGroupType = {
@@ -9,7 +8,7 @@ type CreateGroupType = {
 export const createGroup = async (
   client: MondayClient,
   boardId: number,
-  episode: ItemType
+  groupName: string
 ): Promise<GroupType> =>
   (
     await client.api<CreateGroupType>(
@@ -20,7 +19,7 @@ export const createGroup = async (
       }`,
       {
         boardId,
-        groupName: `${clientNameForEpisode(episode)} - ${episode.name}`,
+        groupName,
       }
     )
   ).create_group;

@@ -16,6 +16,7 @@ export type ColumnValuesType = {
 
 export type BoardType = {
   id: number;
+  name: string;
   columns: Array<{
     title: string;
     type: string;
@@ -34,6 +35,8 @@ export type BoardType = {
 
 export type GroupType = {
   id: string;
+  title: string;
+  archived: boolean;
 };
 
 export type LinkColumnType = {

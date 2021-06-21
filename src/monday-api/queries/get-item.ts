@@ -26,6 +26,8 @@ export const getItem = async (
           }
           group {
             id
+            title
+            archived
           }
         }
       }`,
@@ -40,6 +42,7 @@ export const getItem = async (
     ...column,
     settings: JSON.parse(column.settings_str),
   }));
+  item.board.id = Number(item.board.id);
 
   return item;
 };

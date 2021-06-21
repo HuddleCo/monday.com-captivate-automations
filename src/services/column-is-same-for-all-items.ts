@@ -1,6 +1,6 @@
 import { ItemType } from "../types";
 
-export const allItemsMatch = (
+export const columnIsSameForAllItems = (
   items: Array<ItemType>,
   columnId: string,
   status: string

@@ -36,4 +36,4 @@ export const getItemsInGroupContainingItem = async (
         groupId: item.group.id,
       }
     )
-  ).boards[0].groups[0].items;
+  ).boards[0]?.groups[0]?.items || [];

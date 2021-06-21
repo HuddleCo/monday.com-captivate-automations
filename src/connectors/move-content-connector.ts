@@ -20,7 +20,8 @@ export default async (
   if (item.group.archived) return `The group has already been archived`;
 
   const items = await getItemsInGroupContainingItem(client, item);
-  const board = await getBoard(client, boardId);
+  if (!items.length)
+    return `The group has no items. Have already been processed`;
 
   if (!columnIsSameForAllItems(items, statusColumnId, status))
     return `Some items are not ${status}. Abort`;

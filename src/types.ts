@@ -31,6 +31,7 @@ export type BoardType = {
       };
     };
   }>;
+  groups: Array<GroupType>;
 };
 
 export type GroupType = {

@@ -5,6 +5,12 @@ type GetBoardType = {
   boards: Array<BoardType>;
 };
 
+export const GROUP_SUBQUERY = `
+  id
+  title
+  archived
+`;
+
 export const BOARD_SUBQUERY = `
   id
   name
@@ -13,7 +19,9 @@ export const BOARD_SUBQUERY = `
     title
     type
     settings_str
-  }`;
+  }
+  ${GROUP_SUBQUERY}
+  `;
 
 export const getBoard = async (
   client: MondayClient,

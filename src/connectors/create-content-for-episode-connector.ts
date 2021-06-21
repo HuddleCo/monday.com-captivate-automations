@@ -1,7 +1,7 @@
 import MondayClient from "../monday-api";
 import { getItem } from "../monday-api/queries/get-item";
 import { episodeContents } from "../services/episode-contents";
-import { createGroup } from "../monday-api/queries/create-group";
+import { createGroupAtBottom } from "../monday-api/queries/create-group-at-bottom";
 import { clientNameForEpisode } from "../services/client-name-for-episode";
 import { createItem } from "../monday-api/queries/create-item";
 import { getBoard } from "../monday-api/queries/get-board";
@@ -22,7 +22,7 @@ export default async (
   targetBoardId: number
 ): Promise<string> => {
   const episode = await getItem(client, episodeId);
-  const group = await createGroup(client, targetBoardId, episode);
+  const group = await createGroupAtBottom(client, targetBoardId, episode);
   const board = await getBoard(client, targetBoardId);
 
   await Promise.all(

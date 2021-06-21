@@ -1,3 +1,5 @@
+import { OnUnhandledRejection } from "@sentry/node/dist/integrations";
+import { lookup } from "dns";
 import initMondayClient from "monday-sdk-js";
 import { sprintf } from "sprintf-js";
 
@@ -12,6 +14,8 @@ type OptionsType = {
 
 type Response<T> = {
   data: T;
+  status_code?: number;
+  error_message?: string;
   errors?: Array<{
     message: string;
   }>;
@@ -41,6 +45,9 @@ export default class MondayApi {
 
     if (response.errors)
       throw new Error(response.errors.map((error) => error.message).join(". "));
+
+    if (response.status_code)
+      throw new Error(response.error_message || "An error has occoured");
 
     return response.data;
   }

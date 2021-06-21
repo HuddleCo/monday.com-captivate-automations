@@ -16,6 +16,7 @@ export type ColumnValuesType = {
 
 export type BoardType = {
   id: number;
+  name: string;
   columns: Array<{
     title: string;
     type: string;

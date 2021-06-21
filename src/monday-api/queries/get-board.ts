@@ -7,6 +7,7 @@ type GetBoardType = {
 
 export const BOARD_SUBQUERY = `
   id
+  name
   columns {
     id
     title

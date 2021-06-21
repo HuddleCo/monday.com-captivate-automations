@@ -10,6 +10,13 @@ type OptionsType = {
   itemId?: number;
 };
 
+type Response<T> = {
+  data: T;
+  errors?: Array<{
+    message: string;
+  }>;
+};
+
 let queryCounter = 0;
 
 export default class MondayApi {
@@ -21,7 +28,7 @@ export default class MondayApi {
   }
 
   public async api<T>(query: string, variables: OptionsType): Promise<T> {
-    const response = await this.client.api(query, { variables });
+    const response: Response<T> = await this.client.api(query, { variables });
 
     console.log(sprintf("~~~~ %03d: Start~~~~", (queryCounter += 1)));
     console.log("Query:");
@@ -32,8 +39,9 @@ export default class MondayApi {
     console.dir(response, { depth: null });
     console.log(sprintf("~~~~ %03d: End~~~~", queryCounter));
 
-    if (response.errors) throw new Error(response.errors);
+    if (response.errors)
+      throw new Error(response.errors.map((error) => error.message).join(". "));
 
-    return response.data as T;
+    return response.data;
   }
 }

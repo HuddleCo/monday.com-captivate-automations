@@ -27,6 +27,7 @@ export const getItem = async (
           group {
             id
             title
+            archived
           }
         }
       }`,

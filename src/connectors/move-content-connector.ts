@@ -17,6 +17,8 @@ export default async (
   boardId: number
 ): Promise<string> => {
   const item = await getItem(client, itemId);
+  if (item.group.archived) return `The group has already been archived`;
+
   const items = await getItemsInGroupContainingItem(client, item);
   const board = await getBoard(client, boardId);
 

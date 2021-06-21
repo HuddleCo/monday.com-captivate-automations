@@ -36,6 +36,7 @@ export type BoardType = {
 export type GroupType = {
   id: string;
   title: string;
+  archived: boolean;
 };
 
 export type LinkColumnType = {

@@ -25,14 +25,15 @@ export default async (
   if (!columnIsSameForAllItems(items, statusColumnId, status))
     return `Some items are not ${status}. Abort`;
 
-  const group = await createGroup(client, board.id, item.group.title);
-
-  await createItemsInGroupOnBoard(client, board, group, items);
   const archivedGroup = await archiveGroup(
     client,
     item.board.id,
     item.group.id
   );
+
+  const group = await createGroup(client, board.id, item.group.title);
+
+  await createItemsInGroupOnBoard(client, board, group, items);
 
   return `All items with ${status} have been copied to group: ${group.title}(#${group.id}) in board: ${board.name}(#${board.id}). The ${archivedGroup.title}(#${archivedGroup.id}) has been archived`;
 };

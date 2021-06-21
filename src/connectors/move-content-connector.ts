@@ -33,6 +33,7 @@ export default async (
     return "Tried to archive group but it was not found. This is ok because the group may have already been processed";
   }
 
+  const board = await getBoard(client, boardId);
   const group = await createGroup(client, board.id, item.group.title);
 
   await createItemsInGroupOnBoard(client, board, group, items);

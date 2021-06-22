@@ -1,6 +1,7 @@
 export type ItemType = {
   id: number;
   name: string;
+  state: string;
   column_values: Array<ColumnValuesType>;
   board: BoardType;
   group: GroupType;

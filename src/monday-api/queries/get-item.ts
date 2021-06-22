@@ -15,6 +15,7 @@ export const getItem = async (
     `query getItem($itemId: [Int]) {
         items (ids: $itemId) {
           name
+          status
           column_values {
             id
             title

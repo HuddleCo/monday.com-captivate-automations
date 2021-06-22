@@ -20,7 +20,9 @@ export const BOARD_SUBQUERY = `
     type
     settings_str
   }
-  ${GROUP_SUBQUERY}
+  groups {
+    ${GROUP_SUBQUERY}
+  }
   `;
 
 export const getBoard = async (

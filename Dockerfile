@@ -2,25 +2,25 @@ FROM node:14-alpine AS build
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
+COPY package.json package-lock.json ./
 
-RUN yarn install --no-progress --non-interactive
+RUN npm install --no-progress --non-interactive
 
 COPY ./ ./
 
-RUN yarn build
+RUN npm run build
 
 FROM node:14-alpine
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
+COPY package.json package-lock.json ./
 
-RUN yarn install --production --no-progress --non-interactive
+RUN npm install --production --no-progress --non-interactive
 
 COPY --from=build /app/dist ./dist
 
-CMD ["yarn", "production"]
+CMD ["npm", "run", "production"]
 
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD wget --no-verbose --tries=1 --spider http://localhost/health || exit 1

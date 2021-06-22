@@ -10,7 +10,7 @@
     "build": "tsc --build tsconfig.json --verbose",
     "production": "node ./dist/app.js",
     "prepare": "husky install",
-    "test": "mocha --sort -r ts-node/register src/**/*.test.ts",
+    "test": "jest",
     "test:watch": "mocha --watch --sort -r ts-node/register src/**/*.test.ts",
     "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test",
     "release": "standard-version",

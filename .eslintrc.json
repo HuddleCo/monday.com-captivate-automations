@@ -4,9 +4,10 @@
     "plugin:@typescript-eslint/recommended",
     "airbnb-typescript-lite",
     "prettier",
-    "prettier/@typescript-eslint"
+    "prettier/@typescript-eslint",
+    "plugin:jest/all"
   ],
-  "plugins": ["import"],
+  "plugins": ["import", "jest"],
   "settings": {
     "import/resolver": {
       "typescript": {
@@ -21,10 +22,17 @@
   },
   "rules": {
     "camelcase": "off",
-    // "no-console": ["error", { "allow": ["error"] }],
     "no-console": "off",
     "import/prefer-default-export": "off",
     "@typescript-eslint/no-explicit-any": "error",
-    "arrow-body-style": "error"
+    "arrow-body-style": "error",
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error"
+  },
+  "env": {
+    "jest/globals": true
   }
 }

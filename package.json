@@ -3,12 +3,9 @@
   "version": "1.4.0",
   "license": "UNLICENSED",
   "scripts": {
-    "dev": "yarn stop && concurrently \"yarn dev-server\" \"yarn expose\"",
-    "dev-server": "ts-node-dev --watch ./.env ./src/**/*.ts",
+    "dev": "ts-node-dev --inspect --respawn --watch ./.env ./src/**/*.ts",
     "start": "yarn server",
-    "server": "ts-node ./src/app.ts",
     "expose": "ngrok http 8302",
-    "stop": "kill-port 8302 && kill-port 4049 && kill-port 4040",
     "lint": "eslint 'src/**/*.ts' --ext .ts --config .eslintrc.json",
     "build": "tsc --build tsconfig.json --verbose",
     "production": "node ./dist/app.js",

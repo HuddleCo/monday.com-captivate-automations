@@ -16,7 +16,7 @@ type DateColumnType = {
 };
 
 type LinkedColumnType = {
-  linkedPulseIds: Array<{
+  linkedPulseIds?: Array<{
     linkedPulseId: number;
   }>;
 };
@@ -35,14 +35,18 @@ type ColumnType = {
     | StatusColumnType;
 };
 
-const columnValuesConverter = ({ type, value }: ColumnValuesType) =>
-  type === BOARD_RELATION_COLUMN_TYPE
-    ? {
-        item_ids: (JSON.parse(value) as LinkedColumnType).linkedPulseIds.map(
-          ({ linkedPulseId }) => linkedPulseId
-        ),
-      }
-    : JSON.parse(value);
+const columnValuesConverter = ({ type, value }: ColumnValuesType) => {
+  if (type === BOARD_RELATION_COLUMN_TYPE) {
+    const data = JSON.parse(value) as LinkedColumnType;
+    const itemIds = data.linkedPulseIds
+      ? data.linkedPulseIds.map(({ linkedPulseId }) => linkedPulseId)
+      : [];
+
+    return { item_ids: itemIds };
+  }
+
+  return JSON.parse(value);
+};
 
 export const cloneItemColumnsForBoard = (
   item: ItemType,

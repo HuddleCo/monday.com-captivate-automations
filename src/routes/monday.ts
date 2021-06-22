@@ -9,13 +9,6 @@ const router = Router();
 
 router.use("/monday", authenticationMiddleware);
 
-// This route is depricated. Remove in version 2.0.0
-router.post(
-  "/monday/execute_action",
-  authenticationMiddleware,
-  copywriterController.post
-);
-
 router.post("/monday/copywriter", copywriterController.post);
 router.post("/monday/move_group", moveGroupController.post);
 router.post("/monday/move_item", moveItemController.post);

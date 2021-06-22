@@ -1,6 +1,7 @@
-import { ItemType } from "../../types";
 import MondayClient from "..";
-import { BOARD_SUBQUERY } from "./get-board";
+
+import type { ItemType } from "../../types";
+import { BOARD_SUBQUERY, GROUP_SUBQUERY } from "./get-board";
 
 type GetItemsType = {
   items: Array<ItemType>;
@@ -14,6 +15,7 @@ export const getItem = async (
     `query getItem($itemId: [Int]) {
         items (ids: $itemId) {
           name
+          state
           column_values {
             id
             title
@@ -25,9 +27,7 @@ export const getItem = async (
             ${BOARD_SUBQUERY}
           }
           group {
-            id
-            title
-            archived
+            ${GROUP_SUBQUERY}
           }
         }
       }`,

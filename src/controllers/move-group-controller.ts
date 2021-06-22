@@ -1,3 +1,5 @@
+import * as Sentry from "@sentry/browser";
+
 import type { Request, Response, RequestHandler } from "express";
 
 import connector from "../connectors/move-content-connector";
@@ -15,6 +17,7 @@ export const post: RequestHandler = (req: Request, res: Response) =>
     (message) => res.status(200).send({ message }),
     (err) => {
       console.error(err);
+      Sentry.captureException(err);
       res.status(500).send({ message: err.message });
     }
   );

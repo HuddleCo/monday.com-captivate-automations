@@ -15,23 +15,24 @@ const item = (state = "active") => ({
     id: "group_id",
     title: "Group Title",
     archived: false,
+    position: 0,
   },
-})
+});
 
-describe('isItemArchived', () => {
+describe("isItemArchived", () => {
   describe("when items is archived", () => {
     const archivedItem = item("archived");
-    it('when item is archived', () => {  
+    it("when item is archived", () => {
       expect.hasAssertions();
-      expect(isItemArchived(archivedItem)).toBe(true)
+      expect(isItemArchived(archivedItem)).toBe(true);
     });
   });
-  
+
   describe("when items is active", () => {
     const activeItem = item("activeItem");
-    it('when item is archived', () => {  
+    it("when item is archived", () => {
       expect.hasAssertions();
-      expect(isItemArchived(activeItem)).toBe(false)
+      expect(isItemArchived(activeItem)).toBe(false);
     });
-  })
+  });
 });

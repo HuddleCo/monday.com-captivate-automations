@@ -1,5 +1,3 @@
-import { OnUnhandledRejection } from "@sentry/node/dist/integrations";
-import { lookup } from "dns";
 import initMondayClient from "monday-sdk-js";
 import { sprintf } from "sprintf-js";
 

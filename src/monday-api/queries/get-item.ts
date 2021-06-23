@@ -43,6 +43,7 @@ export const getItem = async (
     settings: JSON.parse(column.settings_str),
   }));
   item.board.id = Number(item.board.id);
+  item.board.groups = item.board.groups.map((group) => ({ ...group, position: Number(group.position) }));
 
   return item;
 };

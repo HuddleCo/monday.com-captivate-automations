@@ -1,3 +1,5 @@
+import * as Sentry from "@sentry/browser";
+
 import type { Request, Response, RequestHandler } from "express";
 
 import connector from "../connectors/create-content-for-episode-connector";
@@ -11,5 +13,9 @@ export const post: RequestHandler = (req: Request, res: Response) =>
     req.body.payload.inboundFieldValues.targetBoardId
   ).then(
     (message) => res.status(200).send({ message }),
-    (err) => res.status(500).send({ message: err.message })
+    (err) => {
+      console.error(err);
+      Sentry.captureException(err);
+      res.status(500).send({ message: err.message });
+    }
   );

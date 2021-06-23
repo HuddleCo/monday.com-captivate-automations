@@ -39,6 +39,7 @@ export type GroupType = {
   id: string;
   title: string;
   archived: boolean;
+  position: number;
 };
 
 export type LinkColumnType = {

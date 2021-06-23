@@ -9,6 +9,7 @@ export const GROUP_SUBQUERY = `
   id
   title
   archived
+  position
 `;
 
 export const BOARD_SUBQUERY = `
@@ -46,6 +47,7 @@ export const getBoard = async (
     settings: JSON.parse(column.settings_str),
   }));
   board.id = Number(board.id);
+  board.groups = board.groups.map((group) => ({ ...group, position: Number(group.position) }));
 
   return board;
 };

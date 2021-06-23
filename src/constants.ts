@@ -25,3 +25,4 @@ export const STATUS_COLUMN_TITLE = "Status";
 export const CLIENT_NAME_COLUMN_TITLE = "Client Name";
 export const ASSET_TYPE_COLUMN_TITLE = "Content Type";
 export const EPISODE_NAME_COLUMN_TITLE = "Episode Name";
+export const PODCAST_COLUMN_TITLE = "Podcasts";

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.1](https://github.com/mokkapps/changelog-generator-demo/compare/v2.1.0...v2.1.1) (2021-06-24)
+
+
+### Bug Fixes
+
+* copy numeric columns when creating an item in another board ([de9e370](https://github.com/mokkapps/changelog-generator-demo/commits/de9e3703391e2d43552cfcd8f09186567b076740))
+
 ## [2.1.0](https://github.com/mokkapps/changelog-generator-demo/compare/v2.0.0...v2.1.0) (2021-06-23)
 
 

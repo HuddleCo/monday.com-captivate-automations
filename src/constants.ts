@@ -14,6 +14,7 @@ export const ACCEPTED_COLUMN_TYPES = [
   "color",
   "multiple-person",
   "text",
+  "numeric",
   "date",
   "email",
   "long_text",

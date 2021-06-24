@@ -18,21 +18,23 @@ export type ColumnValuesType = {
 export type BoardType = {
   id: number;
   name: string;
-  columns: Array<{
-    title: string;
-    type: string;
-    id: string;
-    settings_str: string;
-    settings: {
-      relation_column: {
-        [id: string]: boolean;
-      };
-      displayed_column: {
-        [id: string]: boolean;
-      };
-    };
-  }>;
+  columns: Array<BoardColumnsType>;
   groups: Array<GroupType>;
+};
+
+export type BoardColumnsType = {
+  title: string;
+  type: string;
+  id: string;
+  settings_str: string;
+  settings: {
+    relation_column: {
+      [id: string]: boolean;
+    };
+    displayed_column: {
+      [id: string]: boolean;
+    };
+  };
 };
 
 export type GroupType = {

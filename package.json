@@ -1,6 +1,6 @@
 {
   "name": "monday-integration-quickstart-app-typescript",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "license": "UNLICENSED",
   "scripts": {
     "dev": "ts-node-dev --watch ./.env ./src/*",

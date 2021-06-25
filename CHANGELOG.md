@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.2](https://github.com/mokkapps/changelog-generator-demo/compare/v2.1.1...v2.1.2) (2021-06-25)
+
+
+### Bug Fixes
+
+* added critical section around to avoid multiple groups being created ([5e8efde](https://github.com/mokkapps/changelog-generator-demo/commits/5e8efde75b66e08957d168251569810d2b41ddff))
+* check for null values when creating columns in a new board ([af31494](https://github.com/mokkapps/changelog-generator-demo/commits/af31494e547c327eae42c1fbe42ba5a6d4b199d8))
+* reuse an existing group if avaliable when creating content on the editor board ([3055745](https://github.com/mokkapps/changelog-generator-demo/commits/3055745986aa45abeefd990472e6b9224c59d959))
+
 ### [2.1.1](https://github.com/mokkapps/changelog-generator-demo/compare/v2.1.0...v2.1.1) (2021-06-24)
 
 

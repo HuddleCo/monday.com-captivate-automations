@@ -79,6 +79,34 @@ describe("cloneItemColumnsForBoard", () => {
     });
   });
 
+  describe("when the item column value is null", () => {
+    const item = creatItem([
+      {
+        id: "col1",
+        title: "Column 1",
+        value: null,
+        type: "text",
+        text: "message",
+      },
+    ]);
+    const board = createBoard([
+      {
+        id: "col2",
+        title: "Column 1",
+        type: "text",
+        settings_str,
+        settings,
+      },
+    ]);
+
+    it("contains the matched column with a null value", () => {
+      expect.hasAssertions();
+      expect(cloneItemColumnsForBoard(item, board)).toStrictEqual({
+        col2: null,
+      });
+    });
+  });
+
   describe("when when there is matched unaccepted column type", () => {
     const item = creatItem([
       {

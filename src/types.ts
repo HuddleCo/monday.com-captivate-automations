@@ -9,7 +9,7 @@ export type ItemType = {
 
 export type ColumnValuesType = {
   id: string;
-  value: string;
+  value: string | null;
   type: string;
   text: string;
   title: string;

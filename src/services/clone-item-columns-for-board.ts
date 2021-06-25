@@ -44,6 +44,7 @@ const boardRelationColumn = (value: string) => {
 };
 
 const columnValuesConverter = ({ type, value }: ColumnValuesType) => {
+  if (!value) return null;
   if (type === BOARD_RELATION_COLUMN_TYPE) return boardRelationColumn(value);
 
   return JSON.parse(value);

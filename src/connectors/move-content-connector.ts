@@ -2,7 +2,7 @@ import MondayClient from "../monday-api";
 
 import { getItem } from "../monday-api/queries/get-item";
 import { getBoard } from "../monday-api/queries/get-board";
-import { createGroup } from "../monday-api/queries/create-group";
+import { findOrCreateGroup } from "../monday-api/queries/find-or-create-group";
 import { columnIsSameForAllItems } from "../services/column-is-same-for-all-items";
 import { archiveGroup } from "../monday-api/queries/archive-group";
 import { getItemsInGroupContainingItem } from "../monday-api/queries/get-items-in-group-containing-item";
@@ -34,7 +34,7 @@ export default async (
   }
 
   const board = await getBoard(client, boardId);
-  const group = await createGroup(client, board.id, item.group.title);
+  const group = await findOrCreateGroup(client, board, item.group.title);
 
   await createItemsInGroupOnBoard(client, board, group, items);
 

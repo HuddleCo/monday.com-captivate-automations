@@ -18,6 +18,12 @@
     "release:patch": "standard-version --release-as patch",
     "release:major": "standard-version --release-as major"
   },
+  "standard-version": {
+    "skip": {
+      "pretag": true,
+      "posttag": true
+    }
+  },
   "dependencies": {
     "@sentry/browser": "^6.7.2",
     "@sentry/node": "^6.7.1",

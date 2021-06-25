@@ -1,14 +1,15 @@
-import {
-  ACCEPTED_COLUMN_TYPES,
-  BOARD_RELATION_COLUMN_TYPE,
-  STATUS_COLUMN_TITLE,
-} from "../constants";
 import type {
   BoardType,
   ColumnValuesType,
   ItemType,
   LinkColumnType,
 } from "../types";
+
+import {
+  ACCEPTED_COLUMN_TYPES,
+  BOARD_RELATION_COLUMN_TYPE,
+  STATUS_COLUMN_TITLE,
+} from "../constants";
 
 type DateColumnType = {
   date: number;
@@ -35,17 +36,27 @@ type ColumnType = {
     | StatusColumnType;
 };
 
-const columnValuesConverter = ({ type, value }: ColumnValuesType) => {
-  if (type === BOARD_RELATION_COLUMN_TYPE) {
-    const data = JSON.parse(value) as LinkedColumnType;
-    const itemIds = data.linkedPulseIds
-      ? data.linkedPulseIds.map(({ linkedPulseId }) => linkedPulseId)
-      : [];
+const boardRelationColumn = (value: string) => {
+  const { linkedPulseIds } = JSON.parse(value) as LinkedColumnType;
+  if (!linkedPulseIds) return {};
 
-    return { item_ids: itemIds };
-  }
+  return { item_ids: linkedPulseIds.map(({ linkedPulseId }) => linkedPulseId) };
+};
+
+const columnValuesConverter = ({ type, value }: ColumnValuesType) => {
+  if (!value) return null;
+  if (type === BOARD_RELATION_COLUMN_TYPE) return boardRelationColumn(value);
 
   return JSON.parse(value);
+};
+
+const matchColumns = (columnValue: ColumnValuesType, board: BoardType) => {
+  const column = board.columns.find(
+    ({ title, type }) =>
+      title.trim() === columnValue.title.trim() && type === columnValue.type
+  );
+
+  return column ? { [column.id]: columnValuesConverter(columnValue) } : {};
 };
 
 export const cloneItemColumnsForBoard = (
@@ -55,12 +66,5 @@ export const cloneItemColumnsForBoard = (
   item.column_values
     .filter(({ type }) => ACCEPTED_COLUMN_TYPES.includes(type))
     .filter(({ title }) => title.trim() !== STATUS_COLUMN_TITLE)
-    .map((columnValue) => {
-      const column = board.columns.find(
-        ({ title, type }) =>
-          title.trim() === columnValue.title.trim() && type === columnValue.type
-      );
-
-      return column ? { [column.id]: columnValuesConverter(columnValue) } : {};
-    })
+    .map((columnValues) => matchColumns(columnValues, board))
     .reduce((acc, cur) => ({ ...acc, ...cur }), {});

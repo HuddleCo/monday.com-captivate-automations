@@ -1,6 +1,6 @@
 {
   "name": "monday-integration-quickstart-app-typescript",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "license": "UNLICENSED",
   "scripts": {
     "dev": "ts-node-dev --watch ./.env ./src/*",
@@ -22,6 +22,7 @@
     "@sentry/browser": "^6.7.2",
     "@sentry/node": "^6.7.1",
     "@sentry/tracing": "^6.7.2",
+    "async-mutex": "^0.3.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",

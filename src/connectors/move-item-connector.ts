@@ -1,3 +1,5 @@
+import { Mutex, withTimeout } from "async-mutex";
+
 import type { ItemType } from "../types";
 
 import MondayClient from "../monday-api";
@@ -11,6 +13,14 @@ import { findOrCreateGroup } from "../monday-api/queries/find-or-create-group";
 
 import { createItemsInGroupOnBoard } from "../services/createItemsInGroupOnBoard";
 import { isItemArchived } from "../services/is-item-archived";
+import MutexTimeoutError from "../errors/mutex-timeout-error";
+
+const CRITICAL_SECTION_TIMEOUT_MS = 10000;
+const mutex = withTimeout(
+  new Mutex(),
+  CRITICAL_SECTION_TIMEOUT_MS,
+  new MutexTimeoutError()
+);
 
 const archiveEmptyGroup = async (
   client: MondayClient,
@@ -28,19 +38,31 @@ const archiveEmptyGroup = async (
   return true;
 };
 
+const createGroupInBoardInCritcalSection = (
+  client: MondayClient,
+  boardId: number,
+  item: ItemType
+) =>
+  mutex.runExclusive(async () => {
+    const board = await getBoard(client, boardId);
+    const group = await findOrCreateGroup(client, board, item.group.title);
+
+    return { board, group };
+  });
+
 export default async (
   client: MondayClient,
   boardId: number,
   itemId: number
 ): Promise<string> => {
-  const [item, board] = await Promise.all([
-    getItem(client, itemId),
-    getBoard(client, boardId),
-  ]);
-
+  const item = await getItem(client, itemId);
   if (isItemArchived(item)) return `The item has already been moved`;
 
-  const group = await findOrCreateGroup(client, board, item.group.title);
+  const { board, group } = await createGroupInBoardInCritcalSection(
+    client,
+    boardId,
+    item
+  );
 
   await Promise.all([
     createItemsInGroupOnBoard(client, board, group, [item]),
@@ -55,6 +77,5 @@ export default async (
     messages.push(
       `Tried to archive group ${item.group.title}(#${item.group.id}) but it was not found. This is ok because the group may have already been processed`
     );
-
   return messages.join(". ");
 };

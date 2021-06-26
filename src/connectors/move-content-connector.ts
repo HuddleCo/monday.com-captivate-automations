@@ -1,13 +1,12 @@
 import MondayClient from "../monday-api";
 
 import { getItem } from "../monday-api/queries/get-item";
-import { getBoard } from "../monday-api/queries/get-board";
-import { findOrCreateGroup } from "../monday-api/queries/find-or-create-group";
 import { columnIsSameForAllItems } from "../services/column-is-same-for-all-items";
-import { archiveGroup } from "../monday-api/queries/archive-group";
 import { getItemsInGroupContainingItem } from "../monday-api/queries/get-items-in-group-containing-item";
 
 import { createItemsInGroupOnBoard } from "../services/createItemsInGroupOnBoard";
+import { findOrCreateGroupInBoard } from "../services/find-or-create-group-in-board";
+import { archiveGroupMutex } from "../services/archive-group-mutex";
 
 export default async (
   client: MondayClient,
@@ -28,13 +27,20 @@ export default async (
 
   let archivedGroup;
   try {
-    archivedGroup = await archiveGroup(client, item.board.id, item.group.id);
+    archivedGroup = await archiveGroupMutex(
+      client,
+      item.board.id,
+      item.group.id
+    );
   } catch (err) {
     return "Tried to archive group but it was not found. This is ok because the group may have already been processed";
   }
 
-  const board = await getBoard(client, boardId);
-  const group = await findOrCreateGroup(client, board, item.group.title);
+  const { board, group } = await findOrCreateGroupInBoard(
+    client,
+    boardId,
+    item.group.title
+  );
 
   await createItemsInGroupOnBoard(client, board, group, items);
 

@@ -1,5 +1,7 @@
 import type { GroupType } from "../../types";
+
 import MondayClient from "..";
+import { GROUP_SUBQUERY } from "./get-board";
 
 type ArchiveGroupType = {
   archive_group: GroupType;
@@ -14,7 +16,7 @@ export const archiveGroup = async (
     await client.api<ArchiveGroupType>(
       `mutation archiveGroup($boardId: Int!, $groupId: String!) {
         archive_group (board_id: $boardId, group_id: $groupId) {
-          id
+          ${GROUP_SUBQUERY}
         }
       }`,
       {

@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.3](https://github.com/mokkapps/changelog-generator-demo/compare/v2.1.2...v2.1.3) (2021-06-26)
+
+
+### Features
+
+* add mutally exclusive version of the archive group query ([ca45731](https://github.com/mokkapps/changelog-generator-demo/commits/ca45731ec8c155816a5adfd279e9006417739598))
+
+
+### Bug Fixes
+
+* get all group information when archiving a group ([52bcc28](https://github.com/mokkapps/changelog-generator-demo/commits/52bcc28f84a3cac2ccfc58d59f25c081454cd843))
+* prevent race conditions when archiving a group for the move items action ([83daaa7](https://github.com/mokkapps/changelog-generator-demo/commits/83daaa73c116a4a120c48a7ff052c63bd8d102cf))
+* use mutex function when creating a group in a board ([7d35e42](https://github.com/mokkapps/changelog-generator-demo/commits/7d35e4258aedbe20e0eb1e4d141805b3efc75218))
+
 ### [2.1.2](https://github.com/mokkapps/changelog-generator-demo/compare/v2.1.1...v2.1.2) (2021-06-25)
 
 

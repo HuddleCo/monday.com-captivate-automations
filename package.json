@@ -3,7 +3,7 @@
   "version": "2.1.3",
   "license": "UNLICENSED",
   "scripts": {
-    "dev": "ts-node-dev --watch ./.env ./src/*",
+    "start": "ts-node-dev --watch ./.env ./src/*",
     "debug": "ts-node-dev --inspect --respawn ./src/app.ts",
     "expose": "ngrok http 8302",
     "lint": "eslint 'src/**/*.ts' --ext .ts --config .eslintrc.json",

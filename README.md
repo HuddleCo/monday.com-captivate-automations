@@ -36,7 +36,7 @@ The application is best deployed as a docker container.
       -p 80:80 \
       aussidavid/captivate-ingrations
 
-Where applicable, it is recommmended to run the container as a service on a docker swarm to ensure the app is always running.
+Where applicable, it is recommended to run the container as a service on a docker swarm to ensure the app is always running.
 
     docker service create -e NODE_ENV=production \
       -e MONDAY_SIGNING_SECRET=SECRET \

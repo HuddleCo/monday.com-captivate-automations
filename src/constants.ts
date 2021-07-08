@@ -6,7 +6,7 @@ export const CRM_COLUMNS = [
   "dup__of_dup__of_instagram_reels",
   "dup__of_youtube_chapters4",
 ];
-export const NOT_REQURED_LABELS = ["", "0"];
+export const NOT_REQUIRED_LABELS = ["", "0"];
 
 export const BOARD_RELATION_COLUMN_TYPE = "board-relation";
 

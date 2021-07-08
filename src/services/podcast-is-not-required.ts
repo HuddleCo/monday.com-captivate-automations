@@ -1,4 +1,4 @@
-import { NOT_REQURED_LABELS, PODCAST_COLUMN_TITLE } from "../constants";
+import { NOT_REQUIRED_LABELS, PODCAST_COLUMN_TITLE } from "../constants";
 import { ItemType } from "../types";
 
 export const podcastIsNotRequired = (item: ItemType): boolean => {
@@ -6,5 +6,5 @@ export const podcastIsNotRequired = (item: ItemType): boolean => {
     item.column_values.find(({ title }) => title === PODCAST_COLUMN_TITLE)
       ?.text || "";
 
-  return NOT_REQURED_LABELS.includes(podcastColumnValue);
+  return NOT_REQUIRED_LABELS.includes(podcastColumnValue);
 };

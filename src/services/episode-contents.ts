@@ -15,6 +15,6 @@ export const episodeContents = (item: ItemType): string[] => {
 
   return item.column_values
     .filter(({ title }) => contentColumnTitles.includes(title))
-    .filter(({ text }) => !NOT_REQURED_LABELS.includes(text))
+    .filter(({ text }) => !NOT_REQUIRED_LABELS.includes(text))
     .map(({ title }) => title);
 };

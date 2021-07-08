@@ -1,11 +1,11 @@
 import MondayClient from "..";
+import { ItemType } from "../../types";
+import { ITEM_SUBQUERY } from "./get-item";
 
 type GetItemNamesInGroupType = {
   boards: Array<{
     groups: Array<{
-      items: Array<{
-        name: string;
-      }>;
+      items: Array<ItemType>;
     }>;
   }>;
 };
@@ -14,14 +14,14 @@ export const getItemNamesInGroup = async (
   client: MondayClient,
   boardId: number,
   groupId: string
-): Promise<Array<{ name: string }>> =>
+): Promise<Array<ItemType>> =>
   (
     await client.api<GetItemNamesInGroupType>(
       `query getItemNamesInGroup($boardId: Int, $groupId: String) {
         boards (ids: [$boardId]) {
           groups (ids: [$groupId]) {
             items {
-              name
+              ${ITEM_SUBQUERY}
             }
           }
         }

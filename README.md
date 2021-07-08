@@ -9,6 +9,7 @@ This application extends the [Quickstart Integration](https://github.com/mondayc
     git clone https://github.com/aussiDavid/monday.com-captivate-automations.git
     cd monday.com-captivate-automations
     npm install
+    npm run prepare
     cp -v .env.example .env
 
 Please update the `.env` with missing environment variables.

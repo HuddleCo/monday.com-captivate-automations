@@ -49,3 +49,19 @@ export type LinkColumnType = {
   text: string;
   changed_at: string;
 };
+
+export type Data<T> = {
+  data: T;
+};
+
+export type RuntimeErrorType = {
+  errors: Array<{
+    message: string;
+  }>;
+};
+
+export type SyntaxErrorType = {
+  error_message: string;
+};
+
+export type ApiResponse<T> = Data<T> | RuntimeErrorType | SyntaxErrorType;

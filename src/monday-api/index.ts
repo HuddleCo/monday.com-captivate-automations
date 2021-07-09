@@ -1,5 +1,8 @@
 import initMondayClient from "monday-sdk-js";
 import { sprintf } from "sprintf-js";
+import GraphQLRuntimeError from "../errors/graphql-runtime-error";
+import GraphQLSyntaxError from "../errors/graphql-syntax-error";
+import type { ApiResponse } from "../types";
 
 type QueryVariablesType =
   | { itemId: number }
@@ -13,20 +16,12 @@ type QueryVariablesType =
       columnValues: string;
     };
 
-type Response<T> = {
-  data: T;
-  error_message?: string;
-  errors?: Array<{
-    message: string;
-  }>;
-};
-
 let queryCounter = 0;
 
 const log = <T>(
   query: string,
   variables: QueryVariablesType,
-  response: Response<T>
+  response: ApiResponse<T>
 ) => {
   console.log(sprintf("~~~~ %03d: Start~~~~", (queryCounter += 1)));
   console.log("Query:");
@@ -36,6 +31,22 @@ const log = <T>(
   console.log("Response:");
   console.dir(response, { depth: null });
   console.log(sprintf("~~~~ %03d: End~~~~", queryCounter));
+};
+
+const handleRequest = <T>(response: ApiResponse<T>): T => {
+  if ("error_message" in response && typeof response.error_message === "string")
+    throw new GraphQLSyntaxError(response);
+
+  if (
+    "errors" in response &&
+    response.errors?.length &&
+    response.errors.every((error) => typeof error.message === "string")
+  )
+    throw new GraphQLRuntimeError(response);
+
+  if ("data" in response && response.data) return response.data;
+
+  throw new Error("Unknown object recieved from Monday.com API");
 };
 
 export default class MondayApi {
@@ -52,18 +63,9 @@ export default class MondayApi {
   ): Promise<T> {
     return this.client
       .api(query, { variables })
-      .then((response: Response<T>) => {
+      .then((response: ApiResponse<T>) => {
         log<T>(query, variables, response);
-
-        if (response.errors)
-          throw new Error(
-            response.errors.map(({ message }) => message).join(". ")
-          );
-
-        if (response.error_message)
-          throw new Error(response.error_message || "An error has occoured");
-
-        return response.data;
+        return handleRequest<T>(response);
       });
   }
 }

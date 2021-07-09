@@ -27,5 +27,5 @@ export default async (
 
   await createItemsInGroupOnBoard(client, board, topGroup, [item]);
 
-  return `Episode ${item.name} has been copied to the ${board.name} board`;
+  return `Episode "${item.name}" has been copied to the ${board.name} board`;
 };

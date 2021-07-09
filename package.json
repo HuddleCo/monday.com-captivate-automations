@@ -10,6 +10,7 @@
     "build": "tsc --build tsconfig.json --verbose",
     "production": "node ./dist/app.js",
     "prepare": "husky install",
+    "publish": "ssh deploy@laura-malta.bnr.la -t \"docker pull aussidavid/captivate-ingrations && docker service update --image aussidavid/captivate-ingrations:latest captivate\"",
     "test": "jest",
     "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test",
     "release": "standard-version",

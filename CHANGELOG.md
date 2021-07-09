@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/mokkapps/changelog-generator-demo/compare/v2.1.3...v2.2.0) (2021-07-09)
+
+
+### Bug Fixes
+
+* exhastivly check column titles when copying an item ([05b1792](https://github.com/mokkapps/changelog-generator-demo/commits/05b17925a4ea01272fdd75c45bf8e0bec76f52f7))
+* simply query to reduce api complexity score ([434fc98](https://github.com/mokkapps/changelog-generator-demo/commits/434fc989f9854f6129f90e5f28194b55522a2449))
+
 ### [2.1.3](https://github.com/mokkapps/changelog-generator-demo/compare/v2.1.2...v2.1.3) (2021-06-26)
 
 

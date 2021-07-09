@@ -14,6 +14,7 @@ import {
   ASSET_TYPE_COLUMN_TITLE,
   EPISODE_NAME_COLUMN_TITLE,
 } from "../constants";
+import { archiveGroup } from "../monday-api/queries/archive-group";
 
 const columnId = (board: BoardType, columnTitle: string): string =>
   board.columns.find(({ title }) => title.trim() === columnTitle)?.id ||
@@ -62,7 +63,12 @@ export default async (
 
   const group = await createGroupWithEpisodeName(client, board, item);
 
-  await createContentInGroupOnBoard(client, board, group, item);
+  try {
+    await createContentInGroupOnBoard(client, board, group, item);
+  } catch (err) {
+    await archiveGroup(client, board.id, group.id);
+    throw err;
+  }
 
   return `Created content for ${item.name}`;
 };

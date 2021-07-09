@@ -3,6 +3,7 @@ import { CRM_COLUMNS, NOT_REQUIRED_LABELS } from "../constants";
 
 export const episodeContents = (item: ItemType): string[] => {
   const contentColumnTitles = item.board.columns
+    .filter(({ settings }) => settings.displayed_column)
     .filter(({ settings }) =>
       Object.keys(settings.displayed_column)
         .filter((columnName) => settings.displayed_column[columnName])

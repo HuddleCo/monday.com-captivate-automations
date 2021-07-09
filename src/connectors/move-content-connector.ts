@@ -11,7 +11,7 @@ import { createItemsInGroupOnBoard } from "../services/createItemsInGroupOnBoard
 import { findOrCreateGroupInBoard } from "../services/find-or-create-group-in-board";
 import { archiveGroup } from "../monday-api/queries/archive-group";
 
-const CRITICAL_SECTION_TIMEOUT_MS = 8_000;
+const CRITICAL_SECTION_TIMEOUT_MS = 12_000;
 const mutex = withTimeout(
   new Mutex(),
   CRITICAL_SECTION_TIMEOUT_MS,

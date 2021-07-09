@@ -1,6 +1,6 @@
 {
   "name": "monday.com-captivate-automations",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "license": "UNLICENSED",
   "scripts": {
     "start": "ts-node-dev --watch ./.env ./src/*",
@@ -10,7 +10,9 @@
     "build": "tsc --build tsconfig.json --verbose",
     "production": "node ./dist/app.js",
     "prepare": "husky install",
+    "publish": "ssh deploy@laura-malta.bnr.la -t \"docker pull aussidavid/captivate-ingrations && docker service update --image aussidavid/captivate-ingrations:latest captivate\"",
     "test": "jest",
+    "test:watch": "jest --watch --collectCoverage",
     "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test",
     "release": "standard-version",
     "release:minor": "standard-version --release-as minor",

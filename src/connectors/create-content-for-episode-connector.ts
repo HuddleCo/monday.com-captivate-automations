@@ -5,6 +5,7 @@ import { getItem } from "../monday-api/queries/get-item";
 import { createGroup } from "../monday-api/queries/create-group";
 import { createItem } from "../monday-api/queries/create-item";
 import { getBoard } from "../monday-api/queries/get-board";
+import { archiveGroup } from "../monday-api/queries/archive-group";
 
 import { episodeContents } from "../services/episode-contents";
 import { clientNameForEpisode } from "../services/client-name-for-episode";
@@ -62,7 +63,12 @@ export default async (
 
   const group = await createGroupWithEpisodeName(client, board, item);
 
-  await createContentInGroupOnBoard(client, board, group, item);
+  try {
+    await createContentInGroupOnBoard(client, board, group, item);
+  } catch (err) {
+    await archiveGroup(client, board.id, group.id);
+    throw err;
+  }
 
   return `Created content for ${item.name}`;
 };

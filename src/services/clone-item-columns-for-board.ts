@@ -59,7 +59,9 @@ const matchColumns = (columnValue: ColumnValuesType, board: BoardType) => {
       type === columnValue.type
   );
 
-  return column ? { [column.id]: columnValuesConverter(columnValue) } : {};
+  if (!column) return {};
+
+  return { [column.id]: columnValuesConverter(columnValue) };
 };
 
 export const cloneItemColumnsForBoard = (

@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.2](https://github.com/mokkapps/changelog-generator-demo/compare/v2.3.1...v2.3.2) (2021-07-09)
+
+
+### Features
+
+* add "% npm run test:watch" script to run tests when a file changes ([ee2fd8e](https://github.com/mokkapps/changelog-generator-demo/commits/ee2fd8e90603688b42f0771f845cb69965bf1072))
+* add "$ npm run publish" script to ease deployment ([e173214](https://github.com/mokkapps/changelog-generator-demo/commits/e173214adb94d594532a3e8869b5313efe001e5a))
+
+
+### Bug Fixes
+
+* archive a incomplete group when attempting to create episodes file ([6d662e2](https://github.com/mokkapps/changelog-generator-demo/commits/6d662e24bc928ae5f42e6483ea1f6f6e980ae460))
+* check property display_column before using it ([384b521](https://github.com/mokkapps/changelog-generator-demo/commits/384b5212e98008bbaa289e2e51528f874ed72259))
+* update move content critical section timeout from 8s to 12s ([bc1dd9f](https://github.com/mokkapps/changelog-generator-demo/commits/bc1dd9fdc64379f7f67e76928e1fe1d1f25fadd9))
+
 ### [2.3.1](https://github.com/mokkapps/changelog-generator-demo/compare/v2.3.0...v2.3.1) (2021-07-09)
 
 

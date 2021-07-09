@@ -6,6 +6,10 @@ import { isDuplicateItem } from "../monday-api/queries/is-duplicate-item";
 
 import { createItemsInGroupOnBoard } from "../services/createItemsInGroupOnBoard";
 import { podcastIsNotRequired } from "../services/podcast-is-not-required";
+import type { GroupType } from "../types";
+
+const topMostGroup = (groups: Array<GroupType>): GroupType =>
+  groups.sort((a, b) => a.position - b.position)[0];
 
 export default async (
   client: MondayClient,
@@ -20,7 +24,7 @@ export default async (
   if (podcastIsNotRequired(item))
     return "Podcast is not required for this episode. Ignoring action";
 
-  const topGroup = board.groups.sort((a, b) => a.position - b.position)[0];
+  const topGroup = topMostGroup(board.groups);
 
   if (await isDuplicateItem(client, board, topGroup, item))
     return `The episode "${item.name}" has already been copied. Ignoring action`;

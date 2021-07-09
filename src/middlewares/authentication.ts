@@ -6,9 +6,6 @@ import MissingMondaySigningSecretError from "../errors/missing-monday-signing-se
 import MissingShortLivedTokenError from "../errors/missing-short-lived-token-error";
 
 type OpenId = {
-  // accountId: string /* Unused property */;
-  // userId: string /* Unused property */;
-  // backToUrl: string | undefined; /* Unused property */
   shortLivedToken: string;
 };
 

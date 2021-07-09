@@ -1,14 +1,17 @@
 import initMondayClient from "monday-sdk-js";
 import { sprintf } from "sprintf-js";
 
-type OptionsType = {
-  boardId?: number;
-  groupId?: string;
-  itemName?: string;
-  columnValues?: string;
-  groupName?: string;
-  itemId?: number;
-};
+type QueryVariablesType =
+  | { itemId: number }
+  | { boardId: number }
+  | { boardId: number; groupId: string }
+  | { boardId: number; groupName: string }
+  | {
+      boardId: number;
+      groupId: string;
+      itemName: string;
+      columnValues: string;
+    };
 
 type Response<T> = {
   data: T;

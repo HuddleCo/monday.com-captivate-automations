@@ -5,6 +5,7 @@ import { getItem } from "../monday-api/queries/get-item";
 import { createGroup } from "../monday-api/queries/create-group";
 import { createItem } from "../monday-api/queries/create-item";
 import { getBoard } from "../monday-api/queries/get-board";
+import { archiveGroup } from "../monday-api/queries/archive-group";
 
 import { episodeContents } from "../services/episode-contents";
 import { clientNameForEpisode } from "../services/client-name-for-episode";
@@ -14,7 +15,6 @@ import {
   ASSET_TYPE_COLUMN_TITLE,
   EPISODE_NAME_COLUMN_TITLE,
 } from "../constants";
-import { archiveGroup } from "../monday-api/queries/archive-group";
 
 const columnId = (board: BoardType, columnTitle: string): string =>
   board.columns.find(({ title }) => title.trim() === columnTitle)?.id ||

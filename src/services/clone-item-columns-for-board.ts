@@ -11,6 +11,8 @@ import {
   STATUS_COLUMN_TITLE,
 } from "../constants";
 
+import { isSimilarColumnTitles } from "./is-similar-column-title";
+
 type DateColumnType = {
   date: number;
   icon: string;
@@ -53,10 +55,13 @@ const columnValuesConverter = ({ type, value }: ColumnValuesType) => {
 const matchColumns = (columnValue: ColumnValuesType, board: BoardType) => {
   const column = board.columns.find(
     ({ title, type }) =>
-      title.trim() === columnValue.title.trim() && type === columnValue.type
+      isSimilarColumnTitles(title, columnValue.title) &&
+      type === columnValue.type
   );
 
-  return column ? { [column.id]: columnValuesConverter(columnValue) } : {};
+  if (!column) return {};
+
+  return { [column.id]: columnValuesConverter(columnValue) };
 };
 
 export const cloneItemColumnsForBoard = (
@@ -65,6 +70,6 @@ export const cloneItemColumnsForBoard = (
 ): ColumnType =>
   item.column_values
     .filter(({ type }) => ACCEPTED_COLUMN_TYPES.includes(type))
-    .filter(({ title }) => title.trim() !== STATUS_COLUMN_TITLE)
+    .filter(({ title }) => !isSimilarColumnTitles(title, STATUS_COLUMN_TITLE))
     .map((columnValues) => matchColumns(columnValues, board))
     .reduce((acc, cur) => ({ ...acc, ...cur }), {});

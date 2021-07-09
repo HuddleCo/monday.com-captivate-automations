@@ -1,25 +1,53 @@
 import initMondayClient from "monday-sdk-js";
 import { sprintf } from "sprintf-js";
+import GraphQLRuntimeError from "../errors/graphql-runtime-error";
+import GraphQLSyntaxError from "../errors/graphql-syntax-error";
+import type { ApiResponse } from "../types";
 
-type OptionsType = {
-  boardId?: number;
-  groupId?: string;
-  itemName?: string;
-  columnValues?: string;
-  groupName?: string;
-  itemId?: number;
-};
-
-type Response<T> = {
-  data: T;
-  status_code?: number;
-  error_message?: string;
-  errors?: Array<{
-    message: string;
-  }>;
-};
+type QueryVariablesType =
+  | { itemId: number }
+  | { boardId: number }
+  | { boardId: number; groupId: string }
+  | { boardId: number; groupName: string }
+  | {
+      boardId: number;
+      groupId: string;
+      itemName: string;
+      columnValues: string;
+    };
 
 let queryCounter = 0;
+
+const log = <T>(
+  query: string,
+  variables: QueryVariablesType,
+  response: ApiResponse<T>
+) => {
+  console.log(sprintf("~~~~ %03d: Start~~~~", (queryCounter += 1)));
+  console.log("Query:");
+  console.log(query);
+  console.log("Variables:");
+  console.dir(variables, { depth: null });
+  console.log("Response:");
+  console.dir(response, { depth: null });
+  console.log(sprintf("~~~~ %03d: End~~~~", queryCounter));
+};
+
+const handleRequest = <T>(response: ApiResponse<T>): T => {
+  if ("error_message" in response && typeof response.error_message === "string")
+    throw new GraphQLSyntaxError(response);
+
+  if (
+    "errors" in response &&
+    response.errors?.length &&
+    response.errors.every((error) => typeof error.message === "string")
+  )
+    throw new GraphQLRuntimeError(response);
+
+  if ("data" in response && response.data) return response.data;
+
+  throw new Error("Unknown object recieved from Monday.com API");
+};
 
 export default class MondayApi {
   private client;
@@ -29,24 +57,15 @@ export default class MondayApi {
     this.client.setToken(token);
   }
 
-  public async api<T>(query: string, variables: OptionsType): Promise<T> {
-    const response: Response<T> = await this.client.api(query, { variables });
-
-    console.log(sprintf("~~~~ %03d: Start~~~~", (queryCounter += 1)));
-    console.log("Query:");
-    console.log(query);
-    console.log("Variables:");
-    console.dir(variables, { depth: null });
-    console.log("Response:");
-    console.dir(response, { depth: null });
-    console.log(sprintf("~~~~ %03d: End~~~~", queryCounter));
-
-    if (response.errors)
-      throw new Error(response.errors.map((error) => error.message).join(". "));
-
-    if (response.status_code)
-      throw new Error(response.error_message || "An error has occoured");
-
-    return response.data;
+  public async api<T>(
+    query: string,
+    variables: QueryVariablesType
+  ): Promise<T> {
+    return this.client
+      .api(query, { variables })
+      .then((response: ApiResponse<T>) => {
+        log<T>(query, variables, response);
+        return handleRequest<T>(response);
+      });
   }
 }

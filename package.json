@@ -1,9 +1,9 @@
 {
-  "name": "monday-integration-quickstart-app-typescript",
-  "version": "2.1.3",
+  "name": "monday.com-captivate-automations",
+  "version": "2.2.0",
   "license": "UNLICENSED",
   "scripts": {
-    "dev": "ts-node-dev --watch ./.env ./src/*",
+    "start": "ts-node-dev --watch ./.env ./src/*",
     "debug": "ts-node-dev --inspect --respawn ./src/app.ts",
     "expose": "ngrok http 8302",
     "lint": "eslint 'src/**/*.ts' --ext .ts --config .eslintrc.json",
@@ -11,18 +11,11 @@
     "production": "node ./dist/app.js",
     "prepare": "husky install",
     "test": "jest",
-    "test:watch": "mocha --watch --sort -r ts-node/register src/**/*.test.ts",
     "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test",
     "release": "standard-version",
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",
     "release:major": "standard-version --release-as major"
-  },
-  "standard-version": {
-    "skip": {
-      "pretag": true,
-      "posttag": true
-    }
   },
   "dependencies": {
     "@sentry/browser": "^6.7.2",

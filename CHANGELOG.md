@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.1](https://github.com/mokkapps/changelog-generator-demo/compare/v2.3.0...v2.3.1) (2021-07-09)
+
+
+### Bug Fixes
+
+* add missing timeout for mutex errors ([74101c1](https://github.com/mokkapps/changelog-generator-demo/commits/74101c17be71672b4f89d20d01429287a5b78511))
+
 ## [2.3.0](https://github.com/mokkapps/changelog-generator-demo/compare/v2.2.0...v2.3.0) (2021-07-09)
 
 

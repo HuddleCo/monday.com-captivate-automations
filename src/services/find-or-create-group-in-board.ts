@@ -14,7 +14,7 @@ const CRITICAL_SECTION_TIMEOUT_MS = 10_000;
 const mutex = withTimeout(
   new Mutex(),
   CRITICAL_SECTION_TIMEOUT_MS,
-  new MutexTimeoutError()
+  new MutexTimeoutError(CRITICAL_SECTION_TIMEOUT_MS)
 );
 
 export const findOrCreateGroupInBoard = (

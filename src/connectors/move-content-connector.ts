@@ -1,4 +1,7 @@
+import { Mutex, withTimeout } from "async-mutex";
 import MondayClient from "../monday-api";
+
+import MutexTimeoutError from "../errors/mutex-timeout-error";
 
 import { getItem } from "../monday-api/queries/get-item";
 import { columnIsSameForAllItems } from "../services/column-is-same-for-all-items";
@@ -6,7 +9,14 @@ import { getItemsInGroupContainingItem } from "../monday-api/queries/get-items-i
 
 import { createItemsInGroupOnBoard } from "../services/createItemsInGroupOnBoard";
 import { findOrCreateGroupInBoard } from "../services/find-or-create-group-in-board";
-import { archiveGroupMutex } from "../services/archive-group-mutex";
+import { archiveGroup } from "../monday-api/queries/archive-group";
+
+const CRITICAL_SECTION_TIMEOUT_MS = 8_000;
+const mutex = withTimeout(
+  new Mutex(),
+  CRITICAL_SECTION_TIMEOUT_MS,
+  new MutexTimeoutError(CRITICAL_SECTION_TIMEOUT_MS)
+);
 
 export default async (
   client: MondayClient,
@@ -14,35 +24,31 @@ export default async (
   statusColumnId: string,
   status: string,
   boardId: number
-): Promise<string> => {
-  const item = await getItem(client, itemId);
-  if (item.group.archived) return `The group has already been archived`;
+): Promise<string> =>
+  mutex.runExclusive(async () => {
+    const item = await getItem(client, itemId);
+    if (item.group.archived) return `The group has already been archived`;
 
-  const items = await getItemsInGroupContainingItem(client, item);
-  if (!items.length)
-    return `The group has no items. Have already been processed`;
+    const items = await getItemsInGroupContainingItem(client, item);
+    if (!items.length)
+      return `The group has no items. Have already been processed`;
 
-  if (!columnIsSameForAllItems(items, statusColumnId, status))
-    return `Some items are not ${status}. Abort`;
+    if (!columnIsSameForAllItems(items, statusColumnId, status))
+      return `Some items are not ${status}. Abort`;
 
-  let archivedGroup;
-  try {
-    archivedGroup = await archiveGroupMutex(
+    const archivedGroup = await archiveGroup(
       client,
       item.board.id,
       item.group.id
     );
-  } catch (err) {
-    return "Tried to archive group but it was not found. This is ok because the group may have already been processed";
-  }
 
-  const { board, group } = await findOrCreateGroupInBoard(
-    client,
-    boardId,
-    item.group.title
-  );
+    const { board, group } = await findOrCreateGroupInBoard(
+      client,
+      boardId,
+      item.group.title
+    );
 
-  await createItemsInGroupOnBoard(client, board, group, items);
+    await createItemsInGroupOnBoard(client, board, group, items);
 
-  return `All items with ${status} have been copied to group: ${group.title}(#${group.id}) in board: ${board.name}(#${board.id}). The ${archivedGroup.title}(#${archivedGroup.id}) has been archived`;
-};
+    return `All items with ${status} have been copied to group: ${group.title}(#${group.id}) in board: ${board.name}(#${board.id}). The ${archivedGroup.title}(#${archivedGroup.id}) has been archived`;
+  });

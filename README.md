@@ -18,11 +18,11 @@ Please update the `.env` with missing environment variables.
 | --------------------- | :-------------------------------------------------------------------------------: |
 | MONDAY_SIGNING_SECRET |       Signing Secret located on the Developers page in your Monday.com app        |
 | TOKEN_OVERRIDE        | (optional) The API token used when making API requests to make development easier |
-| PORT                  |     (optional) Specifty the port number for the web app. Defaults to port 80      |
+| PORT                  |      (optional) Specify the port number for the web app. Defaults to port 80      |
 
     npm start
 
-    Version: 2.1.3
+    Version: 2.4.0
     Environment: development
     Listening: http://localhost:8302
 

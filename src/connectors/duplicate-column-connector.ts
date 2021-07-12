@@ -41,13 +41,7 @@ export default (
     .then(({ source, target }) =>
       source.text === target.text
         ? "The column is unchanged"
-        : updateColumn(
-            client,
-            boardId,
-            itemId,
-            columnId,
-            source.text || ""
-          ).then(
+        : updateColumn(client, boardId, itemId, columnId, source.text).then(
             () =>
               `Copied "${source.text}" from "${source.id}" to "${target.id}"`
           )

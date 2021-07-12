@@ -203,7 +203,7 @@ describe("duplicateMirroredColumnConnector", () => {
     });
   });
 
-  describe("when the columsn have the same value", () => {
+  describe("when the columns have the same value", () => {
     const source = {
       id: "col1",
       title: "Title",

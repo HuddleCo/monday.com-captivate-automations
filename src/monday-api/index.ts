@@ -14,6 +14,12 @@ type QueryVariablesType =
       groupId: string;
       itemName: string;
       columnValues: string;
+    }
+  | {
+      boardId: number;
+      groupId: string;
+      columnId: string;
+      value: string;
     };
 
 let queryCounter = 0;

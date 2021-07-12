@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-RUN npm install --no-progress --non-interactive
+RUN npm ci
 
 COPY ./ ./
 
@@ -16,7 +16,7 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-RUN npm install --production --no-progress --non-interactive
+RUN npm ci --production
 
 COPY --from=build /app/dist ./dist
 

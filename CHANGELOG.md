@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.4.0](https://github.com/mokkapps/changelog-generator-demo/compare/v2.3.2...v2.4.0) (2021-07-12)
+
+
+### Features
+
+* add automation to duplicate a column of the same name into another column ([b31e164](https://github.com/mokkapps/changelog-generator-demo/commits/b31e164fe71f4ef807b0aa2d049478e9ce724eb6))
+* add query to update column with a value ([70bf1f7](https://github.com/mokkapps/changelog-generator-demo/commits/70bf1f776248fad89f9f74fdfe7c601bbab8b576))
+* connector duplicate column automation to /monday/duplicate_column endpoint ([6ceab1b](https://github.com/mokkapps/changelog-generator-demo/commits/6ceab1b1c06e0c40c7d080d41510b851995855a8))
+
 ### [2.3.2](https://github.com/mokkapps/changelog-generator-demo/compare/v2.3.1...v2.3.2) (2021-07-09)
 
 ### Features

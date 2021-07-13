@@ -1,6 +1,6 @@
 import { CRM_COLUMNS } from "../constants";
 import { ColumnValuesType, ItemType } from "../types";
-import { episodeContents } from "./episode-contents";
+import { episodeContents } from "./episodeContents";
 
 const createItem = (columnValues: Array<ColumnValuesType> = []): ItemType => ({
   id: 1,

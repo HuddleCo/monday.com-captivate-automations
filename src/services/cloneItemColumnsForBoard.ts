@@ -11,7 +11,7 @@ import {
   STATUS_COLUMN_TITLE,
 } from "../constants";
 
-import { isSimilarColumnTitles } from "./is-similar-column-title";
+import { isSimilarColumnTitles } from "./isSimilarColumnTitle";
 
 type DateColumnType = {
   date: number;

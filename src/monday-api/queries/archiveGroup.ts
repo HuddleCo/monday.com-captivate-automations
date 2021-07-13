@@ -1,7 +1,7 @@
 import type { GroupType } from "../../types";
 
 import MondayClient from "..";
-import { GROUP_SUBQUERY } from "./get-board";
+import { GROUP_SUBQUERY } from "./getBoard";
 
 type ArchiveGroupType = {
   archive_group: GroupType;

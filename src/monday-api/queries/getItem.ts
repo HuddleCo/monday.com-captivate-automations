@@ -1,7 +1,7 @@
 import MondayClient from "..";
 
 import type { ItemType } from "../../types";
-import { BOARD_SUBQUERY, GROUP_SUBQUERY } from "./get-board";
+import { BOARD_SUBQUERY, GROUP_SUBQUERY } from "./getBoard";
 
 export const ITEM_SUBQUERY = `
   name

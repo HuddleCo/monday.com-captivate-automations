@@ -1,4 +1,4 @@
-import { isSimilarColumnTitles } from "./is-similar-column-title";
+import { isSimilarColumnTitles } from "./isSimilarColumnTitle";
 
 describe("isSimilarColumnTitles", () => {
   describe("when the titles are similar", () => {

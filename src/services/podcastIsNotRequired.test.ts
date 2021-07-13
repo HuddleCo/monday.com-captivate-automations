@@ -1,4 +1,4 @@
-import { podcastIsNotRequired } from "./podcast-is-not-required";
+import { podcastIsNotRequired } from "./podcastIsNotRequired";
 
 describe("podcastIsNotRequired", () => {
   describe("when the item does not have a Podcast column", () => {

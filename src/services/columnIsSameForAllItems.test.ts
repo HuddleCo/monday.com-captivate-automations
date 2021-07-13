@@ -1,5 +1,5 @@
 import { ItemType } from "../types";
-import { columnIsSameForAllItems } from "./column-is-same-for-all-items";
+import { columnIsSameForAllItems } from "./columnIsSameForAllItems";
 
 const createItem = (columnId = "col", text = "text"): ItemType => ({
   id: 1,

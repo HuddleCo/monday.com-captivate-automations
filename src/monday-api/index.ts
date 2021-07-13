@@ -1,7 +1,7 @@
 import initMondayClient from "monday-sdk-js";
 import { sprintf } from "sprintf-js";
-import GraphQLRuntimeError from "../errors/graphql-runtime-error";
-import GraphQLSyntaxError from "../errors/graphql-syntax-error";
+import GraphQLRuntimeError from "../errors/graphqlRuntimeError";
+import GraphQLSyntaxError from "../errors/graphqlSyntaxError";
 import type { ApiResponse } from "../types";
 
 type QueryVariablesType =

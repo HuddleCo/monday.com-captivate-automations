@@ -1,6 +1,6 @@
 import { CLIENT_NAME_COLUMN_TITLE } from "../constants";
 import { ItemType } from "../types";
-import { clientNameForEpisode } from "./client-name-for-episode";
+import { clientNameForEpisode } from "./clientNameForEpisode";
 
 const createItem = (title = "Column Title", text = "text"): ItemType => ({
   id: 1,

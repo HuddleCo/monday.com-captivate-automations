@@ -1,4 +1,4 @@
-import { cloneItemColumnsForBoard } from "./clone-item-columns-for-board";
+import { cloneItemColumnsForBoard } from "./cloneItemColumnsForBoard";
 
 import type { BoardColumnsType, ColumnValuesType } from "../types";
 import { BOARD_RELATION_COLUMN_TYPE } from "../constants";

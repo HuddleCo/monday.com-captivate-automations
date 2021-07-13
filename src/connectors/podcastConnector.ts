@@ -1,14 +1,14 @@
 import { Mutex, withTimeout } from "async-mutex";
 import MondayClient from "../monday-api";
 
-import { getItem } from "../monday-api/queries/get-item";
-import { getBoard } from "../monday-api/queries/get-board";
-import { isDuplicateItem } from "../monday-api/queries/is-duplicate-item";
+import { getItem } from "../monday-api/queries/getItem";
+import { getBoard } from "../monday-api/queries/getBoard";
+import { isDuplicateItem } from "../monday-api/queries/isDuplicateItem";
 
 import { createItemsInGroupOnBoard } from "../services/createItemsInGroupOnBoard";
-import { podcastIsNotRequired } from "../services/podcast-is-not-required";
+import { podcastIsNotRequired } from "../services/podcastIsNotRequired";
 import type { GroupType } from "../types";
-import MutexTimeoutError from "../errors/mutex-timeout-error";
+import MutexTimeoutError from "../errors/mutexTimeoutError";
 
 const topMostGroup = (groups: Array<GroupType>): GroupType =>
   groups.sort((a, b) => a.position - b.position)[0];

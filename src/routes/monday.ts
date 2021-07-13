@@ -1,11 +1,11 @@
 import { Router } from "express";
 
 import { authenticationMiddleware } from "../middlewares/authentication";
-import * as copywriterController from "../controllers/copywriter-controller";
-import * as moveGroupController from "../controllers/move-group-controller";
-import * as moveItemController from "../controllers/move-item-controller";
-import * as podcastController from "../controllers/podcast-controller";
-import * as duplicateColumnController from "../controllers/duplicate-column-controller";
+import * as copywriterController from "../controllers/copywriterController";
+import * as moveGroupController from "../controllers/moveGroupController";
+import * as moveItemController from "../controllers/moveItemController";
+import * as podcastController from "../controllers/podcastController";
+import * as duplicateColumnController from "../controllers/duplicateColumnController";
 
 const router = Router();
 

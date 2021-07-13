@@ -2,14 +2,14 @@ import type { ItemType } from "../types";
 
 import MondayClient from "../monday-api";
 
-import { getItem } from "../monday-api/queries/get-item";
-import { archiveGroup } from "../monday-api/queries/archive-group";
-import { archiveItem } from "../monday-api/queries/archive-item";
-import { getItemsInGroupContainingItem } from "../monday-api/queries/get-items-in-group-containing-item";
+import { getItem } from "../monday-api/queries/getItem";
+import { archiveGroup } from "../monday-api/queries/archiveGroup";
+import { archiveItem } from "../monday-api/queries/archiveItem";
+import { getItemsInGroupContainingItem } from "../monday-api/queries/getItemsInGroupContainingItem";
 
 import { createItemsInGroupOnBoard } from "../services/createItemsInGroupOnBoard";
-import { isItemArchived } from "../services/is-item-archived";
-import { findOrCreateGroupInBoard } from "../services/find-or-create-group-in-board";
+import { isItemArchived } from "../services/isItemArchived";
+import { findOrCreateGroupInBoard } from "../services/findOrCreateGroupInBoard";
 
 const archiveEmptyGroup = async (
   client: MondayClient,

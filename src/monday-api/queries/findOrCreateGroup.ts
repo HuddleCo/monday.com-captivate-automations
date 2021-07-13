@@ -1,7 +1,7 @@
 import type { BoardType, GroupType } from "../../types";
 
 import MondayClient from "..";
-import { createGroup } from "./create-group";
+import { createGroup } from "./createGroup";
 
 export const findOrCreateGroup = async (
   client: MondayClient,

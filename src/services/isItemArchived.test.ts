@@ -1,4 +1,4 @@
-import { isItemArchived } from "./is-item-archived";
+import { isItemArchived } from "./isItemArchived";
 
 const item = (state = "active") => ({
   id: 1,

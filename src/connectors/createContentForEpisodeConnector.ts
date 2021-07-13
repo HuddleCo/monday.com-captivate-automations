@@ -1,15 +1,15 @@
 import type { BoardType, GroupType, ItemType } from "../types";
 
 import MondayClient from "../monday-api";
-import { getItem } from "../monday-api/queries/get-item";
-import { createGroup } from "../monday-api/queries/create-group";
-import { createItem } from "../monday-api/queries/create-item";
-import { getBoard } from "../monday-api/queries/get-board";
-import { archiveGroup } from "../monday-api/queries/archive-group";
+import { getItem } from "../monday-api/queries/getItem";
+import { createGroup } from "../monday-api/queries/createGroup";
+import { createItem } from "../monday-api/queries/createItem";
+import { getBoard } from "../monday-api/queries/getBoard";
+import { archiveGroup } from "../monday-api/queries/archiveGroup";
 
-import { episodeContents } from "../services/episode-contents";
-import { clientNameForEpisode } from "../services/client-name-for-episode";
-import { cloneItemColumnsForBoard } from "../services/clone-item-columns-for-board";
+import { episodeContents } from "../services/episodeContents";
+import { clientNameForEpisode } from "../services/clientNameForEpisode";
+import { cloneItemColumnsForBoard } from "../services/cloneItemColumnsForBoard";
 
 import {
   ASSET_TYPE_COLUMN_TITLE,

@@ -1,13 +1,13 @@
 /* eslint-disable jest/no-test-return-statement */
-import connector from "./duplicate-column-connector";
+import connector from "./duplicateColumnConnector";
 import MondayClient from "../monday-api";
 import type { ColumnValuesType } from "../types";
 
-import * as Item from "../monday-api/queries/get-item";
-import * as Update from "../monday-api/queries/update-column";
+import * as Item from "../monday-api/queries/getItem";
+import * as Update from "../monday-api/queries/updateColumn";
 
-jest.mock("../monday-api/queries/get-item");
-jest.mock("../monday-api/queries/update-column");
+jest.mock("../monday-api/queries/getItem");
+jest.mock("../monday-api/queries/updateColumn");
 const mockedGetItem = Item as jest.Mocked<typeof Item>;
 const mockedUpdateColumn = Update as jest.Mocked<typeof Update>;
 

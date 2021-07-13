@@ -5,7 +5,6 @@
   "main": "dist/app.js",
   "scripts": {
     "start": "ts-node-dev --watch ./.env ./src/*",
-    "debug": "ts-node-dev --inspect --respawn ./src/app.ts",
     "expose": "ngrok http 8302",
     "lint": "eslint 'src/**/*.ts' --ext .ts --config .eslintrc.json",
     "build": "tsc --build tsconfig.json --verbose",

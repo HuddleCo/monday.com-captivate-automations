@@ -16,11 +16,12 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-RUN npm ci --production
+RUN npm install pm2 -g && \
+    npm ci --production
 
 COPY --from=build /app/dist ./dist
 
-CMD ["npm", "run", "production"]
+CMD ["pm2-runtime", "./dist/src/app.js"]
 
 HEALTHCHECK --interval=10s --timeout=3s \
   CMD wget --no-verbose --tries=1 --spider http://localhost/health || exit 1

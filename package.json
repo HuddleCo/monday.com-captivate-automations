@@ -2,6 +2,7 @@
   "name": "monday.com-captivate-automations",
   "version": "2.4.0",
   "license": "UNLICENSED",
+  "main": "dist/app.js",
   "scripts": {
     "start": "ts-node-dev --watch ./.env ./src/*",
     "debug": "ts-node-dev --inspect --respawn ./src/app.ts",

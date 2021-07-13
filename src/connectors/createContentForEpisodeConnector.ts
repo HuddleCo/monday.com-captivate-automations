@@ -1,4 +1,4 @@
-import type { BoardType, GroupType, ItemType } from "../types";
+import type { BoardType, ItemType } from "../types";
 
 import MondayApi from "../mondayApi";
 import { getItem } from "../mondayApi/queries/getItem";
@@ -20,55 +20,78 @@ const columnId = (board: BoardType, columnTitle: string): string =>
   board.columns.find(({ title }) => title.trim() === columnTitle)?.id ||
   "Title";
 
-const createContentInGroupOnBoard = async (
-  client: MondayApi,
-  board: BoardType,
-  group: GroupType,
-  item: ItemType
-) =>
-  Promise.all(
-    episodeContents(item).map((content) =>
-      createItem(
-        client,
-        board.id,
-        group.id,
-        `${content} - ${clientNameForEpisode(item)}`,
-        JSON.stringify({
-          ...cloneItemColumnsForBoard(item, board),
-          [columnId(board, EPISODE_NAME_COLUMN_TITLE)]: {
-            item_ids: [item.id],
-          },
-          [columnId(board, ASSET_TYPE_COLUMN_TITLE)]: { label: content },
-        })
-      )
-    )
-  );
-
-const createGroupWithEpisodeName = async (
+const createDestinationGroup = (
   client: MondayApi,
   board: BoardType,
   item: ItemType
 ) =>
   createGroup(client, board.id, `${clientNameForEpisode(item)} - ${item.name}`);
 
-export default async (
+const values = (item: ItemType, board: BoardType, content: string) => ({
+  ...cloneItemColumnsForBoard(item, board),
+  [columnId(board, EPISODE_NAME_COLUMN_TITLE)]: {
+    item_ids: [item.id],
+  },
+  [columnId(board, ASSET_TYPE_COLUMN_TITLE)]: { label: content },
+});
+
+const copyItem = (
+  client: MondayApi,
+  board: BoardType,
+  groupId: string,
+  item: ItemType,
+  name: string
+) =>
+  createItem(
+    client,
+    board.id,
+    groupId,
+    `${name} - ${clientNameForEpisode(item)}`,
+    JSON.stringify(values(item, board, name))
+  );
+
+const items = (
+  client: MondayApi,
+  board: BoardType,
+  groupId: string,
+  item: ItemType
+) =>
+  episodeContents(item).map((itemName) =>
+    copyItem(client, board, groupId, item, itemName)
+  );
+
+const createItems = (
+  client: MondayApi,
+  board: BoardType,
+  groupId: string,
+  item: ItemType
+) => Promise.all(items(client, board, groupId, item));
+
+const createItemsInNewGroup = (
+  client: MondayApi,
+  board: BoardType,
+  item: ItemType
+) =>
+  createDestinationGroup(client, board, item).then(({ id }) =>
+    createItems(client, board, id, item).catch((err) =>
+      archiveGroup(client, board.id, id).then(() => {
+        throw err;
+      })
+    )
+  );
+
+const getContext = (client: MondayApi, boardId: number, itemId: number) =>
+  Promise.all([getItem(client, itemId), getBoard(client, boardId)]).then(
+    ([item, board]) => ({ item, board })
+  );
+
+export default (
   client: MondayApi,
   itemId: number,
   boardId: number
-): Promise<string> => {
-  const [item, board] = await Promise.all([
-    getItem(client, itemId),
-    getBoard(client, boardId),
-  ]);
-
-  const group = await createGroupWithEpisodeName(client, board, item);
-
-  try {
-    await createContentInGroupOnBoard(client, board, group, item);
-  } catch (err) {
-    await archiveGroup(client, board.id, group.id);
-    throw err;
-  }
-
-  return `Created content for ${item.name}`;
-};
+): Promise<string> =>
+  getContext(client, boardId, itemId).then(({ item, board }) =>
+    createItemsInNewGroup(client, board, item).then(
+      () => `Created items for ${item.name}`
+    )
+  );

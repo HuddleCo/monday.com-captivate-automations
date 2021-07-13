@@ -1,4 +1,4 @@
-import type { ItemType } from "../types";
+import { ItemType } from "../types";
 
 import MondayApi from "../mondayApi";
 
@@ -11,48 +11,43 @@ import { createItemsInGroupOnBoard } from "../services/createItemsInGroupOnBoard
 import { isItemArchived } from "../services/isItemArchived";
 import { findOrCreateGroupInBoard } from "../services/findOrCreateGroupInBoard";
 
-const archiveEmptyGroup = async (
+const archiveGroupIfEmpty = (
   client: MondayApi,
   item: ItemType
-): Promise<boolean> => {
-  const items = await getItemsInGroupContainingItem(client, item);
-  if (items.length) return false;
+): Promise<boolean> =>
+  getItemsInGroupContainingItem(client, item).then((items) =>
+    items.length
+      ? false
+      : archiveGroup(client, item.board.id, item.group.id)
+          .then(() => true)
+          .catch(
+            () => false // Don't care why archiving the group failed
+          )
+  );
 
-  try {
-    await archiveGroup(client, item.board.id, item.group.id);
-  } catch (err) {
-    // Don't care why archiving a group failed
-    return false;
-  }
-  return true;
-};
+const getDestinationGroup = (
+  client: MondayApi,
+  boardId: number,
+  item: { group: { title: string } }
+) => findOrCreateGroupInBoard(client, boardId, item.group.title);
 
-export default async (
+const moveItem = (client: MondayApi, boardId: number, item: ItemType) =>
+  getDestinationGroup(client, boardId, item).then(({ board, group }) =>
+    Promise.all([
+      createItemsInGroupOnBoard(client, board, group, [item]),
+      archiveItem(client, item.id),
+    ])
+  );
+
+export default (
   client: MondayApi,
   boardId: number,
   itemId: number
-): Promise<string> => {
-  const item = await getItem(client, itemId);
-  if (isItemArchived(item)) return `The item has already been moved`;
-
-  const { board, group } = await findOrCreateGroupInBoard(
-    client,
-    boardId,
-    item.group.title
+): Promise<string> =>
+  getItem(client, itemId).then((item) =>
+    isItemArchived(item)
+      ? `The item has already been moved`
+      : moveItem(client, boardId, item)
+          .then(() => archiveGroupIfEmpty(client, item))
+          .then(() => `Item ${item.name} has been moved: ${item.group.title}`)
   );
-
-  await Promise.all([
-    createItemsInGroupOnBoard(client, board, group, [item]),
-    archiveItem(client, item.id),
-  ]);
-
-  const messages = [
-    `Item ${item.name}(#${item.id}) has been moved to group: ${group.title}(#${group.id}) in board: ${board.name}(#${board.id}).`,
-  ];
-
-  if (await archiveEmptyGroup(client, item))
-    messages.push(
-      `Tried to archive group ${item.group.title}(#${item.group.id}) but it was not found. This is ok because the group may have already been processed`
-    );
-  return messages.join(". ");
-};

@@ -2,7 +2,9 @@ import type { ColumnValuesType, ItemType } from "../types";
 
 let id = 0;
 
-export const createItem = (columnVales: Array<ColumnValuesType>): ItemType => {
+export const createItem = (
+  columnVales: Array<ColumnValuesType> = []
+): ItemType => {
   id += 1;
   return {
     id,

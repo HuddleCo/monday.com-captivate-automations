@@ -2,7 +2,7 @@
   "name": "monday.com-captivate-automations",
   "version": "2.4.0",
   "license": "UNLICENSED",
-  "main": "dist/app.js",
+  "main": "dist/src/app.js",
   "scripts": {
     "start": "ts-node-dev --watch ./.env ./src/*",
     "expose": "ngrok http 8302",

@@ -30,7 +30,13 @@
     "jest/no-focused-tests": "error",
     "jest/no-identical-title": "error",
     "jest/prefer-to-have-length": "warn",
-    "jest/valid-expect": "error"
+    "jest/valid-expect": "error",
+    "jest/no-hooks": [
+      "error",
+      {
+        "allow": ["beforeEach"]
+      }
+    ]
   },
   "env": {
     "jest/globals": true

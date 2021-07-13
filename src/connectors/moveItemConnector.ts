@@ -1,11 +1,11 @@
 import type { ItemType } from "../types";
 
-import MondayClient from "../monday-api";
+import MondayClient from "../mondayApi";
 
-import { getItem } from "../monday-api/queries/getItem";
-import { archiveGroup } from "../monday-api/queries/archiveGroup";
-import { archiveItem } from "../monday-api/queries/archiveItem";
-import { getItemsInGroupContainingItem } from "../monday-api/queries/getItemsInGroupContainingItem";
+import { getItem } from "../mondayApi/queries/getItem";
+import { archiveGroup } from "../mondayApi/queries/archiveGroup";
+import { archiveItem } from "../mondayApi/queries/archiveItem";
+import { getItemsInGroupContainingItem } from "../mondayApi/queries/getItemsInGroupContainingItem";
 
 import { createItemsInGroupOnBoard } from "../services/createItemsInGroupOnBoard";
 import { isItemArchived } from "../services/isItemArchived";

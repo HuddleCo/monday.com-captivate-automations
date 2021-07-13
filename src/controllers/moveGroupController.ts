@@ -4,7 +4,7 @@ import type { Request, Response, RequestHandler } from "express";
 
 import connector from "../connectors/moveContentConnector";
 import { unmarshal } from "../middlewares/authentication";
-import MondayApi from "../monday-api";
+import MondayApi from "../mondayApi";
 
 export const post: RequestHandler = (req: Request, res: Response) =>
   connector(

@@ -1,15 +1,15 @@
 import { Mutex, withTimeout } from "async-mutex";
-import MondayClient from "../monday-api";
+import MondayClient from "../mondayApi";
 
 import MutexTimeoutError from "../errors/mutexTimeoutError";
 
-import { getItem } from "../monday-api/queries/getItem";
+import { getItem } from "../mondayApi/queries/getItem";
 import { columnIsSameForAllItems } from "../services/columnIsSameForAllItems";
-import { getItemsInGroupContainingItem } from "../monday-api/queries/getItemsInGroupContainingItem";
+import { getItemsInGroupContainingItem } from "../mondayApi/queries/getItemsInGroupContainingItem";
 
 import { createItemsInGroupOnBoard } from "../services/createItemsInGroupOnBoard";
 import { findOrCreateGroupInBoard } from "../services/findOrCreateGroupInBoard";
-import { archiveGroup } from "../monday-api/queries/archiveGroup";
+import { archiveGroup } from "../mondayApi/queries/archiveGroup";
 
 const CRITICAL_SECTION_TIMEOUT_MS = 12_000;
 const mutex = withTimeout(

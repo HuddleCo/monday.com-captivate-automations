@@ -1,9 +1,9 @@
 import { Mutex, withTimeout } from "async-mutex";
-import MondayClient from "../monday-api";
+import MondayClient from "../mondayApi";
 
-import { getItem } from "../monday-api/queries/getItem";
-import { getBoard } from "../monday-api/queries/getBoard";
-import { isDuplicateItem } from "../monday-api/queries/isDuplicateItem";
+import { getItem } from "../mondayApi/queries/getItem";
+import { getBoard } from "../mondayApi/queries/getBoard";
+import { isDuplicateItem } from "../mondayApi/queries/isDuplicateItem";
 
 import { createItemsInGroupOnBoard } from "../services/createItemsInGroupOnBoard";
 import { podcastIsNotRequired } from "../services/podcastIsNotRequired";

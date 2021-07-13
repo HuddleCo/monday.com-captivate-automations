@@ -1,11 +1,11 @@
-import MondayClient from "../monday-api";
+import MondayClient from "../mondayApi";
 
 import type { ColumnValuesType, ItemType } from "../types";
 
 import UnmatchedColumnError from "../errors/unmatchedColumnError";
 
-import { getItem } from "../monday-api/queries/getItem";
-import { updateColumn } from "../monday-api/queries/updateColumn";
+import { getItem } from "../mondayApi/queries/getItem";
+import { updateColumn } from "../mondayApi/queries/updateColumn";
 
 const getTarget = (item: ItemType, columnId: string): ColumnValuesType => {
   const column = item.column_values.find(({ id }) => id === columnId);

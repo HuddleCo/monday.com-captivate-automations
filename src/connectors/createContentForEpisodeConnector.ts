@@ -1,11 +1,11 @@
 import type { BoardType, GroupType, ItemType } from "../types";
 
-import MondayClient from "../monday-api";
-import { getItem } from "../monday-api/queries/getItem";
-import { createGroup } from "../monday-api/queries/createGroup";
-import { createItem } from "../monday-api/queries/createItem";
-import { getBoard } from "../monday-api/queries/getBoard";
-import { archiveGroup } from "../monday-api/queries/archiveGroup";
+import MondayClient from "../mondayApi";
+import { getItem } from "../mondayApi/queries/getItem";
+import { createGroup } from "../mondayApi/queries/createGroup";
+import { createItem } from "../mondayApi/queries/createItem";
+import { getBoard } from "../mondayApi/queries/getBoard";
+import { archiveGroup } from "../mondayApi/queries/archiveGroup";
 
 import { episodeContents } from "../services/episodeContents";
 import { clientNameForEpisode } from "../services/clientNameForEpisode";

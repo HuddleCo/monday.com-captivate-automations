@@ -2,9 +2,9 @@ import { Mutex, withTimeout } from "async-mutex";
 
 import type { BoardType, GroupType } from "../types";
 
-import MondayClient from "../monday-api";
-import { getBoard } from "../monday-api/queries/getBoard";
-import { findOrCreateGroup } from "../monday-api/queries/findOrCreateGroup";
+import MondayClient from "../mondayApi";
+import { getBoard } from "../mondayApi/queries/getBoard";
+import { findOrCreateGroup } from "../mondayApi/queries/findOrCreateGroup";
 
 import MutexTimeoutError from "../errors/mutexTimeoutError";
 

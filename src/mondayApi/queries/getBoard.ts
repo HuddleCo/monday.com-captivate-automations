@@ -1,5 +1,5 @@
 import { BoardType } from "../../types";
-import MondayClient from "..";
+import MondayApi from "..";
 
 type GetBoardType = {
   boards: Array<BoardType>;
@@ -27,7 +27,7 @@ export const BOARD_SUBQUERY = `
   `;
 
 export const getBoard = async (
-  client: MondayClient,
+  client: MondayApi,
   boardId: number
 ): Promise<BoardType> => {
   const data = await client.api<GetBoardType>(
@@ -47,7 +47,10 @@ export const getBoard = async (
     settings: JSON.parse(column.settings_str),
   }));
   board.id = Number(board.id);
-  board.groups = board.groups.map((group) => ({ ...group, position: Number(group.position) }));
+  board.groups = board.groups.map((group) => ({
+    ...group,
+    position: Number(group.position),
+  }));
 
   return board;
 };

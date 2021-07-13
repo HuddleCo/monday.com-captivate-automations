@@ -1,6 +1,6 @@
 import type { ItemType } from "../types";
 
-import MondayClient from "../mondayApi";
+import MondayApi from "../mondayApi";
 
 import { getItem } from "../mondayApi/queries/getItem";
 import { archiveGroup } from "../mondayApi/queries/archiveGroup";
@@ -12,7 +12,7 @@ import { isItemArchived } from "../services/isItemArchived";
 import { findOrCreateGroupInBoard } from "../services/findOrCreateGroupInBoard";
 
 const archiveEmptyGroup = async (
-  client: MondayClient,
+  client: MondayApi,
   item: ItemType
 ): Promise<boolean> => {
   const items = await getItemsInGroupContainingItem(client, item);
@@ -28,7 +28,7 @@ const archiveEmptyGroup = async (
 };
 
 export default async (
-  client: MondayClient,
+  client: MondayApi,
   boardId: number,
   itemId: number
 ): Promise<string> => {

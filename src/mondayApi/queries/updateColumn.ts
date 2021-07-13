@@ -1,7 +1,7 @@
-import MondayClient from "..";
+import MondayApi from "..";
 
 export const updateColumn = (
-  client: MondayClient,
+  client: MondayApi,
   boardId: number,
   itemId: number,
   columnId: string,

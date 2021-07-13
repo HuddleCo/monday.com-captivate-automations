@@ -1,5 +1,5 @@
 import { ItemType } from "../../types";
-import MondayClient from "..";
+import MondayApi from "..";
 
 type GetItemsInGroupContainingItemType = {
   boards: Array<{
@@ -10,7 +10,7 @@ type GetItemsInGroupContainingItemType = {
 };
 
 export const getItemsInGroupContainingItem = async (
-  client: MondayClient,
+  client: MondayApi,
   item: ItemType
 ): Promise<Array<ItemType>> =>
   (

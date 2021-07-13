@@ -1,4 +1,4 @@
-import MondayClient from "../mondayApi";
+import MondayApi from "../mondayApi";
 
 import type { ColumnValuesType, ItemType } from "../types";
 
@@ -28,11 +28,11 @@ const getColumnPair = (item: ItemType, columnId: string) => ({
   source: getSource(item, columnId),
 });
 
-const getColumns = (client: MondayClient, itemId: number, columnId: string) =>
+const getColumns = (client: MondayApi, itemId: number, columnId: string) =>
   getItem(client, itemId).then((item) => getColumnPair(item, columnId));
 
 export default (
-  client: MondayClient,
+  client: MondayApi,
   boardId: number,
   itemId: number,
   columnId: string

@@ -1,5 +1,5 @@
 import connector from "./duplicateColumnConnector";
-import MondayClient from "../mondayApi";
+import MondayApi from "../mondayApi";
 
 import * as Item from "../mondayApi/queries/getItem";
 import * as Update from "../mondayApi/queries/updateColumn";
@@ -12,7 +12,7 @@ const mockedGetItem = Item as jest.Mocked<typeof Item>;
 const mockedUpdateColumn = Update as jest.Mocked<typeof Update>;
 
 describe("duplicateMirroredColumnConnector", () => {
-  const client = new MondayClient("token");
+  const client = new MondayApi("token");
 
   describe("when the column matches", () => {
     const source = createColumnValues("test@example.com");

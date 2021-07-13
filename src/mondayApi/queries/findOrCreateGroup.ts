@@ -1,10 +1,10 @@
 import type { BoardType, GroupType } from "../../types";
 
-import MondayClient from "..";
+import MondayApi from "..";
 import { createGroup } from "./createGroup";
 
 export const findOrCreateGroup = async (
-  client: MondayClient,
+  client: MondayApi,
   board: BoardType,
   groupTitle: string
 ): Promise<GroupType> =>

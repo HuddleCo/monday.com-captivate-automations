@@ -1,4 +1,4 @@
-import MondayClient from "..";
+import MondayApi from "..";
 
 type CreateItemType = {
   create_item: {
@@ -7,7 +7,7 @@ type CreateItemType = {
 };
 
 export const createItem = async (
-  client: MondayClient,
+  client: MondayApi,
   boardId: number,
   groupId: string,
   itemName: string,

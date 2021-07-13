@@ -2,7 +2,7 @@ import { Mutex, withTimeout } from "async-mutex";
 
 import type { BoardType, GroupType } from "../types";
 
-import MondayClient from "../mondayApi";
+import MondayApi from "../mondayApi";
 import { getBoard } from "../mondayApi/queries/getBoard";
 import { findOrCreateGroup } from "../mondayApi/queries/findOrCreateGroup";
 
@@ -18,7 +18,7 @@ const mutex = withTimeout(
 );
 
 export const findOrCreateGroupInBoard = (
-  client: MondayClient,
+  client: MondayApi,
   boardId: number,
   groupTitle: string
 ): Promise<BoardGroupType> =>

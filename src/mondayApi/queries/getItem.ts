@@ -1,4 +1,4 @@
-import MondayClient from "..";
+import MondayApi from "..";
 
 import type { ItemType } from "../../types";
 import { BOARD_SUBQUERY, GROUP_SUBQUERY } from "./getBoard";
@@ -26,7 +26,7 @@ type GetItemsType = {
 };
 
 export const getItem = async (
-  client: MondayClient,
+  client: MondayApi,
   itemId: number
 ): Promise<ItemType> => {
   const data = await client.api<GetItemsType>(

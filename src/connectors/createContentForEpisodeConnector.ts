@@ -1,6 +1,6 @@
 import type { BoardType, GroupType, ItemType } from "../types";
 
-import MondayClient from "../mondayApi";
+import MondayApi from "../mondayApi";
 import { getItem } from "../mondayApi/queries/getItem";
 import { createGroup } from "../mondayApi/queries/createGroup";
 import { createItem } from "../mondayApi/queries/createItem";
@@ -21,7 +21,7 @@ const columnId = (board: BoardType, columnTitle: string): string =>
   "Title";
 
 const createContentInGroupOnBoard = async (
-  client: MondayClient,
+  client: MondayApi,
   board: BoardType,
   group: GroupType,
   item: ItemType
@@ -45,14 +45,14 @@ const createContentInGroupOnBoard = async (
   );
 
 const createGroupWithEpisodeName = async (
-  client: MondayClient,
+  client: MondayApi,
   board: BoardType,
   item: ItemType
 ) =>
   createGroup(client, board.id, `${clientNameForEpisode(item)} - ${item.name}`);
 
 export default async (
-  client: MondayClient,
+  client: MondayApi,
   itemId: number,
   boardId: number
 ): Promise<string> => {

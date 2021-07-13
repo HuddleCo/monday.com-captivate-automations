@@ -1,5 +1,5 @@
 import { Mutex, withTimeout } from "async-mutex";
-import MondayClient from "../mondayApi";
+import MondayApi from "../mondayApi";
 
 import MutexTimeoutError from "../errors/mutexTimeoutError";
 
@@ -19,7 +19,7 @@ const mutex = withTimeout(
 );
 
 export default async (
-  client: MondayClient,
+  client: MondayApi,
   itemId: number,
   statusColumnId: string,
   status: string,

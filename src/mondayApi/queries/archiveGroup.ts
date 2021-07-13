@@ -1,6 +1,6 @@
 import type { GroupType } from "../../types";
 
-import MondayClient from "..";
+import MondayApi from "..";
 import { GROUP_SUBQUERY } from "./getBoard";
 
 type ArchiveGroupType = {
@@ -8,7 +8,7 @@ type ArchiveGroupType = {
 };
 
 export const archiveGroup = async (
-  client: MondayClient,
+  client: MondayApi,
   boardId: number,
   groupId: string
 ): Promise<GroupType> =>

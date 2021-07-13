@@ -1,4 +1,4 @@
-import MondayClient from "..";
+import MondayApi from "..";
 
 type GetItemNamesInGroupType = {
   boards: Array<{
@@ -11,7 +11,7 @@ type GetItemNamesInGroupType = {
 };
 
 const getItemNamesInGroup = async (
-  client: MondayClient,
+  client: MondayApi,
   boardId: number,
   groupId: string
 ): Promise<Array<{ name: string }>> =>
@@ -34,7 +34,7 @@ const getItemNamesInGroup = async (
   ).boards[0]?.groups[0]?.items || [];
 
 export const isDuplicateItem = (
-  client: MondayClient,
+  client: MondayApi,
   boardId: number,
   groupId: string,
   itemName: string

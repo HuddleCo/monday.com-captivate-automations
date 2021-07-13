@@ -1,7 +1,7 @@
-import MondayClient from "..";
+import MondayApi from "..";
 
 export const archiveItem = async (
-  client: MondayClient,
+  client: MondayApi,
   itemId: number
 ): Promise<void> => {
   await client.api(

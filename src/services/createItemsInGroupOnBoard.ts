@@ -1,10 +1,10 @@
 import { BoardType, GroupType, ItemType } from "../types";
-import MondayClient from "../mondayApi";
+import MondayApi from "../mondayApi";
 import { createItem } from "../mondayApi/queries/createItem";
 import { cloneItemColumnsForBoard } from "./cloneItemColumnsForBoard";
 
 export const createItemsInGroupOnBoard = async (
-  client: MondayClient,
+  client: MondayApi,
   board: BoardType,
   group: GroupType,
   items: ItemType[]

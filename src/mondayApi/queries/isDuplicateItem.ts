@@ -1,5 +1,4 @@
 import MondayClient from "..";
-import { BoardType, GroupType, ItemType } from "../../types";
 
 type GetItemNamesInGroupType = {
   boards: Array<{
@@ -36,10 +35,10 @@ const getItemNamesInGroup = async (
 
 export const isDuplicateItem = (
   client: MondayClient,
-  board: BoardType,
-  group: GroupType,
-  item: ItemType
+  boardId: number,
+  groupId: string,
+  itemName: string
 ): Promise<boolean> =>
-  getItemNamesInGroup(client, board.id, group.id).then(
-    (items) => !!items.find(({ name }) => name === item.name)
+  getItemNamesInGroup(client, boardId, groupId).then(
+    (items) => !!items.find(({ name }) => name === itemName)
   );

@@ -3,8 +3,8 @@ import MondayApi from "../mondayApi";
 
 import * as Item from "../mondayApi/queries/getItem";
 import * as Update from "../mondayApi/queries/updateColumn";
-import { createItem } from "./createItem.test.fixtures";
-import { createColumnValues } from "./createColumnValue.test.fixtures";
+import { createItem } from "../fixtures/createItem.test.fixtures";
+import { createColumnValues } from "../fixtures/createColumnValue.test.fixtures";
 
 jest.mock("../mondayApi/queries/getItem");
 jest.mock("../mondayApi/queries/updateColumn");

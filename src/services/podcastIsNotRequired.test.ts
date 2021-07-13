@@ -1,7 +1,7 @@
 import { podcastIsNotRequired } from "./podcastIsNotRequired";
 
-import { createItem } from "../connectors/createItem.test.fixtures";
-import { createColumnValues } from "../connectors/createColumnValue.test.fixtures";
+import { createItem } from "../fixtures/createItem.test.fixtures";
+import { createColumnValues } from "../fixtures/createColumnValue.test.fixtures";
 
 describe("podcastIsNotRequired", () => {
   describe("when the item does not have a Podcast column", () => {

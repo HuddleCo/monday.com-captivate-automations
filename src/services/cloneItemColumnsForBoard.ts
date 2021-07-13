@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 import type {
   BoardType,
   ColumnValuesType,
@@ -8,6 +10,8 @@ import type {
 import {
   ACCEPTED_COLUMN_TYPES,
   BOARD_RELATION_COLUMN_TYPE,
+  CREATION_LOG_COLUMN_TITLE,
+  DAYS_IN_PREFIX,
   STATUS_COLUMN_TITLE,
 } from "../constants";
 
@@ -64,6 +68,25 @@ const matchColumns = (columnValue: ColumnValuesType, board: BoardType) => {
   return { [column.id]: columnValuesConverter(columnValue) };
 };
 
+const daysInColumnIfApplicable = (board: BoardType, item: ItemType) => {
+  const creationLog = item.column_values.find(({ title }) =>
+    isSimilarColumnTitles(title, CREATION_LOG_COLUMN_TITLE)
+  );
+  const daysInColumn = board.columns.find(({ title }) =>
+    isSimilarColumnTitles(title, `${DAYS_IN_PREFIX} ${item.board.name}`)
+  );
+
+  if (!daysInColumn) return {};
+  if (!creationLog) return {};
+
+  return {
+    [daysInColumn.id]: Math.max(
+      1,
+      dayjs().diff(dayjs(creationLog.text), "day")
+    ),
+  };
+};
+
 export const cloneItemColumnsForBoard = (
   item: ItemType,
   board: BoardType
@@ -72,4 +95,7 @@ export const cloneItemColumnsForBoard = (
     .filter(({ type }) => ACCEPTED_COLUMN_TYPES.includes(type))
     .filter(({ title }) => !isSimilarColumnTitles(title, STATUS_COLUMN_TITLE))
     .map((columnValues) => matchColumns(columnValues, board))
-    .reduce((acc, cur) => ({ ...acc, ...cur }), {});
+    .reduce(
+      (acc, cur) => ({ ...acc, ...cur }),
+      daysInColumnIfApplicable(board, item)
+    );

@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { cloneItemColumnsForBoard } from "./cloneItemColumnsForBoard";
 
 import { BOARD_RELATION_COLUMN_TYPE } from "../constants";
@@ -226,6 +227,48 @@ describe("cloneItemColumnsForBoard", () => {
     const board = createBoard([]);
 
     it("does not include the unmatched column", () =>
+      expect(cloneItemColumnsForBoard(item, board)).toStrictEqual({}));
+  });
+
+  describe("when the target board has a Days in column", () => {
+    const item = createItem([
+      {
+        id: "col",
+        title: "Creation Log",
+        value: "",
+        type: "pulse-log",
+        text: dayjs().subtract(2, "days").format("YYYY-MM-DD HH:mm:ss Z"),
+      },
+    ]);
+    const board = createBoard([
+      {
+        id: "col2",
+        title: `Days in ${item.board.name}`,
+        type: "numbers",
+        settings_str,
+        settings,
+      },
+    ]);
+
+    it("stores the number of days since creation", () =>
+      expect(cloneItemColumnsForBoard(item, board)).toStrictEqual({
+        col2: 2,
+      }));
+  });
+
+  describe("when the item does not have a creation log", () => {
+    const item = createItem([]);
+    const board = createBoard([
+      {
+        id: "col2",
+        title: `Days in ${item.board.name}`,
+        type: "numbers",
+        settings_str,
+        settings,
+      },
+    ]);
+
+    it("does nothing", () =>
       expect(cloneItemColumnsForBoard(item, board)).toStrictEqual({}));
   });
 });

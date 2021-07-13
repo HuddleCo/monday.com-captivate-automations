@@ -27,6 +27,9 @@ export const getItemsInGroupContainingItem = async (
                 type
                 text
               }
+              board { 
+                name
+              }
             }
           }
         }

@@ -2,7 +2,7 @@ import * as Sentry from "@sentry/browser";
 
 import type { Request, Response, RequestHandler } from "express";
 
-import connector from "../connectors/moveContentConnector";
+import connector from "../connectors/moveGroupConnector";
 import { unmarshal } from "../middlewares/authentication";
 import MondayApi from "../mondayApi";
 

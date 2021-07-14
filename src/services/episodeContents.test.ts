@@ -1,5 +1,6 @@
+import type { ColumnValuesType, ItemType } from "../types";
+
 import { CRM_COLUMNS } from "../constants";
-import { ColumnValuesType, ItemType } from "../types";
 import { episodeContents } from "./episodeContents";
 
 const createItem = (columnValues: Array<ColumnValuesType> = []): ItemType => ({
@@ -38,10 +39,7 @@ const createItem = (columnValues: Array<ColumnValuesType> = []): ItemType => ({
 describe("episodeContents", () => {
   describe("when an item has no column values", () => {
     const item = createItem([]);
-    it("is empty", () => {
-      expect.hasAssertions();
-      expect(episodeContents(item)).toStrictEqual([]);
-    });
+    it("is empty", () => expect(episodeContents(item)).toStrictEqual([]));
   });
 
   describe('when an item column value is "0"', () => {
@@ -54,10 +52,7 @@ describe("episodeContents", () => {
         text: "0",
       },
     ]);
-    it("is empty", () => {
-      expect.hasAssertions();
-      expect(episodeContents(item)).toStrictEqual([]);
-    });
+    it("is empty", () => expect(episodeContents(item)).toStrictEqual([]));
   });
   describe("when an item column value is blank", () => {
     const item = createItem([
@@ -69,10 +64,7 @@ describe("episodeContents", () => {
         text: "",
       },
     ]);
-    it("is empty", () => {
-      expect.hasAssertions();
-      expect(episodeContents(item)).toStrictEqual([]);
-    });
+    it("is empty", () => expect(episodeContents(item)).toStrictEqual([]));
   });
 
   describe("when an item is good", () => {
@@ -85,9 +77,7 @@ describe("episodeContents", () => {
         text: "1",
       },
     ]);
-    it("is Column Title", () => {
-      expect.hasAssertions();
-      expect(episodeContents(item)).toStrictEqual(["Column Title"]);
-    });
+    it("is Column Title", () =>
+      expect(episodeContents(item)).toStrictEqual(["Column Title"]));
   });
 });

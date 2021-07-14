@@ -1,36 +1,16 @@
+import { createItem } from "../fixtures/createItem.test.fixtures";
 import { isItemArchived } from "./isItemArchived";
 
-const createItem = (state = "active") => ({
-  id: 1,
-  state,
-  name: "Item",
-  column_values: [],
-  board: {
-    id: 2,
-    name: "Board",
-    columns: [],
-    groups: [],
-  },
-  group: {
-    id: "group_id",
-    title: "Group Title",
-    archived: false,
-    position: 0,
-  },
-});
-
 describe("isItemArchived", () => {
-  describe("when items is archived", () => {
-    const archivedItem = createItem("archived");
+  describe("when the state is archived", () => {
+    const archivedItem = createItem({ state: "archived" });
 
-    it("when item is archived", () =>
-      expect(isItemArchived(archivedItem)).toBe(true));
+    it("is archived", () => expect(isItemArchived(archivedItem)).toBe(true));
   });
 
-  describe("when items is active", () => {
-    const activeItem = createItem("activeItem");
+  describe("when the state is active", () => {
+    const activeItem = createItem({ state: "active" });
 
-    it("when item is archived", () =>
-      expect(isItemArchived(activeItem)).toBe(false));
+    it("is not archived", () => expect(isItemArchived(activeItem)).toBe(false));
   });
 });

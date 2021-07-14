@@ -20,7 +20,7 @@ const settings_str = JSON.stringify(settings);
 
 describe("cloneItemColumnsForBoard", () => {
   describe("when there are no columns", () => {
-    const item = createItem([]);
+    const item = createItem({});
     const board = createBoard([]);
 
     it("is blank", () =>
@@ -28,15 +28,17 @@ describe("cloneItemColumnsForBoard", () => {
   });
 
   describe("when there is 1 text column that matches", () => {
-    const item = createItem([
-      {
-        id: "col1",
-        title: "Column 1",
-        value: '{"id": "text1"}',
-        type: "text",
-        text: "message",
-      },
-    ]);
+    const item = createItem({
+      column_values: [
+        {
+          id: "col1",
+          title: "Column 1",
+          value: '{"id": "text1"}',
+          type: "text",
+          text: "message",
+        },
+      ],
+    });
     const board = createBoard([
       {
         id: "col2",
@@ -54,15 +56,17 @@ describe("cloneItemColumnsForBoard", () => {
   });
 
   describe("when the item column value is null", () => {
-    const item = createItem([
-      {
-        id: "col1",
-        title: "Column 1",
-        value: null,
-        type: "text",
-        text: "message",
-      },
-    ]);
+    const item = createItem({
+      column_values: [
+        {
+          id: "col1",
+          title: "Column 1",
+          value: null,
+          type: "text",
+          text: "message",
+        },
+      ],
+    });
     const board = createBoard([
       {
         id: "col2",
@@ -80,22 +84,24 @@ describe("cloneItemColumnsForBoard", () => {
   });
 
   describe("when when there is matched unaccepted column type", () => {
-    const item = createItem([
-      {
-        id: "col1",
-        title: "Column 1",
-        value: '{"id": "text1"}',
-        type: "text",
-        text: "message",
-      },
-      {
-        id: "col1",
-        title: "Column 1",
-        value: '{"id": "text1"}',
-        type: "unknown",
-        text: "message",
-      },
-    ]);
+    const item = createItem({
+      column_values: [
+        {
+          id: "col1",
+          title: "Column 1",
+          value: '{"id": "text1"}',
+          type: "text",
+          text: "message",
+        },
+        {
+          id: "col1",
+          title: "Column 1",
+          value: '{"id": "text1"}',
+          type: "unknown",
+          text: "message",
+        },
+      ],
+    });
     const board = createBoard([
       {
         id: "col2",
@@ -120,22 +126,24 @@ describe("cloneItemColumnsForBoard", () => {
   });
 
   describe("when there is a status column called Status", () => {
-    const item = createItem([
-      {
-        id: "col1",
-        title: "Column 1",
-        value: '{"id": "text1"}',
-        type: "text",
-        text: "message",
-      },
-      {
-        id: "col2",
-        title: "Status",
-        value: '{"id": "text1"}',
-        type: "color",
-        text: "message",
-      },
-    ]);
+    const item = createItem({
+      column_values: [
+        {
+          id: "col1",
+          title: "Column 1",
+          value: '{"id": "text1"}',
+          type: "text",
+          text: "message",
+        },
+        {
+          id: "col2",
+          title: "Status",
+          value: '{"id": "text1"}',
+          type: "color",
+          text: "message",
+        },
+      ],
+    });
     const board = createBoard([
       {
         id: "col2",
@@ -161,17 +169,19 @@ describe("cloneItemColumnsForBoard", () => {
 
   describe("when there is matched connected column", () => {
     const linkedItemId = 123;
-    const item = createItem([
-      {
-        id: "col1",
-        title: "Column 1",
-        value: JSON.stringify({
-          linkedPulseIds: [{ linkedPulseId: linkedItemId }],
-        }),
-        type: BOARD_RELATION_COLUMN_TYPE,
-        text: "message",
-      },
-    ]);
+    const item = createItem({
+      column_values: [
+        {
+          id: "col1",
+          title: "Column 1",
+          value: JSON.stringify({
+            linkedPulseIds: [{ linkedPulseId: linkedItemId }],
+          }),
+          type: BOARD_RELATION_COLUMN_TYPE,
+          text: "message",
+        },
+      ],
+    });
     const board = createBoard([
       {
         id: "col2",
@@ -189,15 +199,17 @@ describe("cloneItemColumnsForBoard", () => {
   });
 
   describe("when when there are no linked items in the connected board", () => {
-    const item = createItem([
-      {
-        id: "col1",
-        title: "Column 1",
-        value: JSON.stringify({}),
-        type: BOARD_RELATION_COLUMN_TYPE,
-        text: "message",
-      },
-    ]);
+    const item = createItem({
+      column_values: [
+        {
+          id: "col1",
+          title: "Column 1",
+          value: JSON.stringify({}),
+          type: BOARD_RELATION_COLUMN_TYPE,
+          text: "message",
+        },
+      ],
+    });
     const board = createBoard([
       {
         id: "col2",
@@ -215,15 +227,17 @@ describe("cloneItemColumnsForBoard", () => {
   });
 
   describe("when there is column in the board of the same title and type", () => {
-    const item = createItem([
-      {
-        id: "col1",
-        title: "Column 1",
-        value: JSON.stringify({}),
-        type: "text",
-        text: "message",
-      },
-    ]);
+    const item = createItem({
+      column_values: [
+        {
+          id: "col1",
+          title: "Column 1",
+          value: JSON.stringify({}),
+          type: "text",
+          text: "message",
+        },
+      ],
+    });
     const board = createBoard([]);
 
     it("does not include the unmatched column", () =>
@@ -231,15 +245,17 @@ describe("cloneItemColumnsForBoard", () => {
   });
 
   describe("when the target board has a Days in column", () => {
-    const item = createItem([
-      {
-        id: "col",
-        title: "Creation Log",
-        value: "",
-        type: "pulse-log",
-        text: dayjs().subtract(2, "days").format("YYYY-MM-DD HH:mm:ss Z"),
-      },
-    ]);
+    const item = createItem({
+      column_values: [
+        {
+          id: "col",
+          title: "Creation Log",
+          value: "",
+          type: "pulse-log",
+          text: dayjs().subtract(2, "days").format("YYYY-MM-DD HH:mm:ss Z"),
+        },
+      ],
+    });
     const board = createBoard([
       {
         id: "col2",
@@ -257,7 +273,7 @@ describe("cloneItemColumnsForBoard", () => {
   });
 
   describe("when the item does not have a creation log", () => {
-    const item = createItem([]);
+    const item = createItem({});
     const board = createBoard([
       {
         id: "col2",

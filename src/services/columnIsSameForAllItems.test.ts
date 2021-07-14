@@ -1,32 +1,6 @@
-import { ItemType } from "../types";
+import { createItem } from "../fixtures/createItem.test.fixtures";
 import { columnIsSameForAllItems } from "./columnIsSameForAllItems";
 
-const createItem = (columnId = "col", text = "text"): ItemType => ({
-  id: 1,
-  name: "Item Name",
-  state: "State",
-  column_values: [
-    {
-      id: columnId,
-      value: "",
-      type: "text",
-      title: "Column Title",
-      text,
-    },
-  ],
-  board: {
-    id: 2,
-    name: "Board Name",
-    columns: [],
-    groups: [],
-  },
-  group: {
-    id: "group_id",
-    title: "Group Title",
-    archived: false,
-    position: 0,
-  },
-});
 describe("columnIsSameForAllItems", () => {
   describe("when there are items", () => {
     it("is false", () =>
@@ -34,8 +8,28 @@ describe("columnIsSameForAllItems", () => {
   });
 
   describe("when an item has a different value for the column", () => {
-    const sameItem = createItem("col_text", "text");
-    const differentItem = createItem("col_text", "example text");
+    const sameItem = createItem({
+      column_values: [
+        {
+          id: "col_text",
+          value: "",
+          type: "text",
+          title: "Column Title",
+          text: "text",
+        },
+      ],
+    });
+    const differentItem = createItem({
+      column_values: [
+        {
+          id: "col_text",
+          value: "",
+          type: "text",
+          title: "Column Title",
+          text: "example text",
+        },
+      ],
+    });
 
     it("is false", () =>
       expect(
@@ -44,7 +38,17 @@ describe("columnIsSameForAllItems", () => {
   });
 
   describe("when all items have the same value for a column", () => {
-    const sameItem = createItem("col_text", "text");
+    const sameItem = createItem({
+      column_values: [
+        {
+          id: "col_text",
+          value: "",
+          type: "text",
+          title: "Column Title",
+          text: "text",
+        },
+      ],
+    });
 
     it("is false", () =>
       expect(

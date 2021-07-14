@@ -18,7 +18,7 @@ describe("duplicateMirroredColumnConnector", () => {
     const source = createColumnValues("test@example.com");
     const target = createColumnValues();
 
-    const item = createItem([source, target]);
+    const item = createItem({ column_values: [source, target] });
     const { board } = item;
     const columnId = target.id;
 
@@ -38,7 +38,7 @@ describe("duplicateMirroredColumnConnector", () => {
   describe("when the source column is missing", () => {
     const column = createColumnValues();
 
-    const item = createItem([column]);
+    const item = createItem({ column_values: [column] });
     const { board } = item;
     const columnId = column.id;
 
@@ -53,7 +53,7 @@ describe("duplicateMirroredColumnConnector", () => {
   });
 
   describe("when there are no column", () => {
-    const item = createItem([]);
+    const item = createItem({});
     const { board } = item;
     const columnId = "";
 
@@ -72,7 +72,7 @@ describe("duplicateMirroredColumnConnector", () => {
     const source = createColumnValues("test@example.com");
     const target = createColumnValues();
 
-    const item = createItem([source, target]);
+    const item = createItem({ column_values: [source, target] });
     const { board } = item;
     const columnId = target.id;
 
@@ -93,7 +93,7 @@ describe("duplicateMirroredColumnConnector", () => {
     const source = createColumnValues("test@example.com");
     const target = createColumnValues("test@example.com");
 
-    const item = createItem([source, target]);
+    const item = createItem({ column_values: [source, target] });
     const { board } = item;
     const columnId = target.id;
 

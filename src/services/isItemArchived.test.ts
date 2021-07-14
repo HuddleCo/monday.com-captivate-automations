@@ -1,6 +1,6 @@
 import { isItemArchived } from "./isItemArchived";
 
-const item = (state = "active") => ({
+const createItem = (state = "active") => ({
   id: 1,
   state,
   name: "Item",
@@ -21,18 +21,16 @@ const item = (state = "active") => ({
 
 describe("isItemArchived", () => {
   describe("when items is archived", () => {
-    const archivedItem = item("archived");
-    it("when item is archived", () => {
-      expect.hasAssertions();
-      expect(isItemArchived(archivedItem)).toBe(true);
-    });
+    const archivedItem = createItem("archived");
+
+    it("when item is archived", () =>
+      expect(isItemArchived(archivedItem)).toBe(true));
   });
 
   describe("when items is active", () => {
-    const activeItem = item("activeItem");
-    it("when item is archived", () => {
-      expect.hasAssertions();
-      expect(isItemArchived(activeItem)).toBe(false);
-    });
+    const activeItem = createItem("activeItem");
+
+    it("when item is archived", () =>
+      expect(isItemArchived(activeItem)).toBe(false));
   });
 });

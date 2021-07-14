@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.5.0](https://github.com/mokkapps/changelog-generator-demo/compare/v2.4.0...v2.5.0) (2021-07-14)
+
+
+### Features
+
+* remove depricated "environment" environment variable ([68a1616](https://github.com/mokkapps/changelog-generator-demo/commits/68a1616338b54cd71e35a01acf25a516d6731f15))
+* store number of days since an item was created in the "days in [board name]" column ([efabd4a](https://github.com/mokkapps/changelog-generator-demo/commits/efabd4a7f8bed10afa38ee4fee1158b0330de8fc))
+
+
+### Bug Fixes
+
+* chain promises to ensure errors are caught when creating an item ([d82aff3](https://github.com/mokkapps/changelog-generator-demo/commits/d82aff33bd4132fcaf9eb07017e28345acd4356c))
+
 ## [2.4.0](https://github.com/mokkapps/changelog-generator-demo/compare/v2.3.2...v2.4.0) (2021-07-12)
 
 

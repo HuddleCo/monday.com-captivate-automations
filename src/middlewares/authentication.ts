@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
 
-import NoCredentialsError from "../errors/no-credentials-error";
-import MissingMondaySigningSecretError from "../errors/missing-monday-signing-secret-error";
-import MissingShortLivedTokenError from "../errors/missing-short-lived-token-error";
+import NoCredentialsError from "../errors/noCredentialsError";
+import MissingMondaySigningSecretError from "../errors/missingMondaySigningSecretError";
+import MissingShortLivedTokenError from "../errors/missingShortLivedTokenError";
 
 type OpenId = {
   shortLivedToken: string;

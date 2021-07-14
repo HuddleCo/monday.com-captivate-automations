@@ -1,14 +1,14 @@
 import { BoardType, GroupType, ItemType } from "../types";
-import MondayClient from "../monday-api";
-import { createItem } from "../monday-api/queries/create-item";
-import { cloneItemColumnsForBoard } from "./clone-item-columns-for-board";
+import MondayApi from "../mondayApi";
+import { createItem } from "../mondayApi/queries/createItem";
+import { cloneItemColumnsForBoard } from "./cloneItemColumnsForBoard";
 
 export const createItemsInGroupOnBoard = async (
-  client: MondayClient,
+  client: MondayApi,
   board: BoardType,
   group: GroupType,
   items: ItemType[]
-): Promise<void> => {
+): Promise<Array<{ id: number }>> =>
   Promise.all(
     items.map((item) =>
       createItem(
@@ -20,4 +20,3 @@ export const createItemsInGroupOnBoard = async (
       )
     )
   );
-};

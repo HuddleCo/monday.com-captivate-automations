@@ -9,7 +9,8 @@ export const CRM_COLUMNS = [
 export const NOT_REQUIRED_LABELS = ["", "0"];
 
 export const BOARD_RELATION_COLUMN_TYPE = "board-relation";
-
+export const CREATION_LOG_COLUMN_TITLE = "Creation Log";
+export const DAYS_IN_PREFIX = "Days in";
 export const ACCEPTED_COLUMN_TYPES = [
   "color",
   "multiple-person",

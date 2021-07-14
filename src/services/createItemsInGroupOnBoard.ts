@@ -8,7 +8,7 @@ export const createItemsInGroupOnBoard = async (
   board: BoardType,
   group: GroupType,
   items: ItemType[]
-): Promise<void> => {
+): Promise<Array<{ id: number }>> =>
   Promise.all(
     items.map((item) =>
       createItem(
@@ -20,4 +20,3 @@ export const createItemsInGroupOnBoard = async (
       )
     )
   );
-};

@@ -43,7 +43,8 @@ const createItemInGroupOnBoard = (
   board: BoardType,
   topGroup: GroupType,
   item: ItemType
-): Promise<void> => createItemsInGroupOnBoard(client, board, topGroup, [item]);
+): Promise<Array<{ id: number }>> =>
+  createItemsInGroupOnBoard(client, board, topGroup, [item]);
 
 export default async (
   client: MondayApi,

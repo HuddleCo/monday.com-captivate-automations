@@ -1,17 +1,24 @@
 import MondayApi from "..";
 
-export const archiveItem = async (
+type ArchiveItemType = {
+  archive_item: {
+    id: number;
+  };
+};
+
+export const archiveItem = (
   client: MondayApi,
   itemId: number
-): Promise<void> => {
-  await client.api(
-    `mutation archiveItem($itemId: Int!) {
+): Promise<{ id: number }> =>
+  client
+    .api<ArchiveItemType>(
+      `mutation archiveItem($itemId: Int!) {
         archive_item (item_id: $itemId) {
           id
         }
       }`,
-    {
-      itemId,
-    }
-  );
-};
+      {
+        itemId,
+      }
+    )
+    .then(({ archive_item: { id } }) => ({ id }));

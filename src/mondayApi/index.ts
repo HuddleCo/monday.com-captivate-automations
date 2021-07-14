@@ -63,10 +63,7 @@ export default class MondayApi {
     this.client.setToken(token);
   }
 
-  public async api<T>(
-    query: string,
-    variables: QueryVariablesType
-  ): Promise<T> {
+  public api<T>(query: string, variables: QueryVariablesType): Promise<T> {
     return this.client
       .api(query, { variables })
       .then((response: ApiResponse<T>) => {

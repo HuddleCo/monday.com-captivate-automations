@@ -24,7 +24,7 @@ Please update the `.env` with missing environment variables.
 
     npm start
 
-    Version: 2.4.0
+    Version: 3.0.0
     Environment: development
     Listening: http://localhost:8302
 

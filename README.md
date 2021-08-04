@@ -16,11 +16,12 @@ The application is containerised in a Docker image [aussidavid/captivate-ingrati
 
 Please update the `.env` with missing environment variables.
 
-| Environment Variable  |                                    Description                                    |
-| --------------------- | :-------------------------------------------------------------------------------: |
-| MONDAY_SIGNING_SECRET |       Signing Secret located on the Developers page in your Monday.com app        |
-| TOKEN_OVERRIDE        | (optional) The API token used when making API requests to make development easier |
-| PORT                  |      (optional) Specify the port number for the web app. Defaults to port 80      |
+| Environment Variable  | Description                                                                                             |
+| --------------------- | :------------------------------------------------------------------------------------------------------ |
+| MONDAY_SIGNING_SECRET | Signing Secret located on the Developers page in your Monday.com app                                    |
+| SENTRY_DNS            | Token for error reporting with [Sentry.io](https://docs.sentry.io/product/sentry-basics/dsn-explainer/) |
+| TOKEN_OVERRIDE        | (optional) The API token used when making API requests to make development easier                       |
+| PORT                  | (optional) Specify the port number for the web app. Defaults to port 80                                 |
 
     npm start
 
@@ -35,6 +36,7 @@ The application is best deployed as a docker container.
     docker run --rm \
       -e NODE_ENV=production \
       -e MONDAY_SIGNING_SECRET=SECRET \
+      -e SENTRY_DNS=TOKEN \
       -p 80:80 \
       aussidavid/captivate-ingrations
 
@@ -42,6 +44,7 @@ Where applicable, it is recommended to run the container as a service on a docke
 
     docker service create -e NODE_ENV=production \
       -e MONDAY_SIGNING_SECRET=SECRET \
+      -e SENTRY_DNS=TOKEN \
       -p 80:80 \
       aussidavid/captivate-ingrations
 

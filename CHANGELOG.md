@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v3.0.0...v4.0.0) (2021-08-04)
+
+
+### Features
+
+* move sentry token to an environment variable ([f303677](https://github.com/mokkapps/changelog-generator-demo/commits/f303677cb8fd36ba09b8889c95d39e9258d41123))
+
 ## [3.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v2.4.0...v3.0.0) (2021-07-14)
 
 

@@ -12,7 +12,7 @@ const app = express();
 const port = process.env.PORT || 80;
 
 Sentry.init({
-  dsn: "https://3ebd3ce246be4618bb1fd0e0d29dd52c@o849248.ingest.sentry.io/5816131",
+  dsn: process.env.SENTRY_DNS,
   release: `${pack.name}@${pack.version}`,
   environment: process.env.NODE_ENV,
 });

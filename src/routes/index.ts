@@ -13,6 +13,7 @@ router.get("/health", (_req, res) => {
   res.end();
 });
 
+// DEPRICATED: Remove in v5.0.0
 router.get("/error", () => {
   throw new Error("Sentry Error!");
 });

@@ -21,8 +21,8 @@
     "project": "tsconfig.json"
   },
   "rules": {
-    "camelcase": "off",
     "no-console": "off",
+    "curly": "error",
     "import/prefer-default-export": "off",
     "@typescript-eslint/no-explicit-any": "error",
     "arrow-body-style": "error",
@@ -31,6 +31,7 @@
     "jest/no-identical-title": "error",
     "jest/prefer-to-have-length": "warn",
     "jest/valid-expect": "error",
+    "implicit-arrow-linebreak": "off",
     "jest/no-hooks": [
       "error",
       {

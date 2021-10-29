@@ -10,6 +10,7 @@ import { getItemsInGroupContainingItem } from "../mondayApi/queries/getItemsInGr
 import { createItemsInGroupOnBoard } from "../services/createItemsInGroupOnBoard";
 import { findOrCreateGroupInBoard } from "../services/findOrCreateGroupInBoard";
 import { archiveGroup } from "../mondayApi/queries/archiveGroup";
+import { ItemType } from "../types";
 
 const CRITICAL_SECTION_TIMEOUT_MS = 12_000;
 const mutex = withTimeout(
@@ -18,37 +19,67 @@ const mutex = withTimeout(
   new MutexTimeoutError(CRITICAL_SECTION_TIMEOUT_MS)
 );
 
+const getMyItem = (client: MondayApi, itemId: number) =>
+  getItem(client, itemId).then((item) => {
+    if (item.group.archived) {
+      throw new Error(`The group has already been archived`);
+    }
+    return item;
+  });
+
+const getMyItems = (
+  client: MondayApi,
+  item: ItemType,
+  statusColumnId: string,
+  status: string
+) =>
+  getItemsInGroupContainingItem(client, item).then((items) => {
+    if (!items.length) {
+      throw new Error(`The group has no items. Have already been processed`);
+    }
+
+    if (!columnIsSameForAllItems(items, statusColumnId, status)) {
+      throw new Error(`Some items are not ${status}. Abort`);
+    }
+    return items;
+  });
+
+const getItems = (
+  client: MondayApi,
+  itemId: number,
+  statusColumnId: string,
+  status: string
+) =>
+  getMyItem(client, itemId).then((item) =>
+    getMyItems(client, item, statusColumnId, status).then((items) => ({
+      item,
+      items,
+    }))
+  );
+
+const copyItemsToBoard = (
+  client: MondayApi,
+  item: ItemType,
+  items: ItemType[],
+  boardId: number
+) =>
+  findOrCreateGroupInBoard(client, boardId, item.group.title).then(
+    ({ board, group }) => createItemsInGroupOnBoard(client, board, group, items)
+  );
+
 export default async (
   client: MondayApi,
   itemId: number,
   statusColumnId: string,
   status: string,
   boardId: number
-): Promise<string> =>
-  mutex.runExclusive(async () => {
-    const item = await getItem(client, itemId);
-    if (item.group.archived) return `The group has already been archived`;
-
-    const items = await getItemsInGroupContainingItem(client, item);
-    if (!items.length)
-      return `The group has no items. Have already been processed`;
-
-    if (!columnIsSameForAllItems(items, statusColumnId, status))
-      return `Some items are not ${status}. Abort`;
-
-    const archivedGroup = await archiveGroup(
-      client,
-      item.board.id,
-      item.group.id
-    );
-
-    const { board, group } = await findOrCreateGroupInBoard(
-      client,
-      boardId,
-      item.group.title
-    );
-
-    await createItemsInGroupOnBoard(client, board, group, items);
-
-    return `All items with ${status} have been copied to group: ${group.title}(#${group.id}) in board: ${board.name}(#${board.id}). The ${archivedGroup.title}(#${archivedGroup.id}) has been archived`;
-  });
+): Promise<true> =>
+  mutex
+    .runExclusive(() => getItems(client, itemId, statusColumnId, status))
+    .then(({ item, items }) =>
+      Promise.all([
+        archiveGroup(client, item.board.id, item.group.id),
+        copyItemsToBoard(client, item, items, boardId),
+      ])
+    )
+    .then(() => true);

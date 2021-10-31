@@ -29,6 +29,8 @@ const log = <T>(
   variables: QueryVariablesType,
   response: ApiResponse<T>
 ) => {
+  if (process.env.VERBOSE !== "true") return;
+
   console.log(sprintf("~~~~ %03d: Start~~~~", (queryCounter += 1)));
   console.log("Query:");
   console.log(query);

@@ -1,6 +1,6 @@
 {
   "name": "monday.com-captivate-automations",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "license": "UNLICENSED",
   "main": "dist/src/app.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "lint": "eslint 'src/**/*.ts' --ext .ts --config .eslintrc.json",
     "build": "tsc --build tsconfig.json --verbose",
     "prepare": "husky install",
-    "deploy": "ssh deploy@laura-malta.bnr.la -t \"docker pull aussidavid/captivate-ingrations && docker service update --image aussidavid/captivate-ingrations:latest captivate\"",
+    "deploy": "ssh deploy@laura-malta.bnr.la -t \"docker pull aussidavid/captivate-ingrations && docker service update --image aussidavid/captivate-ingrations:latest captivate-automations\"",
     "test": "jest",
     "test:watch": "jest --watch --collectCoverage",
     "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test",
@@ -28,6 +28,7 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "monday-sdk-js": "^0.1.2",
+    "morgan-body": "^2.6.6",
     "sprintf-js": "^1.1.2"
   },
   "devDependencies": {
@@ -39,7 +40,7 @@
     "@types/jest-plugin-context": "^2.9.4",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/monday-sdk-js": "^0.1.1",
-    "@types/node": "^16.0.0",
+    "@types/node": "^16.11.6",
     "@types/sprintf-js": "^1.1.2",
     "@typescript-eslint/eslint-plugin": "^4.11.1",
     "@typescript-eslint/parser": "^4.11.1",

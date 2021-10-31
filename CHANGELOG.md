@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.0](https://github.com/mokkapps/changelog-generator-demo/compare/v4.2.0...v4.3.0) (2021-10-31)
+
+
+### Bug Fixes
+
+* disable colors in logs ([c51251c](https://github.com/mokkapps/changelog-generator-demo/commits/c51251ced6410fd49f996581a8e5293ec74bd780))
+* prevent non-errors from propogating to the controller ([13197c2](https://github.com/mokkapps/changelog-generator-demo/commits/13197c27ca004996c7c779c4828e86b2e6397af5))
+
 ## [4.2.0](https://github.com/mokkapps/changelog-generator-demo/compare/v4.1.0...v4.2.0) (2021-10-31)
 
 

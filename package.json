@@ -9,7 +9,7 @@
     "lint": "eslint 'src/**/*.ts' --ext .ts --config .eslintrc.json",
     "build": "tsc --build tsconfig.json --verbose",
     "prepare": "husky install",
-    "deploy": "ssh deploy@laura-malta.bnr.la -t \"docker pull aussidavid/captivate-ingrations && docker service update --image aussidavid/captivate-ingrations:latest captivate\"",
+    "deploy": "ssh deploy@laura-malta.bnr.la -t \"docker pull aussidavid/captivate-ingrations && docker service update --image aussidavid/captivate-ingrations:latest captivate-automations\"",
     "test": "jest",
     "test:watch": "jest --watch --collectCoverage",
     "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test",

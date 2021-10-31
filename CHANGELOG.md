@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.0](https://github.com/mokkapps/changelog-generator-demo/compare/v4.1.0...v4.2.0) (2021-10-31)
+
+
+### Features
+
+* log requests and responses ([7291827](https://github.com/mokkapps/changelog-generator-demo/commits/72918274016373a87971bc440e1c97ac0bfa20a5))
+* use environment variable to log all queries and responses ([fdc1361](https://github.com/mokkapps/changelog-generator-demo/commits/fdc1361a864d49c3bdf6227439527a813352623b))
+
 ## [4.1.0](https://github.com/mokkapps/changelog-generator-demo/compare/v4.0.0...v4.1.0) (2021-10-31)
 
 

@@ -21,7 +21,7 @@ Sentry.init({
 // The request handler must be the first middleware on the app
 app.use(Sentry.Handlers.requestHandler());
 
-morganBody(app);
+morganBody(app, { noColors: true });
 app.use(express.json());
 app.use(routes);
 

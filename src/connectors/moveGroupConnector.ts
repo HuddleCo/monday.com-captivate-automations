@@ -19,11 +19,28 @@ const mutex = withTimeout(
   new MutexTimeoutError(CRITICAL_SECTION_TIMEOUT_MS)
 );
 
+class GroupAlreadyArchivedError extends Error {
+  constructor() {
+    super("The group has already been archived");
+  }
+}
+
+class NoItemsInGroupError extends Error {
+  constructor() {
+    super("The group has no items. Have already been processed");
+  }
+}
+
+class DifferentStatusError extends Error {
+  constructor(status: string) {
+    super(`Some items are not ${status}. Abort`);
+  }
+}
+
 const getMyItem = (client: MondayApi, itemId: number) =>
   getItem(client, itemId).then((item) => {
-    if (item.group.archived) {
-      throw new Error(`The group has already been archived`);
-    }
+    if (item.group.archived) throw new GroupAlreadyArchivedError();
+
     return item;
   });
 
@@ -34,12 +51,10 @@ const getMyItems = (
   status: string
 ) =>
   getItemsInGroupContainingItem(client, item).then((items) => {
-    if (!items.length) {
-      throw new Error(`The group has no items. Have already been processed`);
-    }
+    if (!items.length) throw new NoItemsInGroupError();
 
     if (!columnIsSameForAllItems(items, statusColumnId, status)) {
-      throw new Error(`Some items are not ${status}. Abort`);
+      throw new DifferentStatusError(status);
     }
     return items;
   });
@@ -82,4 +97,11 @@ export default async (
         copyItemsToBoard(client, item, items, boardId),
       ])
     )
+    .catch((err) => {
+      if (err instanceof GroupAlreadyArchivedError) return;
+      if (err instanceof NoItemsInGroupError) return;
+      if (err instanceof DifferentStatusError) return;
+
+      throw err;
+    })
     .then(() => true);

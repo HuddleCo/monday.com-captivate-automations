@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/mokkapps/changelog-generator-demo/compare/v4.0.0...v4.1.0) (2021-10-31)
+
+
+### Features
+
+* allow duration columns to be duplicated across boards ([a395362](https://github.com/mokkapps/changelog-generator-demo/commits/a39536279c74cb1db905d7acc5c8fb3e3adcc2a7))
+
+
+### Bug Fixes
+
+* import statement ([1827267](https://github.com/mokkapps/changelog-generator-demo/commits/1827267988b785555f1694b0e7a798e99039efa5))
+
 ## [4.0.0](https://github.com/mokkapps/changelog-generator-demo/compare/v3.0.0...v4.0.0) (2021-08-04)
 
 

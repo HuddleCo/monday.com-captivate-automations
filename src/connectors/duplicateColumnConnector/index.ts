@@ -1,11 +1,11 @@
-import MondayApi from "../mondayApi";
+import MondayApi from "../../mondayApi";
 
-import type { ColumnValuesType, ItemType } from "../types";
+import type { ColumnValuesType, ItemType } from "../../types";
 
-import UnmatchedColumnError from "../errors/unmatchedColumnError";
+import UnmatchedColumnError from "./unmatchedColumnError";
 
-import { getItem } from "../mondayApi/queries/getItem";
-import { updateColumn } from "../mondayApi/queries/updateColumn";
+import { getItem } from "../../mondayApi/queries/getItem";
+import { updateColumn } from "../../mondayApi/queries/updateColumn";
 
 const getTarget = (item: ItemType, columnId: string): ColumnValuesType => {
   const column = item.column_values.find(({ id }) => id === columnId);
@@ -47,8 +47,7 @@ export default (
           )
     )
     .catch((error) => {
-      if (error instanceof UnmatchedColumnError)
-        return "Could not find column. Abort";
+      if (error instanceof UnmatchedColumnError) return error.message;
 
       throw error;
     });

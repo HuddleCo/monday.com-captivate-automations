@@ -40,19 +40,24 @@ const log = <T>(
 };
 
 const handleRequest = <T>(response: ApiResponse<T>): T => {
-  if ("error_message" in response && typeof response.error_message === "string")
+  if (
+    "error_message" in response &&
+    typeof response.error_message === "string"
+  ) {
     throw new GraphQLSyntaxError(response);
+  }
 
   if (
     "errors" in response &&
     response.errors?.length &&
     response.errors.every((error) => typeof error.message === "string")
-  )
+  ) {
     throw new GraphQLRuntimeError(response);
+  }
 
   if ("data" in response && response.data) return response.data;
 
-  throw new Error("Unknown object recieved from Monday.com API");
+  throw new Error("Unknown object received from Monday.com API");
 };
 
 export default class MondayApi {

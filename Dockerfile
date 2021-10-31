@@ -17,7 +17,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 RUN npm install pm2 -g && \
-    npm ci --production
+  npm ci --production
 
 COPY --from=build /app/dist ./dist
 

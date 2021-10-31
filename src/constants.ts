@@ -20,6 +20,7 @@ export const ACCEPTED_COLUMN_TYPES = [
   "email",
   "long_text",
   "link",
+  "duration",
   BOARD_RELATION_COLUMN_TYPE,
 ];
 

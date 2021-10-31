@@ -3,7 +3,7 @@ import * as Sentry from "@sentry/browser";
 import type { Request, Response, RequestHandler } from "express";
 
 import connector from "../connectors/moveItemConnector";
-import { unmarshal } from "../middlewares/authentication";
+import { unmarshal } from "../middlewares/authentication/unmarshal";
 import MondayApi from "../mondayApi";
 
 export const post: RequestHandler = (req: Request, res: Response) =>

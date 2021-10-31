@@ -1,13 +1,13 @@
-import connector from "./duplicateColumnConnector";
-import MondayApi from "../mondayApi";
+import connector from ".";
+import MondayApi from "../../mondayApi";
 
-import * as Item from "../mondayApi/queries/getItem";
-import * as Update from "../mondayApi/queries/updateColumn";
-import { createItem } from "../fixtures/createItem.test.fixtures";
-import { createColumnValues } from "../fixtures/createColumnValue.test.fixtures";
+import * as Item from "../../mondayApi/queries/getItem";
+import * as Update from "../../mondayApi/queries/updateColumn";
+import { createItem } from "../../fixtures/createItem.test.fixtures";
+import { createColumnValues } from "../../fixtures/createColumnValue.test.fixtures";
 
-jest.mock("../mondayApi/queries/getItem");
-jest.mock("../mondayApi/queries/updateColumn");
+jest.mock("../../mondayApi/queries/getItem");
+jest.mock("../../mondayApi/queries/updateColumn");
 const mockedGetItem = Item as jest.Mocked<typeof Item>;
 const mockedUpdateColumn = Update as jest.Mocked<typeof Update>;
 

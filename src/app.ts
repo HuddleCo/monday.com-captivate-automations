@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import morganBody from "morgan-body";
 import * as Sentry from "@sentry/node";
 
 import routes from "./routes";
@@ -20,6 +21,7 @@ Sentry.init({
 // The request handler must be the first middleware on the app
 app.use(Sentry.Handlers.requestHandler());
 
+morganBody(app);
 app.use(express.json());
 app.use(routes);
 

@@ -1,16 +1,16 @@
 import { Mutex, withTimeout } from "async-mutex";
-import MondayApi from "../mondayApi";
+import MondayApi from "../../mondayApi";
 
-import MutexTimeoutError from "../errors/mutexTimeoutError";
+import MutexTimeoutError from "../../errors/mutexTimeoutError";
 
-import { getItem } from "../mondayApi/queries/getItem";
-import { columnIsSameForAllItems } from "../services/columnIsSameForAllItems";
-import { getItemsInGroupContainingItem } from "../mondayApi/queries/getItemsInGroupContainingItem";
+import { getItem } from "../../mondayApi/queries/getItem";
+import { columnIsSameForAllItems } from "../../services/columnIsSameForAllItems";
+import { getItemsInGroupContainingItem } from "../../mondayApi/queries/getItemsInGroupContainingItem";
 
-import { createItemsInGroupOnBoard } from "../services/createItemsInGroupOnBoard";
-import { findOrCreateGroupInBoard } from "../services/findOrCreateGroupInBoard";
-import { archiveGroup } from "../mondayApi/queries/archiveGroup";
-import { ItemType } from "../types";
+import { createItemsInGroupOnBoard } from "../../services/createItemsInGroupOnBoard";
+import { findOrCreateGroupInBoard } from "../../services/findOrCreateGroupInBoard";
+import { archiveGroup } from "../../mondayApi/queries/archiveGroup";
+import { ItemType } from "../../types";
 
 const CRITICAL_SECTION_TIMEOUT_MS = 12_000;
 const mutex = withTimeout(

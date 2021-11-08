@@ -11,6 +11,9 @@ import { createItemsInGroupOnBoard } from "../../services/createItemsInGroupOnBo
 import { findOrCreateGroupInBoard } from "../../services/findOrCreateGroupInBoard";
 import { archiveGroup } from "../../mondayApi/queries/archiveGroup";
 import { ItemType } from "../../types";
+import NoItemsInGroupError from "./noItemsInGroupError";
+import DifferentStatusError from "./differentStatusError";
+import GroupAlreadyArchivedError from "./groupAlreadyArchivedError";
 
 const CRITICAL_SECTION_TIMEOUT_MS = 12_000;
 const mutex = withTimeout(
@@ -18,24 +21,6 @@ const mutex = withTimeout(
   CRITICAL_SECTION_TIMEOUT_MS,
   new MutexTimeoutError(CRITICAL_SECTION_TIMEOUT_MS)
 );
-
-class GroupAlreadyArchivedError extends Error {
-  constructor() {
-    super("The group has already been archived");
-  }
-}
-
-class NoItemsInGroupError extends Error {
-  constructor() {
-    super("The group has no items. Have already been processed");
-  }
-}
-
-class DifferentStatusError extends Error {
-  constructor(status: string) {
-    super(`Some items are not ${status}. Abort`);
-  }
-}
 
 const getMyItem = (client: MondayApi, itemId: number) =>
   getItem(client, itemId).then((item) => {

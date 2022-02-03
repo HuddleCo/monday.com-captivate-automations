@@ -26,7 +26,7 @@ describe("moveGroupConnector", () => {
     const itemId = 123;
     const statusColumnId = "1234";
     const status = "complete";
-    const boardId = 321;
+    const boardId = "321";
 
     const archiveGroup: GroupType = {
       id: "321",
@@ -42,7 +42,7 @@ describe("moveGroupConnector", () => {
         state: "",
         column_values: [],
         board: {
-          id: 0,
+          id: "0",
           name: "",
           columns: [],
           groups: [],
@@ -62,7 +62,7 @@ describe("moveGroupConnector", () => {
       state: "",
       column_values: [],
       board: {
-        id: 0,
+        id: "0",
         name: "",
         columns: [],
         groups: [],
@@ -76,7 +76,7 @@ describe("moveGroupConnector", () => {
     };
 
     const board: BoardType = {
-      id: 0,
+      id: "0",
       name: "",
       columns: [],
       groups: [
@@ -108,7 +108,7 @@ describe("moveGroupConnector", () => {
     const itemId = 123;
     const statusColumnId = "1234";
     const status = "complete";
-    const boardId = 321;
+    const boardId = "321";
 
     const archiveGroup: GroupType = {
       id: "321",
@@ -124,7 +124,7 @@ describe("moveGroupConnector", () => {
         state: "",
         column_values: [],
         board: {
-          id: 0,
+          id: "0",
           name: "",
           columns: [],
           groups: [],
@@ -144,7 +144,7 @@ describe("moveGroupConnector", () => {
       state: "",
       column_values: [],
       board: {
-        id: 0,
+        id: "0",
         name: "",
         columns: [],
         groups: [],
@@ -175,7 +175,7 @@ describe("moveGroupConnector", () => {
     const itemId = 123;
     const statusColumnId = "1234";
     const status = "complete";
-    const boardId = 321;
+    const boardId = "321";
 
     const archiveGroup: GroupType = {
       id: "321",
@@ -199,7 +199,7 @@ describe("moveGroupConnector", () => {
           },
         ],
         board: {
-          id: 0,
+          id: "0",
           name: "",
           columns: [],
           groups: [],
@@ -225,7 +225,7 @@ describe("moveGroupConnector", () => {
           },
         ],
         board: {
-          id: 0,
+          id: "0",
           name: "",
           columns: [],
           groups: [],
@@ -244,7 +244,7 @@ describe("moveGroupConnector", () => {
       state: "",
       column_values: [],
       board: {
-        id: 0,
+        id: "0",
         name: "",
         columns: [],
         groups: [],
@@ -275,7 +275,7 @@ describe("moveGroupConnector", () => {
     const itemId = 123;
     const statusColumnId = "1234";
     const status = "complete";
-    const boardId = 321;
+    const boardId = "321";
 
     const archiveGroup: GroupType = {
       id: "321",
@@ -291,7 +291,7 @@ describe("moveGroupConnector", () => {
       state: "",
       column_values: [],
       board: {
-        id: 0,
+        id: "0",
         name: "",
         columns: [],
         groups: [],

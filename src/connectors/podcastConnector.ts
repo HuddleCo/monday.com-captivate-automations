@@ -24,7 +24,7 @@ const mutex = withTimeout(
 
 const getContext = (
   client: MondayApi,
-  boardId: number,
+  boardId: string,
   itemId: number,
   callback: (
     board: BoardType,
@@ -48,7 +48,7 @@ const createItemInGroupOnBoard = (
 
 export default async (
   client: MondayApi,
-  boardId: number,
+  boardId: string,
   itemId: number
 ): Promise<string> =>
   getContext(client, boardId, itemId, async (board, topGroup, item) => {

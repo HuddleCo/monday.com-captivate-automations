@@ -7,7 +7,7 @@ export default (
   client: MondayApi,
   item: ItemType,
   items: ItemType[],
-  boardId: string
+  boardId: number
 ) =>
   findOrCreateGroupInBoard(client, boardId, item.group.title).then(
     ({ board, group }) => createItemsInGroupOnBoard(client, board, group, items)

@@ -6,21 +6,21 @@ import type { ApiResponse } from "../types";
 
 type QueryVariablesType =
   | { itemId: number }
-  | { boardId: string }
-  | { boardId: string; groupId: string }
-  | { boardId: string; groupName: string }
+  | { boardId: number }
+  | { boardId: number; groupId: string }
+  | { boardId: number; groupName: string }
   | {
-    boardId: string;
-    groupId: string;
-    itemName: string;
-    columnValues: string;
-  }
+      boardId: number;
+      groupId: string;
+      itemName: string;
+      columnValues: string;
+    }
   | {
-    boardId: string;
-    groupId: string;
-    columnId: string;
-    value: string;
-  };
+      boardId: number;
+      groupId: string;
+      columnId: string;
+      value: string;
+    };
 
 let queryCounter = 0;
 

@@ -19,7 +19,7 @@ const mutex = withTimeout(
 
 export const findOrCreateGroupInBoard = (
   client: MondayApi,
-  boardId: string,
+  boardId: number,
   groupTitle: string
 ): Promise<BoardGroupType> =>
   mutex.runExclusive(async () => {

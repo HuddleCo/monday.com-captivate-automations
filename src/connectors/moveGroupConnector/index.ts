@@ -13,7 +13,7 @@ export default (
   itemId: number,
   statusColumnId: string,
   status: string,
-  boardId: string
+  boardId: number
 ): Promise<true> =>
   criticalSection(() =>
     getItems(client, itemId, statusColumnId, status).then(({ item, items }) =>

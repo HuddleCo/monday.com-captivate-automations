@@ -15,7 +15,7 @@ export const getItemsInGroupContainingItem = async (
 ): Promise<Array<ItemType>> =>
   (
     await client.api<GetItemsInGroupContainingItemType>(
-      `query getItemsInGroupContainingItem($boardId: String, $groupId: String) {
+      `query getItemsInGroupContainingItem($boardId: Int, $groupId: String) {
         boards (ids: [$boardId]) {
           groups (ids: [$groupId]) {
             items {
@@ -35,7 +35,7 @@ export const getItemsInGroupContainingItem = async (
         }
       }`,
       {
-        boardId: item.board.id,
+        boardId: Number(item.board.id),
         groupId: item.group.id,
       }
     )

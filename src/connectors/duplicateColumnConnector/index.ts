@@ -33,7 +33,7 @@ const getColumns = (client: MondayApi, itemId: number, columnId: string) =>
 
 export default (
   client: MondayApi,
-  boardId: string,
+  boardId: number,
   itemId: number,
   columnId: string
 ): Promise<string> =>
@@ -42,9 +42,9 @@ export default (
       source.text === target.text
         ? "The column is unchanged"
         : updateColumn(client, boardId, itemId, columnId, source.text).then(
-          () =>
-            `Copied "${source.text}" from "${source.id}" to "${target.id}"`
-        )
+            () =>
+              `Copied "${source.text}" from "${source.id}" to "${target.id}"`
+          )
     )
     .catch((error) => {
       if (error instanceof UnmatchedColumnError) return error.message;

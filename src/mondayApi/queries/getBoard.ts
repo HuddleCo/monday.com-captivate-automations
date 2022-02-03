@@ -28,10 +28,10 @@ export const BOARD_SUBQUERY = `
 
 export const getBoard = async (
   client: MondayApi,
-  boardId: string
+  boardId: number
 ): Promise<BoardType> => {
   const data = await client.api<GetBoardType>(
-    `query getBoard($boardId: [String]) {
+    `query getBoard($boardId: [Int]) {
       boards(ids: $boardId) {
         ${BOARD_SUBQUERY}
       }
@@ -46,7 +46,7 @@ export const getBoard = async (
     ...column,
     settings: JSON.parse(column.settings_str),
   }));
-  board.id = board.id;
+  board.id = Number(board.id);
   board.groups = board.groups.map((group) => ({
     ...group,
     position: Number(group.position),

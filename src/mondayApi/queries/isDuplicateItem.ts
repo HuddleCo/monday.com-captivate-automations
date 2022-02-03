@@ -12,12 +12,12 @@ type GetItemNamesInGroupType = {
 
 const getItemNamesInGroup = async (
   client: MondayApi,
-  boardId: number,
+  boardId: string,
   groupId: string
 ): Promise<Array<{ name: string }>> =>
   (
     await client.api<GetItemNamesInGroupType>(
-      `query getItemNamesInGroup($boardId: Int, $groupId: String) {
+      `query getItemNamesInGroup($boardId: String, $groupId: String) {
         boards (ids: [$boardId]) {
           groups (ids: [$groupId]) {
             items {
@@ -35,7 +35,7 @@ const getItemNamesInGroup = async (
 
 export const isDuplicateItem = (
   client: MondayApi,
-  boardId: number,
+  boardId: string,
   groupId: string,
   itemName: string
 ): Promise<boolean> =>

@@ -9,12 +9,12 @@ type ArchiveGroupType = {
 
 export const archiveGroup = async (
   client: MondayApi,
-  boardId: number,
+  boardId: string,
   groupId: string
 ): Promise<GroupType> =>
   (
     await client.api<ArchiveGroupType>(
-      `mutation archiveGroup($boardId: Int!, $groupId: String!) {
+      `mutation archiveGroup($boardId: String!, $groupId: String!) {
         archive_group (board_id: $boardId, group_id: $groupId) {
           ${GROUP_SUBQUERY}
         }

@@ -80,7 +80,7 @@ const createItemsInNewGroup = (
     )
   );
 
-const getContext = (client: MondayApi, boardId: number, itemId: number) =>
+const getContext = (client: MondayApi, boardId: string, itemId: number) =>
   Promise.all([getItem(client, itemId), getBoard(client, boardId)]).then(
     ([item, board]) => ({ item, board })
   );
@@ -88,7 +88,7 @@ const getContext = (client: MondayApi, boardId: number, itemId: number) =>
 export default (
   client: MondayApi,
   itemId: number,
-  boardId: number
+  boardId: string
 ): Promise<string> =>
   getContext(client, boardId, itemId).then(({ item, board }) =>
     createItemsInNewGroup(client, board, item).then(

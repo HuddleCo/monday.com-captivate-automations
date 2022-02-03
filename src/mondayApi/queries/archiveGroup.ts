@@ -9,7 +9,7 @@ type ArchiveGroupType = {
 
 export const archiveGroup = async (
   client: MondayApi,
-  boardId: number,
+  boardId: bigint,
   groupId: string
 ): Promise<GroupType> =>
   (

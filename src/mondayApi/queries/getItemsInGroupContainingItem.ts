@@ -35,7 +35,7 @@ export const getItemsInGroupContainingItem = async (
         }
       }`,
       {
-        boardId: Number(item.board.id),
+        boardId: BigInt(item.board.id),
         groupId: item.group.id,
       }
     )

@@ -1,9 +1,9 @@
 import { BoardColumnsType, BoardType } from "../types";
 
-let id = 0;
+let id = 0n;
 
 export const createBoard = (columns: Array<BoardColumnsType>): BoardType => {
-  id += 1;
+  id += 1n;
   return {
     id,
     name: "Board Name",

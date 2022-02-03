@@ -7,7 +7,7 @@ type CreateGroupType = {
 
 export const createGroup = async (
   client: MondayApi,
-  boardId: number,
+  boardId: bigint,
   groupName: string
 ): Promise<GroupType> =>
   (

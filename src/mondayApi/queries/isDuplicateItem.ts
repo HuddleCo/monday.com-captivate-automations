@@ -12,7 +12,7 @@ type GetItemNamesInGroupType = {
 
 const getItemNamesInGroup = async (
   client: MondayApi,
-  boardId: number,
+  boardId: bigint,
   groupId: string
 ): Promise<Array<{ name: string }>> =>
   (
@@ -35,7 +35,7 @@ const getItemNamesInGroup = async (
 
 export const isDuplicateItem = (
   client: MondayApi,
-  boardId: number,
+  boardId: bigint,
   groupId: string,
   itemName: string
 ): Promise<boolean> =>

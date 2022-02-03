@@ -2,7 +2,7 @@ import type { BoardType, ColumnValuesType, ItemType } from "../types";
 
 import { createBoard } from "./createBoard.fixtures";
 
-let id = 0;
+let id = 0n;
 
 export const createItem = ({
   column_values = [],
@@ -13,7 +13,7 @@ export const createItem = ({
   state?: string;
   board?: BoardType;
 }): ItemType => {
-  id += 1;
+  id += 1n;
   return {
     id,
     name: "Item Name",

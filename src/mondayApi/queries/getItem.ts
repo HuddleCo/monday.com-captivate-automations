@@ -27,7 +27,7 @@ type GetItemsType = {
 
 export const getItem = async (
   client: MondayApi,
-  itemId: number
+  itemId: bigint
 ): Promise<ItemType> => {
   const data = await client.api<GetItemsType>(
     `query getItem($itemId: [Int]) {
@@ -46,7 +46,7 @@ export const getItem = async (
     ...column,
     settings: JSON.parse(column.settings_str),
   }));
-  item.board.id = Number(item.board.id);
+  item.board.id = BigInt(item.board.id);
   item.board.groups = item.board.groups.map((group) => ({
     ...group,
     position: Number(group.position),

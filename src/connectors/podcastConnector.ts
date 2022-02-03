@@ -24,8 +24,8 @@ const mutex = withTimeout(
 
 const getContext = (
   client: MondayApi,
-  boardId: number,
-  itemId: number,
+  boardId: bigint,
+  itemId: bigint,
   callback: (
     board: BoardType,
     topGroup: GroupType,
@@ -43,13 +43,13 @@ const createItemInGroupOnBoard = (
   board: BoardType,
   topGroup: GroupType,
   item: ItemType
-): Promise<Array<{ id: number }>> =>
+): Promise<Array<{ id: bigint }>> =>
   createItemsInGroupOnBoard(client, board, topGroup, [item]);
 
 export default async (
   client: MondayApi,
-  boardId: number,
-  itemId: number
+  boardId: bigint,
+  itemId: bigint
 ): Promise<string> =>
   getContext(client, boardId, itemId, async (board, topGroup, item) => {
     if (podcastIsNotRequired(item))

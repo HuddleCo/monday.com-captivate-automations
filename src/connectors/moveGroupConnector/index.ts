@@ -10,10 +10,10 @@ import copyItemsToBoard from "./copyItemsToBoard";
 
 export default (
   client: MondayApi,
-  itemId: number,
+  itemId: bigint,
   statusColumnId: string,
   status: string,
-  boardId: number
+  boardId: bigint
 ): Promise<true> =>
   criticalSection(() =>
     getItems(client, itemId, statusColumnId, status).then(({ item, items }) =>

@@ -2,17 +2,17 @@ import MondayApi from "..";
 
 type CreateItemType = {
   create_item: {
-    id: number;
+    id: bigint;
   };
 };
 
 export const createItem = (
   client: MondayApi,
-  boardId: number,
+  boardId: bigint,
   groupId: string,
   itemName: string,
   columnValues?: string
-): Promise<{ id: number }> =>
+): Promise<{ id: bigint }> =>
   client
     .api<CreateItemType>(
       `mutation createItem($boardId: Int!, $groupId: String, $itemName: String, $columnValues: JSON) {

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.4.0](https://github.com/mokkapps/changelog-generator-demo/compare/v4.3.1...v4.4.0) (2022-02-03)
+
+
+### Features
+
+* use string for BoardId ([4397952](https://github.com/mokkapps/changelog-generator-demo/commits/4397952d8a28e462a70ee00ed7bea8c6b0bd75cd))
+
 ### [4.3.1](https://github.com/mokkapps/changelog-generator-demo/compare/v4.2.1...v4.3.1) (2021-11-08)
 
 ## [4.3.0](https://github.com/mokkapps/changelog-generator-demo/compare/v4.2.0...v4.3.0) (2021-10-31)

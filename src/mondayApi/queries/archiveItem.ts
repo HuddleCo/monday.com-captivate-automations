@@ -2,14 +2,14 @@ import MondayApi from "..";
 
 type ArchiveItemType = {
   archive_item: {
-    id: number;
+    id: bigint;
   };
 };
 
 export const archiveItem = (
   client: MondayApi,
-  itemId: number
-): Promise<{ id: number }> =>
+  itemId: bigint
+): Promise<{ id: bigint }> =>
   client
     .api<ArchiveItemType>(
       `mutation archiveItem($itemId: Int!) {

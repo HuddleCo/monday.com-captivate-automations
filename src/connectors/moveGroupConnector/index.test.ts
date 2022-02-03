@@ -23,10 +23,10 @@ describe("moveGroupConnector", () => {
   const client = new MondayApi("token");
 
   describe("when there are no errors", () => {
-    const itemId = 123;
+    const itemId = 123n;
     const statusColumnId = "1234";
     const status = "complete";
-    const boardId = 321;
+    const boardId = 321n;
 
     const archiveGroup: GroupType = {
       id: "321",
@@ -37,12 +37,12 @@ describe("moveGroupConnector", () => {
 
     const items: ItemType[] = [
       {
-        id: 0,
+        id: 0n,
         name: "",
         state: "",
         column_values: [],
         board: {
-          id: 0,
+          id: 0n,
           name: "",
           columns: [],
           groups: [],
@@ -57,12 +57,12 @@ describe("moveGroupConnector", () => {
     ];
 
     const item: ItemType = {
-      id: 0,
+      id: 0n,
       name: "",
       state: "",
       column_values: [],
       board: {
-        id: 0,
+        id: 0n,
         name: "",
         columns: [],
         groups: [],
@@ -76,7 +76,7 @@ describe("moveGroupConnector", () => {
     };
 
     const board: BoardType = {
-      id: 0,
+      id: 0n,
       name: "",
       columns: [],
       groups: [
@@ -105,10 +105,10 @@ describe("moveGroupConnector", () => {
   });
 
   describe("when the group is archived", () => {
-    const itemId = 123;
+    const itemId = 123n;
     const statusColumnId = "1234";
     const status = "complete";
-    const boardId = 321;
+    const boardId = 321n;
 
     const archiveGroup: GroupType = {
       id: "321",
@@ -119,12 +119,12 @@ describe("moveGroupConnector", () => {
 
     const items: ItemType[] = [
       {
-        id: 0,
+        id: 0n,
         name: "",
         state: "",
         column_values: [],
         board: {
-          id: 0,
+          id: 0n,
           name: "",
           columns: [],
           groups: [],
@@ -139,12 +139,12 @@ describe("moveGroupConnector", () => {
     ];
 
     const item: ItemType = {
-      id: 0,
+      id: 0n,
       name: "",
       state: "",
       column_values: [],
       board: {
-        id: 0,
+        id: 0n,
         name: "",
         columns: [],
         groups: [],
@@ -172,10 +172,10 @@ describe("moveGroupConnector", () => {
   });
 
   describe("when the status columns are different", () => {
-    const itemId = 123;
+    const itemId = 123n;
     const statusColumnId = "1234";
     const status = "complete";
-    const boardId = 321;
+    const boardId = 321n;
 
     const archiveGroup: GroupType = {
       id: "321",
@@ -186,7 +186,7 @@ describe("moveGroupConnector", () => {
 
     const items: ItemType[] = [
       {
-        id: 0,
+        id: 0n,
         name: "",
         state: "",
         column_values: [
@@ -199,7 +199,7 @@ describe("moveGroupConnector", () => {
           },
         ],
         board: {
-          id: 0,
+          id: 0n,
           name: "",
           columns: [],
           groups: [],
@@ -212,7 +212,7 @@ describe("moveGroupConnector", () => {
         },
       },
       {
-        id: 0,
+        id: 0n,
         name: "",
         state: "",
         column_values: [
@@ -225,7 +225,7 @@ describe("moveGroupConnector", () => {
           },
         ],
         board: {
-          id: 0,
+          id: 0n,
           name: "",
           columns: [],
           groups: [],
@@ -239,12 +239,12 @@ describe("moveGroupConnector", () => {
       },
     ];
     const item: ItemType = {
-      id: 0,
+      id: 0n,
       name: "",
       state: "",
       column_values: [],
       board: {
-        id: 0,
+        id: 0n,
         name: "",
         columns: [],
         groups: [],
@@ -272,10 +272,10 @@ describe("moveGroupConnector", () => {
   });
 
   describe("when there are no items in the group", () => {
-    const itemId = 123;
+    const itemId = 123n;
     const statusColumnId = "1234";
     const status = "complete";
-    const boardId = 321;
+    const boardId = 321n;
 
     const archiveGroup: GroupType = {
       id: "321",
@@ -286,12 +286,12 @@ describe("moveGroupConnector", () => {
 
     const items: ItemType[] = [];
     const item: ItemType = {
-      id: 0,
+      id: 0n,
       name: "",
       state: "",
       column_values: [],
       board: {
-        id: 0,
+        id: 0n,
         name: "",
         columns: [],
         groups: [],

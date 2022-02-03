@@ -5,22 +5,22 @@ import GraphQLSyntaxError from "../errors/graphqlSyntaxError";
 import type { ApiResponse } from "../types";
 
 type QueryVariablesType =
-  | { itemId: number }
-  | { boardId: number }
-  | { boardId: number; groupId: string }
-  | { boardId: number; groupName: string }
+  | { itemId: bigint }
+  | { boardId: bigint }
+  | { boardId: bigint; groupId: string }
+  | { boardId: bigint; groupName: string }
   | {
-      boardId: number;
-      groupId: string;
-      itemName: string;
-      columnValues: string;
-    }
+    boardId: bigint;
+    groupId: string;
+    itemName: string;
+    columnValues: string;
+  }
   | {
-      boardId: number;
-      groupId: string;
-      columnId: string;
-      value: string;
-    };
+    boardId: bigint;
+    groupId: string;
+    columnId: string;
+    value: string;
+  };
 
 let queryCounter = 0;
 

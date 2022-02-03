@@ -28,7 +28,7 @@ export const BOARD_SUBQUERY = `
 
 export const getBoard = async (
   client: MondayApi,
-  boardId: number
+  boardId: bigint
 ): Promise<BoardType> => {
   const data = await client.api<GetBoardType>(
     `query getBoard($boardId: [Int]) {
@@ -46,7 +46,7 @@ export const getBoard = async (
     ...column,
     settings: JSON.parse(column.settings_str),
   }));
-  board.id = Number(board.id);
+  board.id = BigInt(board.id);
   board.groups = board.groups.map((group) => ({
     ...group,
     position: Number(group.position),

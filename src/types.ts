@@ -1,5 +1,5 @@
 export type ItemType = {
-  id: number;
+  id: bigint;
   name: string;
   state: string;
   column_values: Array<ColumnValuesType>;
@@ -16,7 +16,7 @@ export type ColumnValuesType = {
 };
 
 export type BoardType = {
-  id: number;
+  id: bigint;
   name: string;
   columns: Array<BoardColumnsType>;
   groups: Array<GroupType>;

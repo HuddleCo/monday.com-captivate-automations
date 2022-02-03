@@ -4,7 +4,7 @@ import getMyItems from "./getMyItems";
 
 export default (
   client: MondayApi,
-  itemId: number,
+  itemId: bigint,
   statusColumnId: string,
   status: string
 ) =>

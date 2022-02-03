@@ -1,6 +1,6 @@
 {
   "name": "monday.com-captivate-automations",
-  "version": "4.4.1",
+  "version": "4.5.0",
   "license": "UNLICENSED",
   "main": "dist/src/app.js",
   "scripts": {

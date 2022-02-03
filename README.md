@@ -30,7 +30,7 @@ Please update the `.env` with missing environment variables.
 ```console
 $ npm start
 
-Version: 4.0.0
+Version: 4.4.0
 Environment: development
 Listening: http://localhost:8302
 ```

@@ -10,7 +10,7 @@ import * as pack from "../package.json";
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 80;
+const port = process.env.APP_PORT || 80;
 
 Sentry.init({
   dsn: process.env.SENTRY_DNS,

@@ -4,13 +4,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [4.6.0](https://github.com/mokkapps/changelog-generator-demo/compare/v4.4.1...v4.6.0) (2022-04-10)
 
-
-### Features
-
-* add support for board and item ids up to bigint ([8d1877a](https://github.com/mokkapps/changelog-generator-demo/commits/8d1877a08b1b8dd9a624e91564fc91d44ba92477))
-
-## [4.4.0](https://github.com/mokkapps/changelog-generator-demo/compare/v4.3.1...v4.4.0) (2022-02-03)
-
 ## [4.5.0](https://github.com/mokkapps/changelog-generator-demo/compare/v4.3.1...v4.5.0) (2022-02-03)
 
 ### Features

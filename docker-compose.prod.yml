@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  app:
+    image: aussidavid/captivate-ingrations
+    networks:
+      - proxy
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: 128M
+
+networks:
+  proxy:
+    external: true
+    name: NPM_default

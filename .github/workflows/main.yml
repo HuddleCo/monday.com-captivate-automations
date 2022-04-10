@@ -1,44 +1,58 @@
-name: Deployment
+name: deploy
 
 on:
   push:
     branches:
       - main
-      - release/v*
-  pull_request:
-    branches:
-      - main
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install
+        run: npm ci --ignore-scripts --no-audit
+      - name: Test
+        run: npm test
   build:
+    needs: [test]
     runs-on: ubuntu-latest
     env:
       IMAGE: aussidavid/captivate-ingrations
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: "16"
-      - name: Extract Metadata
-        id: metadata
-        run: |
-          if [[ "$GITHUB_REF" =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
-            echo ::set-output name=TAG::"${GITHUB_REF##*/v}"
-          else
-            echo ::set-output name=TAG::"latest"
-          fi
       - name: Login to Docker Hub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
-      - name: Install
-        run: npm ci --ignore-scripts --no-audit
-      - name: Test
-        run: npm test
       - name: Build
-        env:
-          TAG: ${{ steps.metadata.outputs.TAG }}
-        run: docker build . --file Dockerfile --cache-from $IMAGE:latest --tag $IMAGE:latest --tag $IMAGE:$TAG
+        run: docker build . --file Dockerfile --cache-from $IMAGE:latest --tag $IMAGE:latest
       - name: Push
-        run: docker push --all-tags $IMAGE
+        run: docker push $IMAGE:latest
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+    env:
+      IMAGE: aussidavid/captivate-ingrations
+    steps:
+      - uses: actions/checkout@v2
+      - name: Upload docker stack configuration
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "docker-compose.prod.yml"
+          target: "captivate-ingrations"
+      - name: Update and tidy up docker stack on remote host
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: IMAGE
+          script: |
+            docker pull $IMAGE:latest &&
+            docker stack deploy --prune -c captivate-automations/docker-compose.prod.yml captivate-automations;
+            rm -rfv captivate-automations/docker-compose.prod.yml

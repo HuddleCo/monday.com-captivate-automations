@@ -73,7 +73,7 @@ export default class MondayApi {
   public api<T>(query: string, variables: QueryVariablesType): Promise<T> {
     return this.client
       .api(query, { variables })
-      .then((response: ApiResponse<T>) => {
+      .then((response: any) => {
         log<T>(query, variables, response);
         return handleRequest<T>(response);
       });
